@@ -1,0 +1,9 @@
+<h1>Review Content</h1>
+<a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
+gives
+<a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic.name }}</a>
+a {{ review.stars }}-star review!
+
+<br /><br />
+
+{{ review.review_text }}

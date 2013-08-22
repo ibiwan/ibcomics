@@ -1,0 +1,13 @@
+<h1>Reviews of <a href="{{ comic.url }}"/>{{ comic.name }}</a></h1>
+<ul>
+{% for review in comic.review_set.all %}
+    <li>
+        <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a> gave 
+        <a href="{% url 'detail' review.id %}">{{ review.stars }}</a> stars for
+        {{ review.comic }}
+    </li>
+{% endfor %}
+</ul>
+<a href="{ % url 'writereview' comic.id %}">Add A Review</a>
+<br />
+<a href="{% url 'index' %}">Latest Reviews</a>

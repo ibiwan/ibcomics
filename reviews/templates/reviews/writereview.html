@@ -1,0 +1,13 @@
+<h1>{{ comic.name }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'savereview' comic.id %}" method="post">
+{% csrf_token %}
+{% for reviewer in reviewers %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ reviewer.id }}" />
+    <label for="choice{{ forloop.counter }}">{{ reviewer.name }}</label><br />
+{% endfor %}
+<input type="text" name="review_text" id="review_text" value="enter review here" />
+<input type="submit" value="Review" />
+</form>
