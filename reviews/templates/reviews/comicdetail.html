@@ -8,6 +8,10 @@
     </li>
 {% endfor %}
 </ul>
-<a href="{ % url 'writereview' comic.id %}">Add A Review</a>
+<a href="{% url 'writereview' comic.id %}">Add A Review</a>
 <br />
 <a href="{% url 'index' %}">Latest Reviews</a>
+
+<br /><br />
+
+{% if debug_message %}<p><strong>{{ debug_message }}</strong></p>{% endif %}

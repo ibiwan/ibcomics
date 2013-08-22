@@ -2,7 +2,7 @@
 <ul>
 {% for review in reviewer.review_set.all %}
     <li>
-        {{ review.reviewer.name }} gave 
+        {{ review.reviewer.name }} ({{ review.reviewer.user.username }}) gave 
         <a href="{% url 'detail' review.id %}">{{ review.stars }}</a> stars for
         <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
     </li>

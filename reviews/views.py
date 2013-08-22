@@ -3,6 +3,8 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.views import generic
+from django.contrib.auth import authenticate
+from django.core.exceptions import PermissionDenied
 
 from reviews.models import Comic, Reviewer, Review
 
@@ -32,8 +34,12 @@ def writereview(request, comic_id):
 def savereview(request, comic_id):
     comic = get_object_or_404(Comic, pk=comic_id)
     try:
-        reviewer_id = request.POST['choice']
+        reviewer_id = request.POST['reviewer']
         reviewer = Reviewer.objects.get(pk=reviewer_id)
+        password = request.POST['password']
+        user = authenticate(username=reviewer.user.username, password=password)
+        if user is None:
+            raise PermissionDenied('password incorrect')
     except (KeyError, Reviewer.DoesNotExist):
         reviewers = get_list_or_404(Reviewer)
         # Redisplay the review form.
@@ -46,3 +52,5 @@ def savereview(request, comic_id):
         review = Review(reviewer=reviewer, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now())
         review.save()
         return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
+
+

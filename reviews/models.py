@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class Comic(models.Model):
     name = models.CharField(max_length=50)
@@ -9,6 +10,7 @@ class Comic(models.Model):
         return self.name
 
 class Reviewer(models.Model):
+    user = models.OneToOneField(User) 
     name = models.CharField(max_length=50)
     admin = models.BooleanField(default=False)
     def __unicode__(self):
