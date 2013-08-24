@@ -1,0 +1,44 @@
+   37  apt-get install sqlite3
+   38  apt-get install python-django
+   40  apt-get install git
+   41  apt-get install pico
+   42  apt-get install nano
+   57  apt-get install django*
+   58  apt-get upgrade python
+   59  apt-get upgrade python*
+   62  apt-get install pip
+   63  apt-get install python-pip
+  120  apt-get install cherokee
+  123  apt-get install python-flup
+  132  apt-get install mod_wsgi
+  133  apt-get install mod-wsgi
+  134  apt-get install *wsgi*
+  136  apt-get install libapache2*
+  137  apt-get install libapache2-mod-w*
+  138  apt-get install libapache2-mod-wsgi
+  
+  
+to /etc/apache2/httpd.conf:
+  
+LoadModule wsgi_module modules/mod_wsgi.so
+
+Alias /site_media/ "/home/jkent/ibcomics/media/"
+<Directory "home/jkent/ibcomics/media">
+Order allow,deny
+Options Indexes
+Allow from all
+IndexOptions FancyIndexing
+</Directory>
+
+Alias /media/ "</usr/lib/python2.7/dist-packages/django/contrib/admin/media/"
+<Directory "/usr/lib/python2.7/dist-packages/django/contrib/admin/media">
+Order allow,deny
+Options Indexes
+Allow from all
+IndexOptions FancyIndexing
+</Directory>
+
+WSGIScriptAlias / /home/jkent/ibcomics/wsgi.py
+WSGIDaemonProcess ibcomics python-path=/home/jkent/ibcomics
+WSGIProcessGroup ibcomics
+
