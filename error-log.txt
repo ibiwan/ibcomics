@@ -1,70 +1,84 @@
-[Fri Aug 23 22:34:13 2013] [error] Internal Server Error: /
-[Fri Aug 23 22:34:13 2013] [error] Traceback (most recent call last):
-[Fri Aug 23 22:34:13 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py", line 103, in get_response
-[Fri Aug 23 22:34:13 2013] [error]     resolver_match = resolver.resolve(request.path_info)
-[Fri Aug 23 22:34:13 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/core/urlresolvers.py", line 319, in resolve
-[Fri Aug 23 22:34:13 2013] [error]     for pattern in self.url_patterns:
-[Fri Aug 23 22:34:13 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/core/urlresolvers.py", line 347, in url_patterns
-[Fri Aug 23 22:34:13 2013] [error]     patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
-[Fri Aug 23 22:34:13 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/core/urlresolvers.py", line 342, in urlconf_module
-[Fri Aug 23 22:34:13 2013] [error]     self._urlconf_module = import_module(self.urlconf_name)
-[Fri Aug 23 22:34:13 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/utils/importlib.py", line 35, in import_module
-[Fri Aug 23 22:34:13 2013] [error]     __import__(name)
-[Fri Aug 23 22:34:13 2013] [error]   File "/home/jkent/ibcomics/ibcomics/urls.py", line 5, in <module>
-[Fri Aug 23 22:34:13 2013] [error]     admin.autodiscover()
-[Fri Aug 23 22:34:13 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/contrib/admin/__init__.py", line 25, in autodiscover
-[Fri Aug 23 22:34:13 2013] [error]     mod = import_module(app)
-[Fri Aug 23 22:34:13 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/utils/importlib.py", line 35, in import_module
-[Fri Aug 23 22:34:13 2013] [error]     __import__(name)
-[Fri Aug 23 22:34:13 2013] [error] ImportError: No module named reviews
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236] mod_wsgi (pid=9510): Exception occurred processing WSGI script '/home/jkent/ibcomics/ibcomics/wsgi.py'.
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236] Traceback (most recent call last):
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/wsgi.py", line 255, in __call__
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     response = self.get_response(request)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py", line 178, in get_response
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py", line 217, in handle_uncaught_exception
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return debug.technical_500_response(request, *exc_info)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/views/debug.py", line 69, in technical_500_response
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     html = reporter.get_traceback_html()
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/views/debug.py", line 298, in get_traceback_html
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return t.render(c)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/base.py", line 140, in render
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return self._render(context)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/base.py", line 134, in _render
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return self.nodelist.render(context)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/base.py", line 830, in render
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     bit = self.render_node(node, context)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/debug.py", line 74, in render_node
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return node.render(context)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/debug.py", line 84, in render
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     output = self.filter_expression.resolve(context)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/base.py", line 606, in resolve
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     new_obj = func(obj, *arg_vals)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/defaultfilters.py", line 715, in date
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return format(value, arg)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/dateformat.py", line 312, in format
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return df.format(format_string)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/dateformat.py", line 35, in format
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     pieces.append(force_text(getattr(self, piece)()))
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/dateformat.py", line 216, in r
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return self.format('D, j M Y H:i:s O')
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/dateformat.py", line 35, in format
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     pieces.append(force_text(getattr(self, piece)()))
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/encoding.py", line 99, in force_text
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     s = s.__unicode__()
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/functional.py", line 132, in __text_cast
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return func(*self.__args, **self.__kw)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/translation/__init__.py", line 71, in ugettext
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return _trans.ugettext(message)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/translation/trans_real.py", line 276, in ugettext
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     return do_translate(message, 'ugettext')
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/translation/trans_real.py", line 258, in do_translate
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     _default = translation(settings.LANGUAGE_CODE)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/translation/trans_real.py", line 172, in translation
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     default_translation = _fetch(settings.LANGUAGE_CODE)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/translation/trans_real.py", line 154, in _fetch
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     app = import_module(appname)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/importlib.py", line 35, in import_module
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236]     __import__(name)
-[Fri Aug 23 22:34:13 2013] [error] [client 72.197.210.236] ImportError: No module named reviews
+[Fri Aug 23 23:13:39 2013] [error] Internal Server Error: /
+[Fri Aug 23 23:13:39 2013] [error] Traceback (most recent call last):
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py", line 103, in get_response
+[Fri Aug 23 23:13:39 2013] [error]     resolver_match = resolver.resolve(request.path_info)
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/core/urlresolvers.py", line 319, in resolve
+[Fri Aug 23 23:13:39 2013] [error]     for pattern in self.url_patterns:
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/core/urlresolvers.py", line 347, in url_patterns
+[Fri Aug 23 23:13:39 2013] [error]     patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/core/urlresolvers.py", line 342, in urlconf_module
+[Fri Aug 23 23:13:39 2013] [error]     self._urlconf_module = import_module(self.urlconf_name)
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/utils/importlib.py", line 35, in import_module
+[Fri Aug 23 23:13:39 2013] [error]     __import__(name)
+[Fri Aug 23 23:13:39 2013] [error]   File "/var/www/ibcomics/ibcomics/urls.py", line 5, in <module>
+[Fri Aug 23 23:13:39 2013] [error]     admin.autodiscover()
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/contrib/admin/__init__.py", line 29, in autodiscover
+[Fri Aug 23 23:13:39 2013] [error]     import_module('%s.admin' % app)
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/utils/importlib.py", line 35, in import_module
+[Fri Aug 23 23:13:39 2013] [error]     __import__(name)
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/contrib/auth/admin.py", line 178, in <module>
+[Fri Aug 23 23:13:39 2013] [error]     admin.site.register(Group, GroupAdmin)
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/contrib/admin/sites.py", line 98, in register
+[Fri Aug 23 23:13:39 2013] [error]     validate(admin_class, model)
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/contrib/admin/validation.py", line 22, in validate
+[Fri Aug 23 23:13:39 2013] [error]     models.get_apps()
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/db/models/loading.py", line 134, in get_apps
+[Fri Aug 23 23:13:39 2013] [error]     self._populate()
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/db/models/loading.py", line 72, in _populate
+[Fri Aug 23 23:13:39 2013] [error]     self.load_app(app_name, True)
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/db/models/loading.py", line 94, in load_app
+[Fri Aug 23 23:13:39 2013] [error]     app_module = import_module(app_name)
+[Fri Aug 23 23:13:39 2013] [error]   File "/usr/local/lib/python2.7/dist-packages/django/utils/importlib.py", line 35, in import_module
+[Fri Aug 23 23:13:39 2013] [error]     __import__(name)
+[Fri Aug 23 23:13:39 2013] [error] ImportError: No module named reviews
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236] mod_wsgi (pid=10595): Exception occurred processing WSGI script '/var/www/ibcomics/ibcomics/wsgi.py'.
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236] Traceback (most recent call last):
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/wsgi.py", line 255, in __call__
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     response = self.get_response(request)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py", line 178, in get_response
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     response = self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py", line 217, in handle_uncaught_exception
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return debug.technical_500_response(request, *exc_info)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/views/debug.py", line 69, in technical_500_response
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     html = reporter.get_traceback_html()
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/views/debug.py", line 298, in get_traceback_html
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return t.render(c)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/base.py", line 140, in render
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return self._render(context)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/base.py", line 134, in _render
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return self.nodelist.render(context)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/base.py", line 830, in render
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     bit = self.render_node(node, context)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/debug.py", line 74, in render_node
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return node.render(context)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/debug.py", line 84, in render
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     output = self.filter_expression.resolve(context)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/base.py", line 606, in resolve
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     new_obj = func(obj, *arg_vals)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/template/defaultfilters.py", line 715, in date
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return format(value, arg)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/dateformat.py", line 312, in format
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return df.format(format_string)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/dateformat.py", line 35, in format
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     pieces.append(force_text(getattr(self, piece)()))
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/dateformat.py", line 216, in r
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return self.format('D, j M Y H:i:s O')
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/dateformat.py", line 35, in format
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     pieces.append(force_text(getattr(self, piece)()))
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/encoding.py", line 99, in force_text
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     s = s.__unicode__()
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/functional.py", line 132, in __text_cast
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return func(*self.__args, **self.__kw)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/translation/__init__.py", line 71, in ugettext
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return _trans.ugettext(message)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/translation/trans_real.py", line 276, in ugettext
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     return do_translate(message, 'ugettext')
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/translation/trans_real.py", line 258, in do_translate
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     _default = translation(settings.LANGUAGE_CODE)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/translation/trans_real.py", line 172, in translation
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     default_translation = _fetch(settings.LANGUAGE_CODE)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/translation/trans_real.py", line 154, in _fetch
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     app = import_module(appname)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]   File "/usr/local/lib/python2.7/dist-packages/django/utils/importlib.py", line 35, in import_module
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236]     __import__(name)
+[Fri Aug 23 23:13:39 2013] [error] [client 72.197.210.236] ImportError: No module named reviews
