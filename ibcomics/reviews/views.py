@@ -83,4 +83,4 @@ def savecomic(request):
         comic_url = request.POST['comic_url']
         comic = Comic(name=comic_name, url=comic_url)
         comic.save()
-        return HttpResponseRedirect(reverse('comicsindex', args=(comic.id,)))
+        return HttpResponseRedirect(reverse('comicsindex'))
