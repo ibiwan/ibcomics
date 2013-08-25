@@ -81,7 +81,7 @@ def confirmdeletereview(request, review_id):
         return deletereview(request, review_id, "Malformed Request; try again")
     else:
         review.delete()
-        return HttpResponseRedirect(reverse('reviewer', args=(reviewer.id,)))
+        return HttpResponseRedirect(reverse('reviewerdetail', args=(reviewer.id,)))
 
 ########################################################################################
 
