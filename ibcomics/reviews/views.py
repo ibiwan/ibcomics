@@ -71,7 +71,7 @@ def confirmdeletereview(request, review_id):
     if user is None:
         return deletereview(request, review_id, "Invalid User or Password")
     if user != review.reviewer.user:
-        return deletereview(request, review_id, "You can only delete your own reviews")
+        return deletereview(request, review_id, "You can only delete your own reviews" + user + review.reviewer.user)
     review.delete()
 
 ########################################################################################
