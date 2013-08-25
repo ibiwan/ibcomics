@@ -71,6 +71,7 @@ def savecomic(request):
         password = request.POST['password']
         comic_name = request.POST['comic_name']
         comic_url = request.POST['comic_url']
+        reviewers = get_list_or_404(Reviewer)
         
         reviewer = Reviewer.objects.get(pk=reviewer_id)
         user = authenticate(username=reviewer.user.username, password=password)
@@ -81,7 +82,6 @@ def savecomic(request):
                 'reviewers': reviewers,
                 'error_message': "Incorrect Password.",})
     except (KeyError, Reviewer.DoesNotExist):
-        reviewers = get_list_or_404(Reviewer)
         # Redisplay the review form.
         return render(request, 'reviews/addcomic.html', {
             'comic_name': comic_name,
