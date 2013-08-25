@@ -9,11 +9,20 @@
     <a href="{% url 'comicsindex' %}">All Comics</a>
 
     <h1>Review Content</h1>
-    <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
-    gives
+    Review of 
     <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic.name }}</a>
-    a {{ review.stars }}-star review!
-
+    by
+    <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
     <br /><br />
+    <input name="star1" type="radio" class="star"/>
+    <input name="star1" type="radio" class="star"/>
+    <input name="star1" type="radio" class="star"/>
+    <input name="star1" type="radio" class="star"/>
+    <input name="star1" type="radio" class="star"/>
+    <br />
 
     {{ review.review_text }}
+
+<script language="javascript">
+    $('star1').rating('select', {{ review.comic.rating }});
+</script>
