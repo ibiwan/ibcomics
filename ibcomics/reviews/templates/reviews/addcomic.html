@@ -23,7 +23,7 @@
     <br />
 
     <input type="text" name="comic_name" value = "
-    {% comic_name if comic_name else "Comic Name" %}
+    {% if comic_name %} {{ comic_name }} {% else %} "Comic Name" {% endif %}
     Comic Name" onclick="this.focus();this.select()">
     <input type="text" name="comic_url" size="30" value = "URL to FIRST STRIP of Comic" onclick="this.focus();this.select()">
 
