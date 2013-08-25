@@ -64,4 +64,23 @@ def addcomic(request):
     return render(request, 'reviews/addcomic.html', {'reviewers':reviewers})
 
 def savecomic(request):
-    return HttpResponse('')
+    try:
+        reviewer_id = request.POST['reviewer']
+        reviewer = Reviewer.objects.get(pk=reviewer_id)
+        password = request.POST['password']
+        user = authenticate(username=reviewer.user.username, password=password)
+        if user is None:
+            raise PermissionDenied('password incorrect')
+    except (KeyError, Reviewer.DoesNotExist):
+        reviewers = get_list_or_404(Reviewer)
+        # Redisplay the review form.
+        return render(request, 'reviews/writereview.html', {
+            'comic': comic,
+            'reviewers': reviewers,
+            'error_message': "You didn't select a reviewer.",})
+    else:
+        comic_name = request.POST['comic_name']
+        comic_url = request.POST['comic_url']
+        comic = Comic(name=comic_name, url=comic_url)
+        comic.save()
+        return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
