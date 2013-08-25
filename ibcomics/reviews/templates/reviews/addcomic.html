@@ -22,7 +22,9 @@
 
     <br />
 
-    <input type="text" name="comic_name" value = "Comic Name" onclick="this.focus();this.select()">
+    <input type="text" name="comic_name" value = "
+    {% comic_name if comic_name else "Comic Name" %}
+    Comic Name" onclick="this.focus();this.select()">
     <input type="text" name="comic_url" size="30" value = "URL to FIRST STRIP of Comic" onclick="this.focus();this.select()">
 
     <input type="submit" value="Add" />

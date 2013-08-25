@@ -37,15 +37,17 @@ def writereview(request, comic_id):
     reviewers = get_list_or_404(Reviewer)
     return render(request, 'reviews/writereview.html', {'reviewers':reviewers, 'comic':comic})
 
+def getAndValidateUser(reviewer_id, password):
+    reviewer = Reviewer.objects.get(pk=reviewer_id)
+    user = authenticate(username=reviewer.user.username, password=password)
+    if user is None:
+        raise PermissionDenied('password incorrect')
+    return user
+
 def savereview(request, comic_id):
     comic = get_object_or_404(Comic, pk=comic_id)
     try:
-        reviewer_id = request.POST['reviewer']
-        reviewer = Reviewer.objects.get(pk=reviewer_id)
-        password = request.POST['password']
-        user = authenticate(username=reviewer.user.username, password=password)
-        if user is None:
-            raise PermissionDenied('password incorrect')
+        user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
     except (KeyError, Reviewer.DoesNotExist):
         reviewers = get_list_or_404(Reviewer)
         # Redisplay the review form.
@@ -70,12 +72,17 @@ def savecomic(request):
         password = request.POST['password']
         user = authenticate(username=reviewer.user.username, password=password)
         if user is None:
-            raise PermissionDenied('password incorrect')
+            return render(request, 'reviews/addcomic.html', {
+                'comic_name': comic_name,
+                'comic_url': comic_url,
+                'reviewers': reviewers,
+                'error_message': "Incorrect Password.",})
     except (KeyError, Reviewer.DoesNotExist):
         reviewers = get_list_or_404(Reviewer)
         # Redisplay the review form.
-        return render(request, 'reviews/writereview.html', {
-            'comic': comic,
+        return render(request, 'reviews/addcomic.html', {
+            'comic_name': comic_name,
+            'comic_url': comic_url,
             'reviewers': reviewers,
             'error_message': "You didn't select a reviewer.",})
     else:
