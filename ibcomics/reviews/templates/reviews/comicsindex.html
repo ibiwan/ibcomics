@@ -15,8 +15,8 @@ All Comics
             {% for comic in all_comics_list %}
                 <tr>
                     <td>{{ comic.name }}</td>
-                    <td><a href="{% url 'comicdetail' comic.id %}">reviews</a></td>
-                    <td><a href="{{ comic.url }}">read comic</a></td>
+                    <td><a href="{% url 'comicdetail' comic.id %}">{{ comic.reviews.count }} reviews</a></td>
+                    <td><a href="{{ comic.url }}">{{ comic.url }}</a></td>
                 </tr>
             {% endfor %}
         </tbody>
