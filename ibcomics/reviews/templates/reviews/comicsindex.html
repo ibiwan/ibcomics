@@ -3,7 +3,9 @@
     <ul>
     {% for comic in all_comics_list %}
         <li>
-            <a href="{% url 'comicdetail' comic.id %}">{{ comic.name }}</a>
+            {{ comic.name }}: 
+            <a href="{% url 'comicdetail' comic.id %}">reviews</a>, 
+            <a href="{{ comic.url }}">read comic</a>
         </li>
     {% endfor %}
     </ul>
