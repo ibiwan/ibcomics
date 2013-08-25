@@ -73,6 +73,7 @@ def confirmdeletereview(request, review_id):
     if reviewer != review.reviewer:
         return deletereview(request, review_id, "You can only delete your own reviews")
     review.delete()
+    return HttpResponseRedirect(Reverse('reviewer', args=(reviewer.id,)))
 
 ########################################################################################
 
