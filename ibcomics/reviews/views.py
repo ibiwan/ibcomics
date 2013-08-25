@@ -14,6 +14,12 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return Review.objects.order_by('-pub_date')[:5]
 
+class ComicIndexView(generic.ListView):
+    template_name = 'reviews/comicsindex.html'
+    context_object_name = 'all_comics_list'
+    def get_queryset(self):
+        return Comics.objects.order_by('name')
+
 class ComicDetailView(generic.DetailView):
     model = Comic
     template_name = 'reviews/comicdetail.html'

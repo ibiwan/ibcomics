@@ -12,6 +12,8 @@ urlpatterns = patterns('',
 
     # ex: /reviews/
     url(r'^$', views.IndexView.as_view(), name='index'),
+    # ex: /reviews/
+    url(r'^comics$', views.ComicIndexView.as_view(), name='comicsindex'),
     # ex: /reviews/comic/5/
     url(r'^comic/(?P<pk>\d+)/$', views.ComicDetailView.as_view(), name='comicdetail'),
     # ex: /reviews/reviewer/5/

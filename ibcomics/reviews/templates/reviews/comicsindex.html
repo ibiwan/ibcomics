@@ -1,0 +1,12 @@
+<h1>All Comics</h1>
+{% if all_comics_list %}
+    <ul>
+    {% for comic in all_comics_list %}
+        <li>
+            <a href="{% url 'comicdetail' comic.id %}">{{ comic.name }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No comics are available.</p>
+{% endif %}
