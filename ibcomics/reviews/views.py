@@ -32,10 +32,12 @@ def detail(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
     return render(request, 'reviews/detail.html', {'review': review})
 
-def writereview(request, comic_id, comic=None):
+def writereview(request, comic_id, error_message=None):
     comic = get_object_or_404(Comic, pk=comic_id)
     reviewers = get_list_or_404(Reviewer)
-    return render(request, 'reviews/writereview.html', {'reviewers':reviewers, 'comic':comic})
+    return render(request, 'reviews/writereview.html', {'reviewers':reviewers, 
+                                                            'comic':comic, 
+                                                    'error_message':error_message,})
 
 def getAndValidateUser(reviewer_id, password):
     reviewer = Reviewer.objects.get(pk=reviewer_id)
@@ -45,32 +47,25 @@ def savereview(request, comic_id):
     comic = get_object_or_404(Comic, pk=comic_id)
     try:
         user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
+        if user is None:
+            return writereview(request, comic_id, "Incorrect Password")
     except (KeyError, Reviewer.DoesNotExist):
-        reviewers = get_list_or_404(Reviewer)
-        # Redisplay the review form.
-        return render(request, 'reviews/writereview.html', {
-            'comic': comic,
-            'reviewers': reviewers,
-            'error_message': "You didn't select a reviewer.",})
+        return writereview(request, comic_id, "You didn't select a reviewer")
     else:
         review_text = request.POST['review_text']
-        review = Review(reviewer=reviewer, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now())
+        review = Review(reviewer=user, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now())
         review.save()
         return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
 
 def addcomic(request, comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", error_message=None):
     reviewers = get_list_or_404(Reviewer)
-    return render(request, 'reviews/addcomic.html', {
-                'comic_name': comic_name,
-                'comic_url': comic_url,
-                'reviewers': reviewers,
-                'error_message': error_message,
-                });
+    return render(request, 'reviews/addcomic.html', {'comic_name': comic_name,
+                                                      'comic_url': comic_url,
+                                                      'reviewers': reviewers,
+                                                  'error_message': error_message,});
 
 def savecomic(request):
     try:
-        reviewer_id = request.POST['reviewer']
-        password = request.POST['password']
         comic_name = request.POST['comic_name']
         comic_url = request.POST['comic_url']
         user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
