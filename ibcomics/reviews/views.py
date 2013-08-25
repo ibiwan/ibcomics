@@ -50,9 +50,9 @@ def savereview(request, comic_id):
     try:
         user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
         if user is None:
-            return writereview(request, comic_id, "Incorrect Password")
+            return writereview(request, comic_id, review_text, "Incorrect Password")
     except (KeyError, Reviewer.DoesNotExist):
-        return writereview(request, comic_id, "You didn't select a reviewer")
+        return writereview(request, comic_id, review_text, "You didn't select a reviewer")
     else:
         review = Review(reviewer=user, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now())
         review.save()
