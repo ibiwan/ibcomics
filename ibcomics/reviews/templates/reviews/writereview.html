@@ -3,7 +3,7 @@
 
 <h1>{{ comic.name }}</h1>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if error_message %}<p style="color:red;"><strong>{{ error_message }}</strong></p>{% endif %}
 
     <form action="{% url 'savereview' comic.id %}" method="post">
     {% csrf_token %}
