@@ -50,13 +50,17 @@ def writereview(request, comic_id, review_text="Enter Review here...", error_mes
                                                     'error_message':error_message,})
 
 def savereview(request, comic_id):
-    comic = get_object_or_404(Comic, pk=comic_id)
-    review_text = request.POST['review_text']
-    reviewer = getAndValidateReviewer(request.POST['reviewer'], request.POST['password'])
-    if reviewer is None:
-        return writereview(request, comic_id, review_text, "Invalid User or Password")
-    Review(reviewer=reviewer, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now()).save()
-    return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
+    try:
+        comic = get_object_or_404(Comic, pk=comic_id)
+        review_text = request.POST['review_text']
+        reviewer = getAndValidateReviewer(request.POST['reviewer'], request.POST['password'])
+        if reviewer is None:
+            return writereview(request, comic_id, review_text, "Invalid User or Password")
+    except (KeyError):
+        return writereview(request, comic_id, review_text, "Malformed Request; try again")
+    else:
+        Review(reviewer=reviewer, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now()).save()
+        return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
 
 def deletereview(request, review_id, error_message=None):
     review = get_object_or_404(Review, pk=review_id)
@@ -66,14 +70,18 @@ def deletereview(request, review_id, error_message=None):
                                                     'error_message':error_message,})
 
 def confirmdeletereview(request, review_id):
-    review  = get_object_or_404(Review, pk=review_id)
-    reviewer = getAndValidateReviewer(request.POST['reviewer'], request.POST['password'])
-    if reviewer is None:
-        return deletereview(request, review_id, "Invalid User or Password")
-    if reviewer != review.reviewer:
-        return deletereview(request, review_id, "You can only delete your own reviews")
-    review.delete()
-    return HttpResponseRedirect(Reverse('reviewer', args=(reviewer.id,)))
+    try:
+        review  = get_object_or_404(Review, pk=review_id)
+        reviewer = getAndValidateReviewer(request.POST['reviewer'], request.POST['password'])
+        if reviewer is None:
+            return deletereview(request, review_id, "Invalid User or Password")
+        if reviewer != review.reviewer:
+            return deletereview(request, review_id, "You can only delete your own reviews")
+    except (KeyError):
+        return deletereview(request, review_id, "Malformed Request; try again")
+    else:
+        review.delete()
+        return HttpResponseRedirect(Reverse('reviewer', args=(reviewer.id,)))
 
 ########################################################################################
 
@@ -85,10 +93,16 @@ def addcomic(request, comic_name="Comic Name", comic_url="URL to FIRST STRIP of 
                                                   'error_message': error_message,});
 
 def savecomic(request):
-    comic_name = request.POST['comic_name']
-    comic_url = request.POST['comic_url']
-    reviewer = getAndValidateReviewer(request.POST['reviewer'], request.POST['password'])
-    if reviewer is None:
-        return addcomic(request, comic_name, comic_url, "Invalid User or  Password");
-    Comic(name=comic_name, url=comic_url).save()
-    return HttpResponseRedirect(reverse('comicsindex'))
+    try:
+        comic_name = request.POST['comic_name']
+        comic_url = request.POST['comic_url']
+        reviewer = getAndValidateReviewer(request.POST['reviewer'], request.POST['password'])
+        if reviewer is None:
+            return addcomic(request, comic_name, comic_url, "Invalid User or  Password");
+    except (KeyError):
+        return addcomic(request, comic_name, comic_url, "Malformed Request; try again");
+    else:
+        Comic(name=comic_name, url=comic_url).save()
+        return HttpResponseRedirect(reverse('comicsindex'))
+
+
