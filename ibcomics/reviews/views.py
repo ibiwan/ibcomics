@@ -42,21 +42,17 @@ def writereview(request, comic_id, review_text="Enter Review here...", error_mes
 
 def getAndValidateUser(reviewer_id, password):
     reviewer = Reviewer.objects.get(pk=reviewer_id)
-    return authenticate(username=reviewer.user.username, password=password)
+    user = authenticate(username=reviewer.user.username, password=password)
+    return reviewer if user else None
 
 def savereview(request, comic_id):
     comic = get_object_or_404(Comic, pk=comic_id)
     review_text = request.POST['review_text']
-    try:
-        user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
-        if user is None:
-            return writereview(request, comic_id, review_text, "Incorrect Password")
-    except (KeyError, Reviewer.DoesNotExist):
-        return writereview(request, comic_id, review_text, "You didn't select a reviewer")
-    else:
-        review = Review(reviewer=user, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now())
-        review.save()
-        return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
+    user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
+    if user is None:
+        return writereview(request, comic_id, review_text, "Invalid User or Password")
+    Review(reviewer=user, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now()).save()
+    return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
 
 def addcomic(request, comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", error_message=None):
     reviewers = get_list_or_404(Reviewer)
@@ -66,15 +62,10 @@ def addcomic(request, comic_name="Comic Name", comic_url="URL to FIRST STRIP of 
                                                   'error_message': error_message,});
 
 def savecomic(request):
-    try:
-        comic_name = request.POST['comic_name']
-        comic_url = request.POST['comic_url']
-        user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
-        if user is None:
-            return addcomic(request, comic_name, comic_url, "Incorrect Password");
-    except (KeyError, Reviewer.DoesNotExist):
-        return addcomic(request, comic_name, comic_url, "You didn't select a reviewer");
-    else:
-        comic = Comic(name=comic_name, url=comic_url)
-        comic.save()
-        return HttpResponseRedirect(reverse('comicsindex'))
+    comic_name = request.POST['comic_name']
+    comic_url = request.POST['comic_url']
+    user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
+    if user is None:
+        return addcomic(request, comic_name, comic_url, "Invalid User or  Password");
+    Comic(name=comic_name, url=comic_url).save()
+    return HttpResponseRedirect(reverse('comicsindex'))
