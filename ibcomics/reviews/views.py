@@ -59,4 +59,10 @@ def savereview(request, comic_id):
         review.save()
         return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
 
+def addcomic(request):
+    reviewers = get_list_or_404(Reviewer)
+    return render(request, 'reviews/addcomic.html', {'reviewers':reviewers})
+
+
+
 
