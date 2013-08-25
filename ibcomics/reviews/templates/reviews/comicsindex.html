@@ -3,15 +3,24 @@ All Comics
 
 <h1>All Comics</h1>
 {% if all_comics_list %}
-    <ul>
-    {% for comic in all_comics_list %}
-        <li>
-            {{ comic.name }}: 
-            <a href="{% url 'comicdetail' comic.id %}">reviews</a>, 
-            <a href="{{ comic.url }}">read comic</a>
-        </li>
-    {% endfor %}
-    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Reviews</th>
+                <th>Read Comic</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comic in all_comics_list %}
+                <tr>
+                    <td>{{ comic.name }}</td>
+                    <td><a href="{% url 'comicdetail' comic.id %}">reviews</a></td>
+                    <td><a href="{{ comic.url }}">read comic</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% else %}
     <p>No comics are available.</p>
 {% endif %}
