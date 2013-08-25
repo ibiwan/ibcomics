@@ -32,17 +32,14 @@ def detail(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
     return render(request, 'reviews/detail.html', {'review': review})
 
-def writereview(request, comic_id):
+def writereview(request, comic_id, comic=None):
     comic = get_object_or_404(Comic, pk=comic_id)
     reviewers = get_list_or_404(Reviewer)
     return render(request, 'reviews/writereview.html', {'reviewers':reviewers, 'comic':comic})
 
 def getAndValidateUser(reviewer_id, password):
     reviewer = Reviewer.objects.get(pk=reviewer_id)
-    user = authenticate(username=reviewer.user.username, password=password)
-    if user is None:
-        raise PermissionDenied('password incorrect')
-    return user
+    return authenticate(username=reviewer.user.username, password=password)
 
 def savereview(request, comic_id):
     comic = get_object_or_404(Comic, pk=comic_id)
@@ -61,9 +58,14 @@ def savereview(request, comic_id):
         review.save()
         return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
 
-def addcomic(request):
+def addcomic(request, comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", error_message=None):
     reviewers = get_list_or_404(Reviewer)
-    return render(request, 'reviews/addcomic.html', {'reviewers':reviewers})
+    return render(request, 'reviews/addcomic.html', {
+                'comic_name': comic_name,
+                'comic_url': comic_url,
+                'reviewers': reviewers,
+                'error_message': error_message,
+                });
 
 def savecomic(request):
     try:
@@ -71,23 +73,11 @@ def savecomic(request):
         password = request.POST['password']
         comic_name = request.POST['comic_name']
         comic_url = request.POST['comic_url']
-        reviewers = get_list_or_404(Reviewer)
-        
-        reviewer = Reviewer.objects.get(pk=reviewer_id)
-        user = authenticate(username=reviewer.user.username, password=password)
+        user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
         if user is None:
-            return render(request, 'reviews/addcomic.html', {
-                'comic_name': comic_name,
-                'comic_url': comic_url,
-                'reviewers': reviewers,
-                'error_message': "Incorrect Password.",})
+            return addcomic(request, comic_name, comic_url, "Incorrect Password");
     except (KeyError, Reviewer.DoesNotExist):
-        # Redisplay the review form.
-        return render(request, 'reviews/addcomic.html', {
-            'comic_name': comic_name,
-            'comic_url': comic_url,
-            'reviewers': reviewers,
-            'error_message': "You didn't select a reviewer.",})
+        return addcomic(request, comic_name, comic_url, "You didn't select a reviewer");
     else:
         comic = Comic(name=comic_name, url=comic_url)
         comic.save()
