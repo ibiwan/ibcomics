@@ -1,11 +1,15 @@
-<a href="{% url 'index' %}">All Reviews</a>
-<a href="{% url 'comicsindex' %}">All Comics</a>
-
-<h1>{{ comic.name }}</h1>
+<h1>Delete Review</h1>
 
 {% if error_message %}<p style="color:red;"><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'savereview' comic.id %}" method="post">
+Date: {{ review.pub_date }}
+<br />
+Stars: {{ review.stars }}
+<br />
+Text: {{ review.review_text }}
+<br /><br />
+
+<form action="{% url 'confirmdeletereview' review.id %}" method="post">
     {% csrf_token %}
 
     Reviewer:
@@ -22,7 +26,5 @@
 
     <br />
 
-    <textarea rows="4" cols="60" name="review_text" onclick="this.focus();this.select()">{{ review_text }}</textarea>
-
-    <input type="submit" value="Review" />
+    <input type="submit" value="DELETE" />
 </form>

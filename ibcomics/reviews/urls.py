@@ -9,6 +9,10 @@ urlpatterns = patterns('',
     url(r'^writereview/(?P<comic_id>\d+)/$', views.writereview, name='writereview'),
     # ex: /reviews/savereview/5/
     url(r'^savereview/(?P<comic_id>\d+)/$', views.savereview, name='savereview'),
+    # ex: /reviews/savereview/5/
+    url(r'^deletereview/(?P<review_id>\d+)/$', views.deletereview, name='deletereview'),
+    # ex: /reviews/savereview/5/
+    url(r'^confirmdeletereview/(?P<review_id>\d+)/$', views.confirmdeletereview, name='confirmdeletereview'),
     # ex: /reviews/addcomic/
     url(r'^addcomic/$', views.addcomic, name='addcomic'),
     # ex: /reviews/savecomic/

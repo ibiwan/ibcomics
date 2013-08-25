@@ -32,6 +32,15 @@ def detail(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
     return render(request, 'reviews/detail.html', {'review': review})
 
+########################################################################################
+
+def getAndValidateUser(reviewer_id, password):
+    reviewer = Reviewer.objects.get(pk=reviewer_id)
+    user = authenticate(username=reviewer.user.username, password=password)
+    return reviewer if user else None
+
+########################################################################################
+
 def writereview(request, comic_id, review_text="Enter Review here...", error_message=None):
     comic = get_object_or_404(Comic, pk=comic_id)
     reviewers = get_list_or_404(Reviewer)
@@ -39,11 +48,6 @@ def writereview(request, comic_id, review_text="Enter Review here...", error_mes
                                                             'comic':comic, 
                                                       'review_text':review_text,
                                                     'error_message':error_message,})
-
-def getAndValidateUser(reviewer_id, password):
-    reviewer = Reviewer.objects.get(pk=reviewer_id)
-    user = authenticate(username=reviewer.user.username, password=password)
-    return reviewer if user else None
 
 def savereview(request, comic_id):
     comic = get_object_or_404(Comic, pk=comic_id)
@@ -53,6 +57,24 @@ def savereview(request, comic_id):
         return writereview(request, comic_id, review_text, "Invalid User or Password")
     Review(reviewer=user, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now()).save()
     return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
+
+def deletereview(request, review_id, error_message=None):
+    review = get_object_or_404(Review, pk=review_id)
+    reviewers = get_list_or_404(Reviewer)
+    return render(request, 'reviews/deletereview.html', {'reviewers':reviewers, 
+                                                            'review':review, 
+                                                    'error_message':error_message,})
+
+def confirmdeletereview(request, review_id):
+    review = review = get_object_or_404(Review, pk=review_id)
+    user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
+    if user is None:
+        return deletereview(request, review_id, "Invalid User or Password")
+    if user != review.reviewer.user:
+        return deletereview(request, review_id, "You can only delete your own reviews")
+    review.delete()
+
+########################################################################################
 
 def addcomic(request, comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", error_message=None):
     reviewers = get_list_or_404(Reviewer)
