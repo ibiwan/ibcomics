@@ -1,0 +1,11 @@
+K 10
+svn:ignore
+V 58
+*.git
+*.gitignore
+documentation
+index.asp
+index.html
+test
+
+END

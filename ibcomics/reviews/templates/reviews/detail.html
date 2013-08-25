@@ -1,12 +1,19 @@
-<a href="{% url 'index' %}">All Reviews</a>
-<a href="{% url 'comicsindex' %}">All Comics</a>
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src='/media/js/jquery.rating.js' type="text/javascript" language="javascript"></script>
+    <link href='/media/css/jquery.rating.css' type="text/css" rel="stylesheet"/>
+</head>
+<body>
 
-<h1>Review Content</h1>
-<a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
-gives
-<a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic.name }}</a>
-a {{ review.stars }}-star review!
+    <a href="{% url 'index' %}">All Reviews</a>
+    <a href="{% url 'comicsindex' %}">All Comics</a>
 
-<br /><br />
+    <h1>Review Content</h1>
+    <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
+    gives
+    <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic.name }}</a>
+    a {{ review.stars }}-star review!
 
-{{ review.review_text }}
+    <br /><br />
+
+    {{ review.review_text }}
