@@ -68,8 +68,11 @@ def addcomic(request):
 def savecomic(request):
     try:
         reviewer_id = request.POST['reviewer']
-        reviewer = Reviewer.objects.get(pk=reviewer_id)
         password = request.POST['password']
+        comic_name = request.POST['comic_name']
+        comic_url = request.POST['comic_url']
+        
+        reviewer = Reviewer.objects.get(pk=reviewer_id)
         user = authenticate(username=reviewer.user.username, password=password)
         if user is None:
             return render(request, 'reviews/addcomic.html', {
@@ -86,8 +89,6 @@ def savecomic(request):
             'reviewers': reviewers,
             'error_message': "You didn't select a reviewer.",})
     else:
-        comic_name = request.POST['comic_name']
-        comic_url = request.POST['comic_url']
         comic = Comic(name=comic_name, url=comic_url)
         comic.save()
         return HttpResponseRedirect(reverse('comicsindex'))
