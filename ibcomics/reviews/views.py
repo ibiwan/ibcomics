@@ -32,11 +32,12 @@ def detail(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
     return render(request, 'reviews/detail.html', {'review': review})
 
-def writereview(request, comic_id, error_message=None):
+def writereview(request, comic_id, review_text="Enter Review here...", error_message=None):
     comic = get_object_or_404(Comic, pk=comic_id)
     reviewers = get_list_or_404(Reviewer)
     return render(request, 'reviews/writereview.html', {'reviewers':reviewers, 
                                                             'comic':comic, 
+                                                      'review_text':review_text,
                                                     'error_message':error_message,})
 
 def getAndValidateUser(reviewer_id, password):
@@ -45,6 +46,7 @@ def getAndValidateUser(reviewer_id, password):
 
 def savereview(request, comic_id):
     comic = get_object_or_404(Comic, pk=comic_id)
+    review_text = request.POST['review_text']
     try:
         user = getAndValidateUser(request.POST['reviewer'], request.POST['password'])
         if user is None:
@@ -52,7 +54,6 @@ def savereview(request, comic_id):
     except (KeyError, Reviewer.DoesNotExist):
         return writereview(request, comic_id, "You didn't select a reviewer")
     else:
-        review_text = request.POST['review_text']
         review = Review(reviewer=user, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now())
         review.save()
         return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
