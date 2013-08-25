@@ -1,3 +1,6 @@
+<a href="{% url 'index' %}">All Reviews</a>
+<a href="{% url 'comicsindex' %}">All Comics</a>
+
 <h1>Reviews of <a href="{{ comic.url }}"/>{{ comic.name }}</a></h1>
 <ul>
 {% for review in comic.review_set.all %}
