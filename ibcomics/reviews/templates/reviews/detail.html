@@ -14,13 +14,15 @@
     by
     <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
     <br /><br />
-    <input name="star1" type="radio" class="star"/>
-    <input name="star1" type="radio" class="star"/>
-    <input name="star1" type="radio" class="star"/>
-    <input name="star1" type="radio" class="star"/>
-    <input name="star1" type="radio" class="star"/>
+    <form id="rating">
+        <input name="star1" type="radio" class="star"/>
+        <input name="star1" type="radio" class="star"/>
+        <input name="star1" type="radio" class="star"/>
+        <input name="star1" type="radio" class="star"/>
+        <input name="star1" type="radio" class="star"/>
+    </form>
     <br />
 
     {{ review.review_text }}
 
-<script type="text/javascript"> $('star1').rating('select', {{ review.stars }}); </script>
+<script type="text/javascript"> $('#rating :radio.star1').rating('select', {{ review.stars }}); </script>
