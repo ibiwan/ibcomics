@@ -25,4 +25,8 @@
 
     {{ review.review_text }}
 
-<script type="text/javascript"> $('#rating :radio.star1').rating('select', {{ review.stars }}); </script>
+<script type="text/javascript"> 
+$(function(){
+    $('#rating :radio.star1').rating('select', {{ review.stars }});
+});
+</script>
