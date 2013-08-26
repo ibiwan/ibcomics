@@ -15,11 +15,9 @@
     <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
     <br /><br />
     <form id="rating">
-        <input name="star1" type="radio" class="star"/>
-        <input name="star1" type="radio" class="star"/>
-        <input name="star1" type="radio" class="star"/>
-        <input name="star1" type="radio" class="star"/>
-        <input name="star1" type="radio" class="star"/>
+        {% for i in "12345" %}
+            <input name="star1" type="radio" class="star" disabled="disabled"/>
+        {% endfor %}
     </form>
     <br />
 
