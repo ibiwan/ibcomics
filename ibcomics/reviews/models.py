@@ -12,8 +12,8 @@ class Comic(models.Model):
         accum = 0.0
         for review in self.review_set.all:
             accum += review.stars
+        return accum
         avg = accum / float(len(self.review_set.all))
-        raise Exception(avg)
         return avg
 
 class Reviewer(models.Model):
