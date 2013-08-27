@@ -9,11 +9,9 @@ class Comic(models.Model):
     def __unicode__(self):
         return self.name
     def average_rating(self):
-        return self.review_set.all
         accum = 0.0
         for review in self.review_set.all:
             accum += review.stars
-        return accum
         avg = accum / float(len(self.review_set.all))
         return avg
 
