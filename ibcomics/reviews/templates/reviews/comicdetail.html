@@ -7,7 +7,7 @@
 
     <h1>Reviews of <a href="{{ comic.url }}"/>{{ comic.name }}</a></h1>
     Overall: 
-    <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>
+    <span class="rateit" data-rateit-value="{{ comic.average_rating }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>
     {{ avg }} stars.
     <ul>
     {% for review in comic.review_set.all %}
