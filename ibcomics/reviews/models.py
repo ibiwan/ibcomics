@@ -9,11 +9,8 @@ class Comic(models.Model):
     def __unicode__(self):
         return self.name
     def average_rating(self):
-        accum = 0.0
-        for review in self.review_set.all():
-            accum += review.stars
-        avg = accum / float(len(self.review_set.all()))
-        return avg
+        n = len(self.review_set.all())
+        return sum([review.stars for review in self.review_set.all()]) / float(n) if n > 0 else 0.0
 
 class Reviewer(models.Model):
     user = models.OneToOneField(User) 
