@@ -15,8 +15,8 @@
     <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
     <br /><br />
     <form id="rating">
-        {% for i in "12345" %}
-            <input name="star1" type="radio" class="star" disabled="disabled"/>
+        {% for i in "01234" %}
+            <input name="star1" type="radio" class="star" disabled="disabled"{% if i == review.stars %}{{ checked="checked"}}{% endif %}/>
         {% endfor %}
     </form>
     <br />
