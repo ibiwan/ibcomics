@@ -1,17 +1,22 @@
-All Reviews
-<a href="{% url 'comicsindex' %}">All Comics</a>
+{% extends 'reviews/base.html' %}
+{% block title %}ibComics Reviews: Latest Reviews{% endblock %}
+{% block allreviews %}Latest Reviews{% endblock %}
+{% block allcomics %}{{ block.super }}{% endblock %}
 
-<h1>Latest Reviews</h1>
-{% if latest_review_list %}
-    <ul>
-    {% for review in latest_review_list %}
-        <li>
-            <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a> gave 
-            <a href="{% url 'detail' review.id %}">{{ review.stars }}</a> stars for
-            <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No reviews are available.</p>
-{% endif %}
+{% block content %}
+    <h1>Latest Reviews</h1>
+    {% if latest_review_list %}
+        <ul>
+        {% for review in latest_review_list %}
+            <li>
+                <div class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a> wrote a
+                <a href="{% url 'detail' review.id %}">review</a> for
+                <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reviews are available.</p>
+    {% endif %}
+{% endblock %}
