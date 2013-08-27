@@ -4,7 +4,6 @@
     <link href='/static/css/jquery.rateit.css' type="text/css" rel="stylesheet"/>
 </head>
 <body>
-
     <a href="{% url 'index' %}">All Reviews</a>
     <a href="{% url 'comicsindex' %}">All Comics</a>
 
@@ -18,9 +17,4 @@
     <br />
 
     {{ review.review_text }}
-
-
-<script type="text/javascript" language="javascript">
-    $(function(){ $('input.star').rating('select', {{ selected }} ); });
-</script>
 </body>
