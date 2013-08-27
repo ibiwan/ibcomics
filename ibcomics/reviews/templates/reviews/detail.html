@@ -16,13 +16,10 @@
     <br /><br />
     <form id="rating">
         {% for i in indices %}
-            <input name="star1" type="radio" class="star" disabled="disabled"{% if i == review.stars %} checked="checked"{% endif %}/>
+            <input name="star1" type="radio" class="star {split:4}" disabled="disabled"{% if i == selected %} checked="checked"{% endif %}/>
         {% endfor %}
     </form>
     <br />
 
     {{ review.review_text }}
-
-<script type="text/javascript"> 
-    $('input').rating('select', {{ review.stars }} - 1);
-</script>
+</body>
