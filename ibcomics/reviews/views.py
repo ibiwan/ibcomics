@@ -25,7 +25,7 @@ class ComicDetailView(generic.DetailView):
     template_name = 'reviews/comicdetail.html'
     def get_context_data(self, **kwargs):
         context = super(ComicDetailView, self).get_context_data(**kwargs)
-        context['avg'] = Comic.average_rating()
+        context['avg'] = context['comic'].average_rating()
         return context
 
 class ReviewerDetailView(generic.DetailView):
