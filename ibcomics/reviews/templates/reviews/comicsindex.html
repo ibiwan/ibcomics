@@ -1,37 +1,41 @@
-<a href="{% url 'index' %}">All Reviews</a>
-All Comics
+{% extends 'reviews/base.html' %}
+{% block title %}ibComics Reviews: All Comics{% endblock %}
+{% block allreviews %}{{ block.super }}{% endblock %}
+{% block allcomics %}All Comics{% endblock %}
 
-<h1>All Comics</h1>
-{% if all_comics_list %}
-    <table>
-        <thead>
-            <tr>
-                <th>Avg. Rating</th>
-                <th>Name</th>
-                <th>Reviews</th>
-                <th>Read Comic</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for comic in all_comics_list %}
+{% block content %}
+    <h1>All Comics</h1>
+    {% if all_comics_list %}
+        <table>
+            <thead>
                 <tr>
-                    {% with avg=comic.average_rating %}
-                        <td>
-                            <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>{{ avg }}
-                        </td>
-                    {% endwith %}
-                    <td>{{ comic.name }}</td>
-                    {% with count=comic.review_set.count %}
-                        <td><a href="{% url 'comicdetail' comic.id %}">{{ count }} review{{ count|pluralize }}</a>
-                    {% endwith %}
-                    </td>
-                    <td><a href="{{ comic.url }}">{{ comic.url }}</a></td>
+                    <th>Avg. Rating</th>
+                    <th>Name</th>
+                    <th>Reviews</th>
+                    <th>Read Comic</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>No comics are available.</p>
-{% endif %}
-<br /><br /><br />
-<a href="{% url 'addcomic' %}">Add A Comic</a>
+            </thead>
+            <tbody>
+                {% for comic in all_comics_list %}
+                    <tr>
+                        {% with avg=comic.average_rating %}
+                            <td>
+                                <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>{{ avg }}
+                            </td>
+                        {% endwith %}
+                        <td>{{ comic.name }}</td>
+                        {% with count=comic.review_set.count %}
+                            <td><a href="{% url 'comicdetail' comic.id %}">{{ count }} review{{ count|pluralize }}</a>
+                        {% endwith %}
+                        </td>
+                        <td><a href="{{ comic.url }}">{{ comic.url }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No comics are available.</p>
+    {% endif %}
+    <br /><br /><br />
+    <a href="{% url 'addcomic' %}">Add A Comic</a>
+{% endblock %}
