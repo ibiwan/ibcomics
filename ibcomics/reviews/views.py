@@ -30,8 +30,8 @@ class ReviewerDetailView(generic.DetailView):
 
 def detail(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    selected = (round(review.stars * 4.0))/4.0
-    return render(request, 'reviews/detail.html', {'review':review, 'selected':selected})
+    #selected = (round(review.stars * 4.0))/4.0
+    return render(request, 'reviews/detail.html', {'review':review})
 
 ########################################################################################
 

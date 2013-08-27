@@ -1,18 +1,14 @@
-<head>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src='/static/js/jquery.rateit.js' type="text/javascript" language="javascript"></script>
-    <link href='/static/css/rateit.css' type="text/css" rel="stylesheet"/>
-</head>
-<body>
-    <a href="{% url 'index' %}">All Reviews</a>
-    <a href="{% url 'comicsindex' %}">All Comics</a>
+{% extends 'base.html' %}
 
+{% block title %}ibComics Reviews: Review Detail{% endblock %}
+
+{% block content %}
     <h1>Review Content</h1>
     Review of <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic.name }}</a>
     by <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
     <br /><br />
-    <div class="rateit" data-rateit-value="{{ selected }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+    <div class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
     <br />
 
     {{ review.review_text }}
-</body>
+{% endblock %}

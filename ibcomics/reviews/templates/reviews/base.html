@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src='/static/js/jquery.rateit.js' type="text/javascript" language="javascript"></script>
+        <link href='/static/css/rateit.css' type="text/css" rel="stylesheet"/>
+        <title>{% block title %}ibComics Reviews{% endblock %}</title>
+    </head>
+    <body>
+        <div id='menubar'>
+            {% block allreviews %}<a href="{% url 'index' %}">All Reviews</a>{% endblock %}
+            {% block allcomics %}<a href="{% url 'comicsindex' %}">All Comics</a>{% endblock %}
+        </div>
+
+        <div id='content'>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
