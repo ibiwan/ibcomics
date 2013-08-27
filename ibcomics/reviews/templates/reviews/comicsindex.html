@@ -6,6 +6,7 @@ All Comics
     <table>
         <thead>
             <tr>
+                <th>Avg. Rating</th>
                 <th>Name</th>
                 <th>Reviews</th>
                 <th>Read Comic</th>
@@ -14,6 +15,11 @@ All Comics
         <tbody>
             {% for comic in all_comics_list %}
                 <tr>
+                    {% with avg = comic.average_rating %}
+                        <td>
+                            <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>{{ avg }}
+                        </td>
+                    {% endwith %}
                     <td>{{ comic.name }}</td>
                     {% with count=comic.review_set.count %}
                         <td><a href="{% url 'comicdetail' comic.id %}">{{ count }} review{{ count|pluralize }}</a>
