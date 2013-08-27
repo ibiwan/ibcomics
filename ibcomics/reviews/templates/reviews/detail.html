@@ -15,7 +15,8 @@
     <br /><br />
     <form id="star_rating">
         {% for i in indices %}
-            <input name="star1" type="radio" class="wow star {split:4}" disabled="disabled" value="{{ i }}"/>{% endfor %}
+            <input name="star1" type="radio" class="wow star {split:4}" disabled="disabled" value="{{ i }}"/>
+        {% endfor %}
     </form>
     <br />
 
@@ -23,6 +24,6 @@
 
 
 <script type="text/javascript" language="javascript">
-$(function(){ $('input.wow').rating('select', {{ selected }} ); });
+    function(){ $('input.wow').rating('select', {{ selected }} ); }();
 </script>
 </body>
