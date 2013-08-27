@@ -9,6 +9,7 @@ class Comic(models.Model):
     def __unicode__(self):
         return self.name
     def average_rating(self):
+        return 2;
         accum = 0.0
         for review in self.review_set.all:
             accum += review.stars
