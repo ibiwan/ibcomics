@@ -23,6 +23,10 @@ class ComicIndexView(generic.ListView):
 class ComicDetailView(generic.DetailView):
     model = Comic
     template_name = 'reviews/comicdetail.html'
+    def get_context_data(self, **kwargs):
+        context = super(ComicDetailView, self).get_context_data(**kwargs)
+        context['avg'] = Comic.average_rating()
+        return context
 
 class ReviewerDetailView(generic.DetailView):
     model = Reviewer
