@@ -30,7 +30,8 @@ class ReviewerDetailView(generic.DetailView):
 
 def detail(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    return render(request, 'reviews/detail.html', {'review': review})
+    indices = range(1,5)
+    return render(request, 'reviews/detail.html', {'review': review, 'indices': indices})
 
 ########################################################################################
 
