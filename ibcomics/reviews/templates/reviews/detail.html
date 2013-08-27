@@ -14,15 +14,14 @@
     by
     <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
     <br /><br />
-    <form id="rating">
+    <form id="star_rating">
         {% for i in indices %}
-            <input name="star1" type="radio" class="star {split:4}" disabled="disabled" value="{{ i }}" {% if i == selected %} checked="checked"{% endif %}/>
-        {% endfor %}
+            <input name="star1" type="radio" class="star wow {split:4}" disabled="disabled" value="{{ i }}" {% if i == selected %}checked="checked"{% endif %}/>{% endfor %}
     </form>
     <br />
 
     {{ review.review_text }}
 
 
-<script> $(function(){ $('input.star').rating(); }); </script>
+<script> $(function(){ $('input.wow').rating(); }); </script>
 </body>
