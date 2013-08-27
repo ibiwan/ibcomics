@@ -31,7 +31,7 @@ class ReviewerDetailView(generic.DetailView):
 def detail(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
     indices = [x/4.0 for x in range(1,21)]
-    selected = (round(review.stars * 4.0))
+    selected = int(round(review.stars * 4.0))
     return render(request, 'reviews/detail.html', {'review':review, 'indices':indices, 'selected':selected})
 
 ########################################################################################
