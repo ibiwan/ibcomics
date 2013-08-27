@@ -11,9 +11,7 @@
     Review of <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic.name }}</a>
     by <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
     <br /><br />
-    <form id="star_rating">
-        <div class="rateit">
-    </form>
+    <div class="rateit" data-rateit-value="{{ selected }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
     <br />
 
     {{ review.review_text }}
