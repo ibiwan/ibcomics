@@ -6,7 +6,7 @@
 {% block content %}
 
     <h1>Reviews of <a href="{{ comic.url }}"/>{{ comic.name }}</a></h1>
-    {% with avg = comic.average_rating %}
+    {% with avg=comic.average_rating %}
         Overall: 
         <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>
         {{ avg }} stars.

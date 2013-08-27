@@ -15,7 +15,7 @@ All Comics
         <tbody>
             {% for comic in all_comics_list %}
                 <tr>
-                    {% with avg = comic.average_rating %}
+                    {% with avg=comic.average_rating %}
                         <td>
                             <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>{{ avg }}
                         </td>
