@@ -1,15 +1,8 @@
 <head>
-    <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src='/static/js/jquery.rating.js' type="text/javascript" language="javascript"></script>
-    <link href='/static/css/jquery.rating.css' type="text/css" rel="stylesheet"/-->
-
-
-<script src='http://jquery-star-rating-plugin.googlecode.com/svn/trunk/jquery.js' type="text/javascript"></script>
-<script src='http://jquery-star-rating-plugin.googlecode.com/svn/trunk/jquery.MetaData.js' type="text/javascript" language="javascript"></script>
-<script src='http://jquery-star-rating-plugin.googlecode.com/svn/trunk/jquery.rating.js' type="text/javascript" language="javascript"></script>
-<link href='http://jquery-star-rating-plugin.googlecode.com/svn/trunk/jquery.rating.css' type="text/css" rel="stylesheet"/>
-
-
+    <script src='http://jquery-star-rating-plugin.googlecode.com/svn/trunk/jquery.MetaData.js' type="text/javascript" language="javascript"></script>
+    <link href='/static/css/jquery.rating.css' type="text/css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -17,19 +10,17 @@
     <a href="{% url 'comicsindex' %}">All Comics</a>
 
     <h1>Review Content</h1>
-    Review of 
-    <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic.name }}</a>
-    by
-    <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
+    Review of <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic.name }}</a>
+    by <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
     <br /><br />
     <form id="star_rating">
         {% for i in indices %}
-            <input name="star1" type="radio" class="star wow {split:4}" disabled="disabled" value="{{ i }}" {% if i == selected %}checked="checked"{% endif %}/>{% endfor %}
+            <input name="star1" type="radio" class="star {split:4}" disabled="disabled"/>{% endfor %}
     </form>
     <br />
 
     {{ review.review_text }}
 
 
-<script> $(function(){ $('input.wow').rating(); }); </script>
+<script> $(function(){ $('input.star').rating('select', {{ selected }} ); }); </script>
 </body>
