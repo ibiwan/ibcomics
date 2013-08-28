@@ -1,31 +1,34 @@
-<a href="{% url 'index' %}">All Reviews</a>
-<a href="{% url 'comicsindex' %}">All Comics</a>
+{% extends 'reviews/base.html' %}
+{% block title %}ibComics Reviews: Write Review{% endblock %}
+{% block allreviews %}{{ block.super }}{% endblock %}
+{% block allcomics %}{{ block.super }}{% endblock %}
 
-<h1>{{ comic.name }}</h1>
+{% block content %}
+    <h1>{{ comic.name }}</h1>
 
-{% if error_message %}<p style="color:red;"><strong>{{ error_message }}</strong></p>{% endif %}
+    {% if error_message %}<p style="color:red;"><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'savereview' comic.id %}" method="post">
-    {% csrf_token %}
+    <form action="{% url 'savereview' comic.id %}" method="post">
+        {% csrf_token %}
 
-    Reviewer:
-    <select name="reviewer">
-    {% for reviewer in reviewers %}
-        <option value="{{ reviewer.id }}">{{ reviewer.name }}</option>
-    {% endfor %}
-    </select>
+        Reviewer:
+        <select name="reviewer">
+        {% for reviewer in reviewers %}
+            <option value="{{ reviewer.id }}">{{ reviewer.name }}</option>
+        {% endfor %}
+        </select>
 
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-    Password:
-    <input type="password" name="password" />
+        Password:
+        <input type="password" name="password" />
 
-    <br />
-    <input type="range" min="0" max="7" step="0.5" value="0" step="0.25" id="backing2" name="rating" />
-    <div class="rateit" data-rateit-backingfld="#backing2"></div>
-    <textarea rows="4" cols="60" name="review_text" onclick="this.focus();this.select()">{{ review_text }}</textarea>
+        <br />
+        <input type="range" min="0" max="7" step="0.5" value="0" step="0.25" id="backing2" name="rating" />
+        <div class="rateit" data-rateit-backingfld="#backing2"></div>
+        <textarea rows="4" cols="60" name="review_text" onclick="this.focus();this.select()">{{ review_text }}</textarea>
 
-    <input type="submit" value="Review" />
-</form>
-<button onclick="$('#backing2').toggle()">Toggle Backing Field visibility</button>
-
+        <input type="submit" value="Review" />
+    </form>
+    <button onclick="$('#backing2').toggle()">Toggle Backing Field visibility</button>
+{% endblock %}
