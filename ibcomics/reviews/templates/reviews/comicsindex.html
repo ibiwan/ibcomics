@@ -5,6 +5,8 @@
 
 {% block content %}
     <h1>All Comics</h1>
+    <a href="{% url 'addcomic' %}">Add A Comic</a>
+    <br /><br /><br />
     {% if all_comics_list %}
         <table>
             <thead>
@@ -36,6 +38,4 @@
     {% else %}
         <p>No comics are available.</p>
     {% endif %}
-    <br /><br /><br />
-    <a href="{% url 'addcomic' %}">Add A Comic</a>
 {% endblock %}
