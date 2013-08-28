@@ -21,6 +21,8 @@
     <input type="password" name="password" />
 
     <br />
+    <input type="range" value="0" step="0.25" id="starbacking" name="rating">
+    <div class="rateit" data-rateit-backingfld="#starbacking"></div>
 
     <textarea rows="4" cols="60" name="review_text" onclick="this.focus();this.select()">{{ review_text }}</textarea>
 

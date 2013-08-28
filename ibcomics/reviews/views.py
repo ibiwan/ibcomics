@@ -57,10 +57,11 @@ def savereview(request, comic_id):
         reviewer = getAndValidateReviewer(request.POST['reviewer'], request.POST['password'])
         if reviewer is None:
             return writereview(request, comic_id, review_text, "Invalid User or Password")
+        rating = request.POST['rating']
     except (KeyError):
         return writereview(request, comic_id, review_text, "Malformed Request; try again")
     else:
-        Review(reviewer=reviewer, comic=comic, review_text=review_text, stars=5, pub_date=timezone.now()).save()
+        Review(reviewer=reviewer, comic=comic, review_text=review_text, stars=rating, pub_date=timezone.now()).save()
         return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
 
 def deletereview(request, review_id, error_message=None):
