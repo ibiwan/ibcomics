@@ -13,11 +13,7 @@ Text: {{ review.review_text }}
     {% csrf_token %}
 
     Reviewer:
-    <select name="reviewer">
-    {% for reviewer in reviewers %}
-        <option value="{{ reviewer.id }}">{{ reviewer.name }}</option>
-    {% endfor %}
-    </select>
+    <input type="text" name="username" />
 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 

@@ -30,31 +30,29 @@ class ReviewerDetailView(generic.DetailView):
 
 def detail(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    #selected = (round(review.stars * 4.0))/4.0
     return render(request, 'reviews/detail.html', {'review':review})
 
 ########################################################################################
 
-def getAndValidateReviewer(reviewer_id, password):
-    reviewer = Reviewer.objects.get(pk=reviewer_id)
-    user = authenticate(username=reviewer.user.username, password=password)
+def getAndValidateReviewerByUsername(username, password):
+    user = authenticate(username=username, password=password)
+    reviewer = Reviewer.objects.get(user=user)
     return reviewer if user else None
 
 ########################################################################################
 
 def writereview(request, comic_id, review_text="Enter Review here...", error_message=None):
     comic = get_object_or_404(Comic, pk=comic_id)
-    reviewers = get_list_or_404(Reviewer)
-    return render(request, 'reviews/writereview.html', {'reviewers':reviewers, 
-                                                            'comic':comic, 
-                                                      'review_text':review_text,
-                                                    'error_message':error_message,})
+    return render(request, 'reviews/writereview.html', {'comic'        : comic, 
+                                                        'review_text'  : review_text,
+                                                        'error_message': error_message,})
 
 def savereview(request, comic_id):
     try:
         comic = get_object_or_404(Comic, pk=comic_id)
         review_text = request.POST['review_text']
-        reviewer = getAndValidateReviewer(request.POST['reviewer'], request.POST['password'])
+        reviewer = getAndValidateReviewerByUsername(request.POST['username'], 
+                                                    request.POST['password'])
         if reviewer is None:
             return writereview(request, comic_id, review_text, "Invalid User or Password")
         rating = request.POST['rating']
@@ -66,15 +64,14 @@ def savereview(request, comic_id):
 
 def deletereview(request, review_id, error_message=None):
     review = get_object_or_404(Review, pk=review_id)
-    reviewers = get_list_or_404(Reviewer)
-    return render(request, 'reviews/deletereview.html', {'reviewers':reviewers, 
-                                                            'review':review, 
-                                                    'error_message':error_message,})
+    return render(request, 'reviews/deletereview.html', {'review'        : review, 
+                                                         'error_message' : error_message,})
 
 def confirmdeletereview(request, review_id):
     try:
-        review  = get_object_or_404(Review, pk=review_id)
-        reviewer = getAndValidateReviewer(request.POST['reviewer'], request.POST['password'])
+        review = get_object_or_404(Review, pk=review_id)
+        reviewer = getAndValidateReviewerByUsername(request.POST['username'], 
+                                                    request.POST['password'])
         if reviewer is None:
             return deletereview(request, review_id, "Invalid User or Password")
         if reviewer != review.reviewer:
@@ -88,17 +85,16 @@ def confirmdeletereview(request, review_id):
 ########################################################################################
 
 def addcomic(request, comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", error_message=None):
-    reviewers = get_list_or_404(Reviewer)
-    return render(request, 'reviews/addcomic.html', {'comic_name': comic_name,
-                                                      'comic_url': comic_url,
-                                                      'reviewers': reviewers,
-                                                  'error_message': error_message,});
+    return render(request, 'reviews/addcomic.html', {'comic_name'    : comic_name,
+                                                     'comic_url'     : comic_url,
+                                                     'error_message' : error_message,});
 
 def savecomic(request):
     try:
         comic_name = request.POST['comic_name']
         comic_url = request.POST['comic_url']
-        reviewer = getAndValidateReviewer(request.POST['reviewer'], request.POST['password'])
+        reviewer = getAndValidateReviewerByUsername(request.POST['username'],
+                                                    request.POST['password'])
         if reviewer is None:
             return addcomic(request, comic_name, comic_url, "Invalid User or  Password");
     except (KeyError):
@@ -106,5 +102,3 @@ def savecomic(request):
     else:
         Comic(name=comic_name, url=comic_url).save()
         return HttpResponseRedirect(reverse('comicsindex'))
-
-

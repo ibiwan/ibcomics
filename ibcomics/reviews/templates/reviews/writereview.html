@@ -12,11 +12,7 @@
         {% csrf_token %}
         <div class="login">
             Reviewer:
-            <select name="reviewer">
-            {% for reviewer in reviewers %}
-                <option value="{{ reviewer.id }}">{{ reviewer.name }}</option>
-            {% endfor %}
-            </select>
+            <input type="text" name="username" />
 
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 

@@ -1,29 +1,31 @@
-<a href="{% url 'index' %}">All Reviews</a>
-<a href="{% url 'comicsindex' %}">All Comics</a>
 
-<h1>Add New Comic</h1>
 
-{% if error_message %}<p style="color:red;"><strong>{{ error_message }}</strong></p>{% endif %}
+{% extends 'reviews/base.html' %}
+{% block title %}ibComics Reviews - Add Comic{% endblock %}
+{% block allreviews %}{{ block.super }}{% endblock %}
+{% block allcomics %}{{ block.super }}{% endblock %}
 
-<form action="{% url 'savecomic' %}" method="post">
-    {% csrf_token %}
+{% block content %}
+    <h1>Add New Comic</h1>
 
-    Reviewer:
-    <select name="reviewer">
-    {% for reviewer in reviewers %}
-        <option value="{{ reviewer.id }}">{{ reviewer.name }}</option>
-    {% endfor %}
-    </select>
+    {% if error_message %}<p style="color:red;"><strong>{{ error_message }}</strong></p>{% endif %}
 
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <form action="{% url 'savecomic' %}" method="post">
+        {% csrf_token %}
 
-    Password:
-    <input type="password" name="password" />
+        Reviewer:
+        <input type="text" name="username" />
 
-    <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-    <input type="text" name="comic_name" value="{{ comic_name }}" onclick="this.focus();this.select()">
-    <input type="text" name="comic_url" size="30" value="{{ comic_url }}" onclick="this.focus();this.select()">
+        Password:
+        <input type="password" name="password" />
 
-    <input type="submit" value="Add" />
-</form>
+        <br />
+
+        <input type="text" name="comic_name" value="{{ comic_name }}" onclick="this.focus();this.select()">
+        <input type="text" name="comic_url" size="30" value="{{ comic_url }}" onclick="this.focus();this.select()">
+
+        <input type="submit" value="Add" />
+    </form>
+{% endblock %}
