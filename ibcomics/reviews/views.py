@@ -47,6 +47,10 @@ def writereview(request, comic_id, review_text="Enter Review here...", error_mes
                                                         'review_text'  : review_text,
                                                         'error_message': error_message,})
 
+def editreview(request, review_id):
+    review = get_object_or_404(pk=review_id)
+    return writereview(request, review.comic.id, review.review_text)
+
 def savereview(request, comic_id):
     try:
         comic = get_object_or_404(Comic, pk=comic_id)
@@ -59,7 +63,9 @@ def savereview(request, comic_id):
     except (KeyError):
         return writereview(request, comic_id, review_text, "Malformed Request; try again")
     else:
-        Review(reviewer=reviewer, comic=comic, review_text=review_text, stars=rating, pub_date=timezone.now()).save()
+        r = Review.objects.get_or_create(reviewer=reviewer, comic=comic)
+        r.review_text = review_text; r.stars = rating; pub_date = timezone.now()
+        r.save()
         return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
 
 def deletereview(request, review_id, error_message=None):

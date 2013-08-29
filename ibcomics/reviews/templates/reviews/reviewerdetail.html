@@ -8,6 +8,7 @@
         {{ review.reviewer.name }} ({{ review.reviewer.user.username }}) gave 
         <a href="{% url 'detail' review.id %}">{{ review.stars }}</a> stars for
         <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
+        (<a href="{% url 'editreview' review.id %}">edit</a>)
         (<a href="{% url 'deletereview' review.id %}">delete</a>)
     </li>
 {% endfor %}
