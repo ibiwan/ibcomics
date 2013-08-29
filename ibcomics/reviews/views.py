@@ -63,6 +63,8 @@ def savereview(request, comic_id):
             return writereview(request, comic_id, rating, review_text, "Invalid User or Password")
     except (KeyError):
         return writereview(request, comic_id, error_message="Malformed Request; try again")
+    except (DoesNotExist):
+        return writereview(request, comic_id, error_message="Invalid User or Passwordd")
     else:
         r, created = Review.objects.get_or_create(reviewer=reviewer, comic=comic)
         r.review_text = review_text; r.stars = rating; r.pub_date = timezone.now()
