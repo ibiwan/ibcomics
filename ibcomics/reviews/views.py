@@ -66,7 +66,7 @@ def savereview(request, comic_id):
     except (KeyError):
         return writereview(request, comic_id, error_message="Malformed Request; try again")
     except (Reviewer.DoesNotExist):
-        return writereview(request, comic_id, rating, review_text, "Invalid User or Passwordd")
+        return writereview(request, comic_id, rating, review_text, "Invalid User or Password")
 
 def deletereview(request, review_id, error_message=None):
     review = get_object_or_404(Review, pk=review_id)
@@ -78,15 +78,14 @@ def confirmdeletereview(request, review_id):
         review = get_object_or_404(Review, pk=review_id)
         reviewer = getAndValidateReviewerByUsername(request.POST['username'], 
                                                     request.POST['password'])
-        if reviewer is None:
-            return deletereview(request, review_id, "Invalid User or Password")
         if reviewer != review.reviewer:
             return deletereview(request, review_id, "You can only delete your own reviews")
-    except (KeyError):
-        return deletereview(request, review_id, error_message="Malformed Request; try again")
-    else:
         review.delete()
         return HttpResponseRedirect(reverse('reviewerdetail', args=(reviewer.id,)))
+    except (KeyError):
+        return deletereview(request, review_id, error_message="Malformed Request; try again")
+    except (Reviewer.DoesNotExist):
+        return deletereview(request, review_id, "Invalid User or Password")
 
 ########################################################################################
 
@@ -101,10 +100,9 @@ def savecomic(request):
         comic_url = request.POST['comic_url']
         reviewer = getAndValidateReviewerByUsername(request.POST['username'],
                                                     request.POST['password'])
-        if reviewer is None:
-            return addcomic(request, comic_name, comic_url, "Invalid User or  Password");
-    except (KeyError):
-        return addcomic(request, comic_name, comic_url, "Malformed Request; try again");
-    else:
         Comic(name=comic_name, url=comic_url).save()
         return HttpResponseRedirect(reverse('comicsindex'))
+    except (KeyError):
+        return addcomic(request, error_message="Malformed Request; try again");
+    except (Reviewer.DoesNotExist):
+        return addcomic(request, comic_name, comic_url, "Invalid User or Password")
