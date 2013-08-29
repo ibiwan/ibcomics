@@ -48,7 +48,7 @@ def writereview(request, comic_id, review_text="Enter Review here...", error_mes
                                                         'error_message': error_message,})
 
 def editreview(request, review_id):
-    review = get_object_or_404(pk=review_id)
+    review = get_object_or_404(Review, pk=review_id)
     return writereview(request, review.comic.id, review.review_text)
 
 def savereview(request, comic_id):
