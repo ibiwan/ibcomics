@@ -18,7 +18,7 @@
                 {% for reviewer in all_reviewers_list %}
                     <tr>
                         <td>{{ reviewer.name }}</td>
-                        <td><a href="{{ url 'reviewersindex' }}">(reviews)</a></td>
+                        <td><a href="{{ url 'reviewerdetail' reviewer.id }}">(reviews)</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
