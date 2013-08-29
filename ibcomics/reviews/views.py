@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.views import generic
 from django.contrib.auth import authenticate
-from django.core.exceptions import PermissionDenied, DoesNotExist
+from django.core.exceptions import PermissionDenied
 
 from reviews.models import Comic, Reviewer, Review
 
@@ -63,7 +63,7 @@ def savereview(request, comic_id):
             return writereview(request, comic_id, rating, review_text, "Invalid User or Password")
     except (KeyError):
         return writereview(request, comic_id, error_message="Malformed Request; try again")
-    except (DoesNotExist):
+    except (Reviewer.DoesNotExist):
         return writereview(request, comic_id, error_message="Invalid User or Passwordd")
     else:
         r, created = Review.objects.get_or_create(reviewer=reviewer, comic=comic)
