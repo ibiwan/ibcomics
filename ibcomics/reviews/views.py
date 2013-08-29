@@ -20,6 +20,12 @@ class ComicIndexView(generic.ListView):
     def get_queryset(self):
         return Comic.objects.order_by('name')
 
+class ReviewerIndexView(generic.ListView):
+    template_name = 'reviews/reviewersindex.html'
+    context_object_name = 'all_reviewers_list'
+    def get_queryset(self):
+        return Reviewer.objects.order_by('name')
+
 class ComicDetailView(generic.DetailView):
     model = Comic
     template_name = 'reviews/comicdetail.html'

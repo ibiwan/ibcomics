@@ -1,0 +1,29 @@
+{% extends 'reviews/base.html' %}
+{% block title %}ibComics Reviews: All Reviewers{% endblock %}
+{% block allreviews %}{{ block.super }}{% endblock %}
+{% block allcomics %}{{ block.super }}{% endblock %}
+{% block allreviewers %}All Reviewers{% endblock %}
+
+{% block content %}
+    <h1>All Reviewers</h1>
+    {% if all_reviewers_list %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Reviews</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reviewer in all_reviewers_list %}
+                    <tr>
+                        <td>{{ reviewer.name }}</td>
+                        <td><a href="{{ url 'reviewersindex' }}">(reviews)</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No comics are available.</p>
+    {% endif %}
+{% endblock %}
