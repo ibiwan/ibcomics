@@ -62,7 +62,7 @@ def savereview(request, comic_id):
         if reviewer is None:
             return writereview(request, comic_id, rating, review_text, "Invalid User or Password")
     except (KeyError):
-        return writereview(request, comic_id, error_text="Malformed Request; try again")
+        return writereview(request, comic_id, error_message="Malformed Request; try again")
     else:
         r, created = Review.objects.get_or_create(reviewer=reviewer, comic=comic)
         r.review_text = review_text; r.stars = rating; r.pub_date = timezone.now()
@@ -84,7 +84,7 @@ def confirmdeletereview(request, review_id):
         if reviewer != review.reviewer:
             return deletereview(request, review_id, "You can only delete your own reviews")
     except (KeyError):
-        return deletereview(request, review_id, "Malformed Request; try again")
+        return deletereview(request, review_id, error_message="Malformed Request; try again")
     else:
         review.delete()
         return HttpResponseRedirect(reverse('reviewerdetail', args=(reviewer.id,)))
