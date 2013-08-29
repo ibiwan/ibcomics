@@ -63,8 +63,8 @@ def savereview(request, comic_id):
     except (KeyError):
         return writereview(request, comic_id, review_text, "Malformed Request; try again")
     else:
-        r = Review.objects.get_or_create(reviewer=reviewer, comic=comic)
-        r.review_text = review_text; r.stars = rating; pub_date = timezone.now()
+        r, created = Review.objects.get_or_create(reviewer=reviewer, comic=comic)
+        r.review_text = review_text; r.stars = rating; r.pub_date = timezone.now()
         r.save()
         return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
 
