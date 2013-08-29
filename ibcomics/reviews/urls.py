@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     # ex: /reviews/writereview/5/
     url(r'^writereview/(?P<comic_id>\d+)/$', views.writereview, name='writereview'),
     # ex: /reviews/editreview/5/
-    url(r'^editreview/(?P<comic_id>\d+)/$', views.editreview, name='editreview'),
+    url(r'^editreview/(?P<review_id>\d+)/$', views.editreview, name='editreview'),
     # ex: /reviews/savereview/5/
     url(r'^savereview/(?P<comic_id>\d+)/$', views.savereview, name='savereview'),
     # ex: /reviews/savereview/5/
