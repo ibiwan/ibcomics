@@ -10,7 +10,7 @@ class Comic(models.Model):
         return self.name
     def average_rating(self):
         n = len(self.review_set.all())
-        return sum([review.stars for review in self.review_set.all()]) / float(n) if n > 0 else 0.0
+        return sum([r.stars for r in self.review_set.all()]) / float(n) if n > 0 else 0.0
 
 class Reviewer(models.Model):
     user = models.OneToOneField(User) 
@@ -27,5 +27,15 @@ class Review(models.Model):
     pub_date = models.DateTimeField('date reviewed')
     def __unicode__(self):
         return str(self.reviewer) + ": " + str(self.stars)
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=7)
+
+class ComicTag(models.Model):
+    comic = models.ForeignKey(Comic)
+    tag_text = models.CharField(max_length=100)
+    def __unicode__(self):
+        return str(self.tag_text)
+
+class ReviewFlag(models.Model):
+    review = models.ForeignKey(Review)
+    ip_addr = models.IPAddressField()
+    def __unicode__(self):
+        return str(self.ip_addr)
