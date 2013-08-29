@@ -41,27 +41,28 @@ def getAndValidateReviewerByUsername(username, password):
 
 ########################################################################################
 
-def writereview(request, comic_id, review_text="Enter Review here...", error_message=None):
+def writereview(request, comic_id, rating=0, review_text="Enter Review here...", error_message=None):
     comic = get_object_or_404(Comic, pk=comic_id)
     return render(request, 'reviews/writereview.html', {'comic'        : comic, 
                                                         'review_text'  : review_text,
+                                                        'rating'       : rating,
                                                         'error_message': error_message,})
 
 def editreview(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    return writereview(request, review.comic.id, review.review_text)
+    return writereview(request, review.comic.id, review.rating, review.review_text)
 
 def savereview(request, comic_id):
     try:
         comic = get_object_or_404(Comic, pk=comic_id)
         review_text = request.POST['review_text']
+        rating = request.POST['rating']
         reviewer = getAndValidateReviewerByUsername(request.POST['username'], 
                                                     request.POST['password'])
         if reviewer is None:
-            return writereview(request, comic_id, review_text, "Invalid User or Password")
-        rating = request.POST['rating']
+            return writereview(request, comic_id, rating, review_text, "Invalid User or Password")
     except (KeyError):
-        return writereview(request, comic_id, review_text, "Malformed Request; try again")
+        return writereview(request, comic_id, error_text="Malformed Request; try again")
     else:
         r, created = Review.objects.get_or_create(reviewer=reviewer, comic=comic)
         r.review_text = review_text; r.stars = rating; r.pub_date = timezone.now()
