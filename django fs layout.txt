@@ -1,0 +1,23 @@
+project_root/
+   project_name/
+       media/
+       static/
+           some_app/css/app.css  # overriding an app css file from project level
+           css/
+               project.css
+       static_root/  # in production using the collectstatic command
+       templates/some_app/foo.html  # overriding some_app at project level
+                /admin/some_app/some_model/change_list.html
+                # overriding admin changelist for some_app.models.some_model
+       settings.py
+       settings_deployment.py
+       urls.py
+   some_app/
+       static/
+           css/
+               app.css
+       templates/some_app/foo.html
+       urls.py
+       views.py
+       models.py
+   manage.py

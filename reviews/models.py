@@ -4,8 +4,26 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 class Comic(models.Model):
+    RATING_UNRATED = 'un'
+    RATING_G       = 'g'
+    RATING_PG      = 'pg'
+    RATING_PG_13   = 'pg13'
+    RATING_R       = 'r'
+    RATING_NC_17   = 'nc17'
+    MPAA_RATING_CHOICES = (
+        (RATING_UNRATED, '(Unrated)'),
+        (RATING_G,       'G'), 
+        (RATING_PG,      'PG'), 
+        (RATING_PG_13,   'PG-13'), 
+        (RATING_R,       'R'), 
+        (RATING_NC_17,   'NC-17'),
+    ) 
     name = models.CharField(max_length=50)
     url = models.CharField(max_length=200)
+    mpaa_rating = models.CharField(
+        max_length=4, 
+        choices=MPAA_RATING_CHOICES,
+        default=RATING_UNRATED)
     def __unicode__(self):
         return self.name
     def average_rating(self):

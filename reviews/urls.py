@@ -2,6 +2,8 @@ from django.conf.urls import patterns, url
 
 from reviews import views
 
+print "8"
+
 urlpatterns = patterns('',
     # ex: /reviews/5/
     url(r'^(?P<review_id>\d+)/$', views.detail, name='detail'),
