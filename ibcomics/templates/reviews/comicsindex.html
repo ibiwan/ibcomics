@@ -6,33 +6,42 @@
 
 {% block content %}
     <h1>All Comics</h1>
-    <a href="{% url 'addcomic' %}">Add A Comic</a>
+    <a href="{% url 'addcomic' %}" class="addcomiclink">Add A Comic</a>
     <br /><br /><br />
     {% if all_comics_list %}
-        <table>
+        <table "comicslist">
             <thead>
                 <tr>
-                    <th>Avg. Rating</th>
+                    <th>Avg. Stars</th>
                     <th>Name</th>
                     <th>Reviews</th>
+                    <th>Content Rating</th>
                     <th>Read Comic</th>
                 </tr>
             </thead>
             <tbody>
                 {% for comic in all_comics_list %}
-                    <tr>
-                        {% with avg=comic.average_rating %}
-                            <td>
-                                <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>{{ avg }}
+                    {% with avg=comic.average_rating count=comic.review_set.count %}
+                        <tr class="comicrow">
+                            <td class="starrating">
+                                <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true">
+                                </span>
+                                {{ avg }}
                             </td>
-                        {% endwith %}
-                        <td>{{ comic.name }}</td>
-                        {% with count=comic.review_set.count %}
-                            <td><a href="{% url 'comicdetail' comic.id %}">{{ count }} review{{ count|pluralize }}</a>
-                        {% endwith %}
-                        </td>
-                        <td><a href="{{ comic.url }}">{{ comic.url }}</a></td>
-                    </tr>
+                            <td class="comicname">
+                                {{ comic.name }}
+                            </td>
+                            <td class="comicreviewcount">
+                                <a href="{% url 'comicdetail' comic.id %}">{{ count }} review{{ count|pluralize }}</a>
+                            </td>
+                            <td class="comiccontentrating">
+                                {{ comic.get_mpaa_rating_display }}
+                            </td>
+                            <td class="comicfirstpageurl">
+                                <a href="{{ comic.url }}">{{ comic.url }}</a>
+                            </td>
+                        </tr>
+                    {% endwith %}
                 {% endfor %}
             </tbody>
         </table>
