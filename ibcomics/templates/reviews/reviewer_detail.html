@@ -7,7 +7,7 @@
 {% block content %}
     <h1>Reviews by {{ reviewer.name }}</a></h1>
 
-    <table class="reviewslist">
+    <table class="reviewslist" id="reviewslist">
         <thead>
             <tr>
                 {% if user and user.is_active and user.id == reviewer.user.id %}
@@ -42,5 +42,24 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <script>
+        tableid = "reviewslist";
+        $(document).ready(function() {
+            $('#'+tableid).dataTable({
+                "sPaginationType" : "full_numbers",
+                "iDisplayLength"  : 20,
+                "bLengthChange"   : false,
+                "fnDrawCallback"  : function(){
+                        if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
+                            $('#'+tableid+'_paginate')[0].style.display = "block";
+                        else
+                            $('#'+tableid+'_paginate')[0].style.display = "none";
+                    },                    
+                "aaSorting": [[2, 'asc']],
+            });
+        } );
+    </script>
+
 {% endblock %}
 

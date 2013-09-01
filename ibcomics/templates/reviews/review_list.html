@@ -7,7 +7,7 @@
 {% block content %}
     <h1>Latest Reviews</h1>
     {% if review_list %}
-        <table class="latestreviews">
+        <table class="latestreviews" id="latestreviews">
             <thead>
                 <tr>
                     <th>Reviewer</th>
@@ -34,6 +34,25 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <script>
+            tableid = "latestreviews";
+            $(document).ready(function() {
+                $('#'+tableid).dataTable({
+                    "sPaginationType" : "full_numbers",
+                    "iDisplayLength"  : 20,
+                    "bLengthChange"   : false,
+                    "fnDrawCallback"  : function(){
+                            if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
+                                $('#'+tableid+'_paginate')[0].style.display = "block";
+                            else
+                                $('#'+tableid+'_paginate')[0].style.display = "none";
+                        },                    
+                    "aaSorting": [[3, 'asc']],
+                });
+            } );
+        </script>
+
     {% else %}
         <p>No reviews are available.</p>
     {% endif %}

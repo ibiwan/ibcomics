@@ -7,12 +7,14 @@
 {% block content %}
     <h1>All Reviewers</h1>
     {% if reviewer_list %}
-        <table>
+        <table class="reviewerstable" id="reviewerstable">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Reviews</th>
-                    <th></th>
+                    {% if user and user.is_active %}
+                        <th>Message</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -22,15 +24,35 @@
                         <td>
                             <a href="{% url 'reviewerdetail' reviewer.id %}">({{ reviewer.review_set.count }} reviews)</a>
                         </td>
-                        <td>
-                            {% if user and user.is_active and user.id == reviewer.user.id %}
-                                (Welcome; we appreciate ALL your effort! Go review something!)
-                            {% endif %}
-                        </td>
+                        {% if user and user.is_active %}
+                            <td>
+                                {% if user.id == reviewer.user.id %}
+                                    (Welcome; we appreciate ALL your effort! Go review something!)
+                                {% endif %}
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+        <script>
+            tableid = "reviewerstable";
+            $(document).ready(function() {
+                $('#'+tableid).dataTable({
+                    "sPaginationType" : "full_numbers",
+                    "iDisplayLength"  : 20,
+                    "bLengthChange"   : false,
+                    "fnDrawCallback"  : function(){
+                            if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
+                                $('#'+tableid+'_paginate')[0].style.display = "block";
+                            else
+                                $('#'+tableid+'_paginate')[0].style.display = "none";
+                        },                    
+                    "aaSorting": [[0, 'asc']],
+                });
+            } );
+        </script>
     {% else %}
         <p>No comics are available.</p>
     {% endif %}

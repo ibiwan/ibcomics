@@ -19,7 +19,7 @@
         {{ comic.get_mpaa_rating_display }}
     </div>
     <br />
-    <table class="comicreviews">
+    <table class="comicreviews" id="comicreviews">
         <thead>
             <tr>
                 <th>Reviewer</th>
@@ -43,11 +43,28 @@
         {% endfor %}
         </tbody>
     </table>
-    <br />
+    <br /><br />
     <a href="{% url 'writereview' comic.id %}">Add A Review</a>
 
     <br /><br />
 
     {% if debug_message %}<p><strong>{{ debug_message }}</strong></p>{% endif %}
 
+        <script>
+            tableid = "comicreviews";
+            $(document).ready(function() {
+                $('#'+tableid).dataTable({
+                    "sPaginationType" : "full_numbers",
+                    "iDisplayLength"  : 20,
+                    "bLengthChange"   : false,
+                    "fnDrawCallback"  : function(){
+                            if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
+                                $('#'+tableid+'_paginate')[0].style.display = "block";
+                            else
+                                $('#'+tableid+'_paginate')[0].style.display = "none";
+                        },                    
+                    "aaSorting": [[0, 'asc']],
+                });
+            } );
+        </script>
 {% endblock %}

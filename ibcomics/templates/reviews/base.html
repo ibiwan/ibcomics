@@ -3,12 +3,17 @@
 <!DOCTYPE html>
 <html lang='en'>
     <head>
+        <!-- scripts -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
         <script src='{% static "reviews/js/jquery.rateit.js" %}' type="text/javascript" language="javascript"></script>
+        <!-- styles -->
+        <link href='http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css' type="text/css" rel="stylesheet"/>
         <link href='{% static "reviews/css/rateit.css" %}' type="text/css" rel="stylesheet"/>
+        <!-- SEO junk -->
         <title>{% block title %}ibComics Reviews{% endblock %}</title>
     </head>
-    <body>
+    <body style="width:80%;margin:0 auto;">
         <div id='menubar'>
             <span id='menubaritem left'>    
                 {% block allreviews %}<a href="{% url 'index' %}">Latest Reviews</a>{% endblock %}
@@ -30,7 +35,7 @@
             </span>
        </div>
 
-        <div id='content' style="width:800px;">
+        <div id='content'>
             {% block content %}
             {% endblock %}
         </div>

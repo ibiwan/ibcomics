@@ -11,7 +11,7 @@
         <br /><br /><br />
     {% endif %}
     {% if comic_list %}
-        <table class="comicslist">
+        <table class="comicslist" id="comicslist">
             <thead>
                 <tr>
                     {% if user and user.is_active %}
@@ -56,7 +56,31 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <script>
+            tableid = "comicslist";
+            $(document).ready(function() {
+                $('#'+tableid).dataTable({
+                    "sPaginationType" : "full_numbers",
+                    "iDisplayLength"  : 20,
+                    "bLengthChange"   : false,
+                    "fnDrawCallback"  : function(){
+                            if ( $('#'+tableid+'_paginate span a.paginate_button').size() ) {
+                                $('#'+tableid+'_paginate')[0].style.display = "block";
+                            } else {
+                                $('#'+tableid+'_paginate')[0].style.display = "none";
+                            }
+                        },                    
+                    {% if user and user.is_active %}
+                        "aaSorting": [[2, 'asc']],
+                    {% else %}
+                        "aaSorting": [[1, 'asc']],
+                    {% endif %}
+                });
+            } );
+        </script>
     {% else %}
         <p>No comics are available.</p>
     {% endif %}
 {% endblock %}
+
