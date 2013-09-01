@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1>All Reviewers</h1>
-    {% if all_reviewers_list %}
+    {% if reviewer_list %}
         <table>
             <thead>
                 <tr>
@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for reviewer in all_reviewers_list %}
+                {% for reviewer in reviewer_list %}
                     <tr>
                         <td>{{ reviewer.name }}</td>
                         <td>

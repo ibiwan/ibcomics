@@ -9,41 +9,32 @@ from django.views import generic
 
 from reviews.models import Comic, Reviewer, Review
 
-#################################  LISTS  #############################################
+#################################  LIST VIEWS  #############################################
 
-class IndexView(generic.ListView):
-    template_name = 'reviews/index.html'
-    context_object_name = 'latest_review_list'
+class ReviewIndexView(generic.ListView):
     def get_queryset(self):
         return Review.objects.order_by('-pub_date')[:5]
 
 class ComicIndexView(generic.ListView):
-    template_name = 'reviews/comicsindex.html'
-    context_object_name = 'all_comics_list'
     def get_queryset(self):
-        return Comic.objects.order_by('name')
+        return Comic.objects.extra( select={'lower_name': 'lower(name)'}).order_by('lower_name')
 
 class ReviewerIndexView(generic.ListView):
-    template_name = 'reviews/reviewersindex.html'
-    context_object_name = 'all_reviewers_list'
     def get_queryset(self):
-        return Reviewer.objects.order_by('name')
+        return Reviewer.objects.extra( select={'lower_name': 'lower(name)'}).order_by('lower_name')
 
-#################################  DETAILS  #############################################
+#################################  DETAIL VIEWS  #############################################
 
 class ComicDetailView(generic.DetailView):
     model = Comic
-    template_name = 'reviews/comicdetail.html'
 
 class ReviewerDetailView(generic.DetailView):
     model = Reviewer
-    template_name = 'reviews/reviewerdetail.html'
 
 class ReviewDetailView(generic.DetailView):
     model = Review
-    template_name = 'reviews/detail.html'
 
-#################################  REVIEW MANIP  #############################################
+#################################  REVIEW MANIP (ALL REQUIRE AUTH) #############################################
 
 def writereview(request, comic_id, rating=0, review_text="Enter Review here...", write_edit='Write', error_message=None):
     comic = get_object_or_404(Comic, pk=comic_id)
@@ -60,13 +51,10 @@ def editreview(request, review_id):
 def savereview(request, comic_id, write_edit):
     try:
         comic = get_object_or_404(Comic, pk=comic_id)
-        review_text = request.POST['review_text']
-        rating = request.POST['rating']
-        reviewer = getAndValidateReviewerByUsername(request.POST['username'], 
-                                                    request.POST['password'])
-        r, created = Review.objects.get_or_create(reviewer=reviewer, comic=comic)
-        r.review_text = review_text; r.stars = rating; r.pub_date = timezone.now()
-        r.save()
+        reviewer = get_object_or_404(Reviewer, user=request.user) if (request.user and request.user.is_active) else None
+        review, created = Review.objects.get_or_create(reviewer=reviewer, comic=comic, defaults={'pub_date':timezone.now()})
+        (review.review_text, review.stars) = [request.POST[i] for i in ('review_text', 'rating')]
+        review.save()
         return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
     except (KeyError):
         return writereview(request, comic_id, write_edit=write_edit, error_message="Malformed Request; try again")
@@ -81,8 +69,7 @@ def deletereview(request, review_id, error_message=None):
 def confirmdeletereview(request, review_id):
     try:
         review = get_object_or_404(Review, pk=review_id)
-        if request.user and request.user.is_active:
-            reviewer = get_object_or_404(Reviewer, user=request.user)
+        reviewer = get_object_or_404(Reviewer, user=request.user) if (request.user and request.user.is_active) else None
         if reviewer != review.reviewer:
             return deletereview(request, review_id, "You can only delete your own reviews")
         review.delete()
@@ -90,17 +77,16 @@ def confirmdeletereview(request, review_id):
     except (Reviewer.DoesNotExist):
         return deletereview(request, review_id, "Invalid User or Password")
 
-#################################  COMIC MANIP  #############################################
+#################################  COMIC MANIP (ALL REQUIRE AUTH)  #############################################
 
 def addcomic(request, comic_id=0, comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", comic_mpaa_rating=Comic.RATING_UNRATED, 
              add_edit="Add New", error_message=None):
-    mpaa_rating_choices = Comic.mpaa_choices()
     return render(request, 'reviews/addcomic.html', {'add_edit'            : add_edit,
                                                      'comic_id'            : comic_id,
                                                      'comic_name'          : comic_name,
                                                      'comic_url'           : comic_url,
                                                      'comic_mpaa_rating'   : comic_mpaa_rating,
-                                                     'mpaa_rating_choices' : mpaa_rating_choices,
+                                                     'mpaa_rating_choices' : Comic.mpaa_choices(),
                                                      'error_message'       : error_message,});
 
 def editcomic(request, comic_id):
@@ -109,17 +95,10 @@ def editcomic(request, comic_id):
 
 def savecomic(request, comic_id, add_edit):
     try:
-        comic_name = request.POST['comic_name']
-        comic_url = request.POST['comic_url']
-        comic_mpaa_rating = request.POST['mpaa_rating']
-        if request.user and request.user.is_active:
-            reviewer = get_object_or_404(Reviewer, user=request.user)
-        if int(comic_id) > 0:
-            c = get_object_or_404(Comic, pk=comic_id)
-        else:
-            c = Comic()
-        c.name=comic_name; c.url = comic_url; c.mpaa_rating = comic_mpaa_rating
-        c.save()
+        reviewer = get_object_or_404(Reviewer, user=request.user) if (request.user and request.user.is_active) else None
+        comic = Comic() if int(comic_id)==0 else get_object_or_404(Comic, pk=comic_id)
+        (comic.name, comic.url, comic.mpaa_rating) = [request.POST[i] for i in ('comic_name', 'comic_url', 'mpaa_rating')]
+        comic.save()
         return HttpResponseRedirect(reverse('comicsindex'))
     except (KeyError):
         return addcomic(request, add_edit=add_edit, error_message="Malformed Request; try again");
@@ -133,8 +112,7 @@ def deletecomic(request, comic_id, error_message=None):
 
 def confirmdeletecomic(request, comic_id):
     try:
-        comic = get_object_or_404(Comic, pk=comic_id)
-        comic.delete()
+        get_object_or_404(Comic, pk=comic_id).delete()
         return HttpResponseRedirect(reverse('comicsindex'))
     except (Reviewer.DoesNotExist):
         return deletecomic(request, comic_id, "Invalid User or Password")

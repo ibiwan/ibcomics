@@ -7,7 +7,7 @@ urlpatterns = patterns('',
 
 #################################  LISTS  #############################################
     # ex: /
-    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^$', views.ReviewIndexView.as_view(), name='index'),
     # ex: /comics/
     url(r'^comics$', views.ComicIndexView.as_view(), name='comicsindex'),
     # ex: /reviewers/

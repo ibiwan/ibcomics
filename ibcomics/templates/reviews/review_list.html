@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1>Latest Reviews</h1>
-    {% if latest_review_list %}
+    {% if review_list %}
         <table class="latestreviews">
             <thead>
                 <tr>
@@ -17,15 +17,19 @@
                 </tr>
             </thead>
             <tbody>
-                {% for review in latest_review_list %}
+                {% for review in review_list %}
                     <tr>
                         <td><a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a></td>
                         <td>
                             <div class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true">
                             </div>
                         </td>
-                        <td><a href="{% url 'detail' review.id %}">Full Review</a></td>
-                        <td><a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a></td>
+                        <td>
+                            <a href="{% url 'detail' review.id %}">Full Review</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

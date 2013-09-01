@@ -10,7 +10,7 @@
         <a href="{% url 'addcomic' %}" class="addcomiclink">Add A Comic</a>
         <br /><br /><br />
     {% endif %}
-    {% if all_comics_list %}
+    {% if comic_list %}
         <table class="comicslist">
             <thead>
                 <tr>
@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for comic in all_comics_list %}
+                {% for comic in comic_list %}
                     {% with avg=comic.average_rating count=comic.review_set.count %}
                         <tr class="comicrow">
                             {% if user and user.is_active %}

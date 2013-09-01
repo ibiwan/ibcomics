@@ -1,7 +1,7 @@
 from django.db import models
-import datetime
-from django.utils import timezone
 from django.contrib.auth.models import User
+from django.utils import timezone
+import datetime
 
 class Comic(models.Model):
     RATING_UNRATED = 'un'
@@ -44,6 +44,8 @@ class Reviewer(models.Model):
     admin = models.BooleanField(default=False)
     def __unicode__(self):
         return self.name
+    def reviews_by_comic(self):
+        return self.review_set.extra(order_by=['comic__name'])
 
 class Review(models.Model):
     comic = models.ForeignKey(Comic)
