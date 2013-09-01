@@ -18,6 +18,10 @@ class Comic(models.Model):
         (RATING_R,       'R'), 
         (RATING_NC_17,   'NC-17'),
     ) 
+    @classmethod
+    def mpaa_choices(cls):
+        return [{'db':db,'readable':readable} for (db, readable) in cls.MPAA_RATING_CHOICES]
+
     name = models.CharField(max_length=50)
     url = models.CharField(max_length=200)
     mpaa_rating = models.CharField(
@@ -29,6 +33,10 @@ class Comic(models.Model):
     def average_rating(self):
         n = len(self.review_set.all())
         return sum([r.stars for r in self.review_set.all()]) / float(n) if n > 0 else 0.0
+    def mpaa_rating_db(self):
+        return self.mpaa_rating
+    def mpaa_rating_readable(self):
+        return {key:val for (key,val) in Comic.MPAA_RATING_CHOICES}[self.mpaa_rating]
 
 class Reviewer(models.Model):
     user = models.OneToOneField(User) 

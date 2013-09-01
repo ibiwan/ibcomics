@@ -2,9 +2,25 @@ from django.conf.urls import patterns, url
 
 from reviews import views
 
-print "8"
-
 urlpatterns = patterns('',
+
+#################################  LISTS  #############################################
+    # ex: /reviews/
+    url(r'^$', views.IndexView.as_view(), name='index'),
+    # ex: /comics/
+    url(r'^comics$', views.ComicIndexView.as_view(), name='comicsindex'),
+    # ex: /reviewers/
+    url(r'^reviewers$', views.ReviewerIndexView.as_view(), name='reviewersindex'),
+
+#################################  DETAILS  #############################################
+    # ex: /reviews/5/
+    url(r'^(?P<pk>\d+)/$', views.ReviewDetailView.as_view(), name='detail'),
+    # ex: /reviews/comic/5/
+    url(r'^comic/(?P<pk>\d+)/$', views.ComicDetailView.as_view(), name='comicdetail'),
+    # ex: /reviews/reviewer/5/
+    url(r'^reviewer/(?P<pk>\d+)/$', views.ReviewerDetailView.as_view(), name='reviewerdetail'), 
+
+#################################  REVIEW MANIP  #############################################
     # ex: /reviews/writereview/5/
     url(r'^writereview/(?P<comic_id>\d+)/$', views.writereview, name='writereview'),
     # ex: /reviews/editreview/5/
@@ -16,24 +32,16 @@ urlpatterns = patterns('',
     # ex: /reviews/confirmdeletereview/5/
     url(r'^confirmdeletereview/(?P<review_id>\d+)/$', views.confirmdeletereview, name='confirmdeletereview'),
 
+#################################  COMIC MANIP  #############################################
     # ex: /reviews/addcomic/
     url(r'^addcomic/$', views.addcomic, name='addcomic'),
     # ex: /reviews/editcomic/3
-    url(r'^editcomic/(?P<comic_id>\d+)/$', views.addcomic, name='addcomic'),
+    url(r'^editcomic/(?P<comic_id>\d+)/$', views.editcomic, name='editcomic'),
     # ex: /reviews/savecomic/
-    url(r'^savecomic/$', views.savecomic, name='savecomic'),
-
-    # ex: /reviews/
-    url(r'^$', views.IndexView.as_view(), name='index'),
-    # ex: /comics/
-    url(r'^comics$', views.ComicIndexView.as_view(), name='comicsindex'),
-    # ex: /reviewers/
-    url(r'^reviewers$', views.ReviewerIndexView.as_view(), name='reviewersindex'),
+    url(r'^savecomic/(?P<comic_id>\d+)/(?P<add_edit>[a-zA-Z ]+)/$', views.savecomic, name='savecomic'),
+    # ex: /reviews/deletecomic/3
+    url(r'^deletecomic/(?P<comic_id>\d+)/$', views.deletecomic, name='deletecomic'),
+    # ex: /reviews/confirmdeletecomic/5/
+    url(r'^confirmdeletecomic/(?P<comic_id>\d+)/$', views.confirmdeletecomic, name='confirmdeletecomic'),
     
-    # ex: /reviews/5/
-    url(r'^(?P<pk>\d+)/$', views.ReviewDetailView.as_view(), name='detail'),
-    # ex: /reviews/comic/5/
-    url(r'^comic/(?P<pk>\d+)/$', views.ComicDetailView.as_view(), name='comicdetail'),
-    # ex: /reviews/reviewer/5/
-    url(r'^reviewer/(?P<pk>\d+)/$', views.ReviewerDetailView.as_view(), name='reviewerdetail'), 
 )

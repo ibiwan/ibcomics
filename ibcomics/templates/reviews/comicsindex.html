@@ -12,6 +12,7 @@
         <table "comicslist">
             <thead>
                 <tr>
+                    <th>Tasks</th>
                     <th>Avg. Stars</th>
                     <th>Name</th>
                     <th>Reviews</th>
@@ -23,6 +24,10 @@
                 {% for comic in all_comics_list %}
                     {% with avg=comic.average_rating count=comic.review_set.count %}
                         <tr class="comicrow">
+                            <td class="tasks">
+                                <a href="{% url 'editcomic' comic.id %}">(edit)</a>
+                                <a href="{% url 'deletecomic' comic.id %}">(delete)</a>
+                            </td>
                             <td class="starrating">
                                 <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true">
                                 </span>
@@ -38,7 +43,7 @@
                                 {{ comic.get_mpaa_rating_display }}
                             </td>
                             <td class="comicfirstpageurl">
-                                <a href="{{ comic.url }}">{{ comic.url }}</a>
+                                <a href="{{ comic.url }}">First Strip</a>
                             </td>
                         </tr>
                     {% endwith %}

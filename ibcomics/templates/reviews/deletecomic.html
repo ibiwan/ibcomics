@@ -1,24 +1,24 @@
 {% extends 'reviews/base.html' %}
-{% block title %}ibComics Reviews: Delete Review{% endblock %}
+{% block title %}ibComics Reviews: Delete Comic{% endblock %}
 {% block allreviews %}{{ block.super }}{% endblock %}
 {% block allcomics %}{{ block.super }}{% endblock %}
 {% block allreviewers %}{{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>Delete Review</h1>
+    <h1>Delete Comic</h1>
 
     {% if error_message %}
         <p style="color:red;"><strong>{{ error_message }}</strong></p>
     {% endif %}
 
-    Date: {{ review.pub_date }}
+    Name: {{ comic.name }}
     <br />
-    Stars: {{ review.stars }}
+    Average Stars: {{ comic.average_rating }}
     <br />
-    Text: {{ review.review_text }}
+    Content Rating: {{ comic.mpaa_rating_readable }}
     <br /><br />
 
-    <form action="{% url 'confirmdeletereview' review.id %}" method="post">
+    <form action="{% url 'confirmdeletecomic' comic.id %}" method="post">
         {% csrf_token %}
 
         Reviewer:

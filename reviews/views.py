@@ -100,27 +100,54 @@ def confirmdeletereview(request, review_id):
 
 #################################  COMIC MANIP  #############################################
 
-def addcomic(request, comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", error_message=None):
-    return render(request, 'reviews/addcomic.html', {'comic_name'    : comic_name,
-                                                     'comic_url'     : comic_url,
-                                                     'error_message' : error_message,});
+def addcomic(request, comic_id=0, comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", comic_mpaa_rating=Comic.RATING_UNRATED, 
+             add_edit="Add New", error_message=None):
+    mpaa_rating_choices = Comic.mpaa_choices()
+    return render(request, 'reviews/addcomic.html', {'add_edit'            : add_edit,
+                                                     'comic_id'            : comic_id,
+                                                     'comic_name'          : comic_name,
+                                                     'comic_url'           : comic_url,
+                                                     'comic_mpaa_rating'   : comic_mpaa_rating,
+                                                     'mpaa_rating_choices' : mpaa_rating_choices,
+                                                     'error_message'       : error_message,});
 
 def editcomic(request, comic_id):
     comic = get_object_or_404(Comic, pk=comic_id)
-    return addcomic(request, comic.name, comic.url)
+    return addcomic(request, comic_id, comic.name, comic.url, comic.mpaa_rating, add_edit="Edit")
 
-def savecomic(request):
+def savecomic(request, comic_id, add_edit):
     try:
         comic_name = request.POST['comic_name']
         comic_url = request.POST['comic_url']
+        comic_mpaa_rating = request.POST['mpaa_rating']
         reviewer = getAndValidateReviewerByUsername(request.POST['username'],
                                                     request.POST['password'])
-        c, created = Comic.objects.get_or_create(name=comic_name)
-        c.url = comic_url
+        if comic_id > 0:
+            c = get_object_or_404(Comic, pk=comic_id)
+        else:
+            c = Comic()
+        c.name=comic_name; c.url = comic_url; c.mpaa_rating = comic_mpaa_rating
         c.save()
-        #Comic(name=comic_name, url=comic_url).save()
         return HttpResponseRedirect(reverse('comicsindex'))
     except (KeyError):
-        return addcomic(request, error_message="Malformed Request; try again");
+        return addcomic(request, add_edit=add_edit, error_message="Malformed Request; try again");
     except (Reviewer.DoesNotExist):
         return addcomic(request, comic_name, comic_url, "Invalid User or Password")
+
+def deletecomic(request, comic_id, error_message=None):
+    comic = get_object_or_404(Comic, pk=comic_id)
+    return render(request, 'reviews/deletecomic.html', {'comic'        : comic, 
+                                                        'error_message' : error_message,})
+
+def confirmdeletecomic(request, comic_id):
+    try:
+        comic = get_object_or_404(Comic, pk=comic_id)
+        reviewer = getAndValidateReviewerByUsername(request.POST['username'], 
+                                                    request.POST['password'])
+        comic.delete()
+        return HttpResponseRedirect(reverse('comicsindex'))
+    except (KeyError):
+        return deletecomic(request, comic_id, error_message="Malformed Request; try again")
+    except (Reviewer.DoesNotExist):
+        return deletecomic(request, comic_id, "Invalid User or Password")
+

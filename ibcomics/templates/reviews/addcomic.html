@@ -1,15 +1,17 @@
 {% extends 'reviews/base.html' %}
-{% block title %}ibComics Reviews - Add Comic{% endblock %}
+{% block title %}ibComics Reviews - {{ add_edit }} Comic{% endblock %}
 {% block allreviews %}{{ block.super }}{% endblock %}
 {% block allcomics %}{{ block.super }}{% endblock %}
 {% block allreviewers %}{{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>Add New Comic</h1>
+    <h1>{{ add_edit }} Comic</h1>
 
-    {% if error_message %}<p style="color:red;"><strong>{{ error_message }}</strong></p>{% endif %}
+    {% if error_message %}
+        <p style="color:red;"><strong>{{ error_message }}</strong></p>
+    {% endif %}
 
-    <form action="{% url 'savecomic' %}" method="post">
+    <form action="{% url 'savecomic' comic_id=comic_id add_edit=add_edit %}" method="post">
         {% csrf_token %}
 
         Reviewer:
@@ -20,11 +22,22 @@
         Password:
         <input type="password" name="password" />
 
-        <br />
+        <br /><br />
 
         <input type="text" name="comic_name" value="{{ comic_name }}" onclick="this.focus();this.select()">
+        <select name="mpaa_rating">
+            {% for rating in mpaa_rating_choices %}
+                {% if rating.db == comic_mpaa_rating %}
+                    <option value={{ rating.db }} selected="selected">
+                {% else %}
+                    <option value={{ rating.db }}>
+                {% endif %}
+                    {{ rating.readable }}
+                </option>
+            {% endfor %}
+        </select>
         <input type="text" name="comic_url" size="30" value="{{ comic_url }}" onclick="this.focus();this.select()">
 
-        <input type="submit" value="Add" />
+        <input type="submit" value="{{ add_edit }}" />
     </form>
 {% endblock %}
