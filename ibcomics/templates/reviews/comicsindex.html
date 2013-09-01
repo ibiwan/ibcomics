@@ -6,17 +6,21 @@
 
 {% block content %}
     <h1>All Comics</h1>
-    <a href="{% url 'addcomic' %}" class="addcomiclink">Add A Comic</a>
-    <br /><br /><br />
+    {% if user and user.is_active %}
+        <a href="{% url 'addcomic' %}" class="addcomiclink">Add A Comic</a>
+        <br /><br /><br />
+    {% endif %}
     {% if all_comics_list %}
-        <table "comicslist">
+        <table class="comicslist">
             <thead>
                 <tr>
-                    <th>Tasks</th>
+                    {% if user and user.is_active %}
+                        <th>Tasks</th>
+                    {% endif %}
                     <th>Avg. Stars</th>
                     <th>Name</th>
                     <th>Reviews</th>
-                    <th>Content Rating</th>
+                    <th>Content</th>
                     <th>Read Comic</th>
                 </tr>
             </thead>
@@ -24,10 +28,12 @@
                 {% for comic in all_comics_list %}
                     {% with avg=comic.average_rating count=comic.review_set.count %}
                         <tr class="comicrow">
-                            <td class="tasks">
-                                <a href="{% url 'editcomic' comic.id %}">(edit)</a>
-                                <a href="{% url 'deletecomic' comic.id %}">(delete)</a>
-                            </td>
+                            {% if user and user.is_active %}
+                                <td class="tasks">
+                                    <a href="{% url 'editcomic' comic.id %}">(edit)</a>
+                                    <a href="{% url 'deletecomic' comic.id %}">(delete)</a>
+                                </td>
+                            {% endif %}
                             <td class="starrating">
                                 <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true">
                                 </span>

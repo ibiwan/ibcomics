@@ -13,17 +13,6 @@
 
     <form action="{% url 'savecomic' comic_id=comic_id add_edit=add_edit %}" method="post">
         {% csrf_token %}
-
-        Reviewer:
-        <input type="text" name="username" />
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        Password:
-        <input type="password" name="password" />
-
-        <br /><br />
-
         <input type="text" name="comic_name" value="{{ comic_name }}" onclick="this.focus();this.select()">
         <select name="mpaa_rating">
             {% for rating in mpaa_rating_choices %}

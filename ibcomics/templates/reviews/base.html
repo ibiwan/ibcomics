@@ -10,12 +10,27 @@
     </head>
     <body>
         <div id='menubar'>
-            {% block allreviews %}<a href="{% url 'index' %}">Latest Reviews</a>{% endblock %}
-            {% block allcomics %}<a href="{% url 'comicsindex' %}">All Comics</a>{% endblock %}
-            {% block allreviewers %}<a href="{% url 'reviewersindex' %}">All Reviewers</a>{% endblock %}
-        </div>
+            <span id='menubaritem left'>    
+                {% block allreviews %}<a href="{% url 'index' %}">Latest Reviews</a>{% endblock %}
+            </span>
+            <span id='menubaritem left'>
+                {% block allcomics %}<a href="{% url 'comicsindex' %}">All Comics</a>{% endblock %}
+            </span>
+            <span id='menubaritem left'>
+                {% block allreviewers %}<a href="{% url 'reviewersindex' %}">All Reviewers</a>{% endblock %}
+            </span>
+             <span id='menubaritem right' style="float:right;">
+                {% block loginout %}
+                    {% if user and user.is_active %}
+                        <a href="{% url 'logout_view' %}">Log Out {{user.username}}</a>
+                    {% else %}
+                        <a href="{% url 'loginreviewerindex' %}">Log In</a>
+                    {% endif %}
+                {% endblock %}
+            </span>
+       </div>
 
-        <div id='content'>
+        <div id='content' style="width:800px;">
             {% block content %}
             {% endblock %}
         </div>

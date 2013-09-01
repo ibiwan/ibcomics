@@ -11,26 +11,25 @@
         <p style="color:red;"><strong>{{ error_message }}</strong></p>
     {% endif %}
 
-    Date: {{ review.pub_date }}
-    <br />
-    Stars: {{ review.stars }}
-    <br />
-    Text: {{ review.review_text }}
-    <br /><br />
-
+    <table class="reviewsummary">
+        <tr>
+            <td>Date:</td><td>{{ review.pub_date }}</td>
+        </tr>
+        <tr>
+            <td>Stars:</td>
+            <td>
+                <span class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true">
+                </span>
+                {{ review.stars }}
+            </td>
+        </tr>
+        <tr>
+            <td>Text:</td><td>{{ review.review_text }}</td>
+        </tr>
+    </table>
     <form action="{% url 'confirmdeletereview' review.id %}" method="post">
         {% csrf_token %}
-
-        Reviewer:
-        <input type="text" name="username" />
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        Password:
-        <input type="password" name="password" />
-
-        <br />
-
         <input type="submit" value="DELETE" />
     </form>
 {% endblock %}
+

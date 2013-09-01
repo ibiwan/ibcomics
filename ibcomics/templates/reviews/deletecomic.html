@@ -11,26 +11,29 @@
         <p style="color:red;"><strong>{{ error_message }}</strong></p>
     {% endif %}
 
-    Name: {{ comic.name }}
-    <br />
-    Average Stars: {{ comic.average_rating }}
-    <br />
-    Content Rating: {{ comic.mpaa_rating_readable }}
+    <table class="comicsummary">
+        <tr>
+            <td>Name:</td><td>{{ comic.name }}</td>
+        </tr>
+        <tr>
+            <td>Average Stars:</td>
+            <td>
+                {% with avg=comic.average_rating count=comic.review_set.count %}
+                    <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true">
+                    </span>
+                    {{ avg }}
+                {% endwith %}
+            </td>
+        </tr>
+        <tr>
+            <td>Content Rating:</td><td>{{ comic.mpaa_rating_readable }}</td>
+        </tr>
+    </table>
+
     <br /><br />
 
     <form action="{% url 'confirmdeletecomic' comic.id %}" method="post">
         {% csrf_token %}
-
-        Reviewer:
-        <input type="text" name="username" />
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        Password:
-        <input type="password" name="password" />
-
-        <br />
-
         <input type="submit" value="DELETE" />
     </form>
 {% endblock %}

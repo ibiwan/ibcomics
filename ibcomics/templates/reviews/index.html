@@ -7,16 +7,29 @@
 {% block content %}
     <h1>Latest Reviews</h1>
     {% if latest_review_list %}
-        <ul>
-        {% for review in latest_review_list %}
-            <li>
-                <div class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-                <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a> wrote a
-                <a href="{% url 'detail' review.id %}">review</a> for
-                <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
-            </li>
-        {% endfor %}
-        </ul>
+        <table class="latestreviews">
+            <thead>
+                <tr>
+                    <th>Reviewer</th>
+                    <th>Rating</th>
+                    <th>Full Review</th>
+                    <th>Comic Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in latest_review_list %}
+                    <tr>
+                        <td><a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a></td>
+                        <td>
+                            <div class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true">
+                            </div>
+                        </td>
+                        <td><a href="{% url 'detail' review.id %}">Full Review</a></td>
+                        <td><a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% else %}
         <p>No reviews are available.</p>
     {% endif %}

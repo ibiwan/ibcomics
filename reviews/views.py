@@ -1,10 +1,11 @@
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.views import generic
-from django.contrib.auth import authenticate
-from django.core.exceptions import PermissionDenied
 
 from reviews.models import Comic, Reviewer, Review
 
@@ -41,13 +42,6 @@ class ReviewerDetailView(generic.DetailView):
 class ReviewDetailView(generic.DetailView):
     model = Review
     template_name = 'reviews/detail.html'
-
-#################################  HELPERS  #############################################
-
-def getAndValidateReviewerByUsername(username, password):
-    user = authenticate(username=username, password=password)
-    reviewer = Reviewer.objects.get(user=user)
-    return reviewer if user else None
 
 #################################  REVIEW MANIP  #############################################
 
@@ -87,14 +81,12 @@ def deletereview(request, review_id, error_message=None):
 def confirmdeletereview(request, review_id):
     try:
         review = get_object_or_404(Review, pk=review_id)
-        reviewer = getAndValidateReviewerByUsername(request.POST['username'], 
-                                                    request.POST['password'])
+        if request.user and request.user.is_active:
+            reviewer = get_object_or_404(Reviewer, user=request.user)
         if reviewer != review.reviewer:
             return deletereview(request, review_id, "You can only delete your own reviews")
         review.delete()
         return HttpResponseRedirect(reverse('reviewerdetail', args=(reviewer.id,)))
-    except (KeyError):
-        return deletereview(request, review_id, error_message="Malformed Request; try again")
     except (Reviewer.DoesNotExist):
         return deletereview(request, review_id, "Invalid User or Password")
 
@@ -120,9 +112,9 @@ def savecomic(request, comic_id, add_edit):
         comic_name = request.POST['comic_name']
         comic_url = request.POST['comic_url']
         comic_mpaa_rating = request.POST['mpaa_rating']
-        reviewer = getAndValidateReviewerByUsername(request.POST['username'],
-                                                    request.POST['password'])
-        if comic_id > 0:
+        if request.user and request.user.is_active:
+            reviewer = get_object_or_404(Reviewer, user=request.user)
+        if int(comic_id) > 0:
             c = get_object_or_404(Comic, pk=comic_id)
         else:
             c = Comic()
@@ -142,12 +134,8 @@ def deletecomic(request, comic_id, error_message=None):
 def confirmdeletecomic(request, comic_id):
     try:
         comic = get_object_or_404(Comic, pk=comic_id)
-        reviewer = getAndValidateReviewerByUsername(request.POST['username'], 
-                                                    request.POST['password'])
         comic.delete()
         return HttpResponseRedirect(reverse('comicsindex'))
-    except (KeyError):
-        return deletecomic(request, comic_id, error_message="Malformed Request; try again")
     except (Reviewer.DoesNotExist):
         return deletecomic(request, comic_id, "Invalid User or Password")
 
