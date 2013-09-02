@@ -1,8 +1,12 @@
 {% extends 'reviews/base.html' %}
-{% block title %}ibComics Reviews: Comic Detail{% endblock %}
 {% block allreviews %}{{ block.super }}{% endblock %}
 {% block allcomics %}{{ block.super }}{% endblock %}
 {% block allreviewers %}{{ block.super }}{% endblock %}
+{% block loginout %}{{ block.super }}{% endblock %}
+
+{% block title %}
+    {{ block.super }}: Comic Detail
+{% endblock %}
 
 {% block content %}
 
@@ -55,7 +59,7 @@
             $(document).ready(function() {
                 $('#'+tableid).dataTable({
                     "sPaginationType" : "full_numbers",
-                    "iDisplayLength"  : 20,
+                    "iDisplayLength"  : 15,
                     "bLengthChange"   : false,
                     "fnDrawCallback"  : function(){
                             if ( $('#'+tableid+'_paginate span a.paginate_button').size() )

@@ -4,47 +4,67 @@
 <html lang='en'>
     <head>
         <!-- scripts -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
-        <script src='{% static "reviews/js/jquery.rateit.js" %}' type="text/javascript" language="javascript"></script>
+        <script type="text/javascript" language="javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" language="javascript" src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.min.js"></script>
+        <script type="text/javascript" language="javascript" src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" language="javascript" src='{% static "reviews/js/jquery.rateit.min.js" %}'></script>
         <!-- styles -->
-        <link href='http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css' type="text/css" rel="stylesheet"/>
-        <link href='{% static "reviews/css/rateit.css" %}' type="text/css" rel="stylesheet"/>
+        <link type="text/css" rel="stylesheet" href='//ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/cupertino/jquery-ui.css' />
+        <link type="text/css" rel="stylesheet" href='//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css'/>
+        <link type="text/css" rel="stylesheet" href='{% static "reviews/css/rateit.css" %}'/>
+        <link type="text/css" rel="stylesheet" href='{% static "reviews/css/reviews.css" %}'/>
         <!-- SEO junk -->
-        <title>{% block title %}ibComics Reviews{% endblock %}</title>
+        <title>
+            {% block title %}ibComics Reviews{% endblock %}
+        </title>
     </head>
-    <body style="width:80%;margin:0 auto;">
-        <div id='menubar'>
-            <span id='menubaritem left'>    
-                {% block allreviews %}<a href="{% url 'index' %}">Latest Reviews</a>{% endblock %}
-            </span>
-            <span id='menubaritem left'>
-                {% block allcomics %}<a href="{% url 'comicsindex' %}">All Comics</a>{% endblock %}
-            </span>
-            <span id='menubaritem left'>
-                {% block allreviewers %}<a href="{% url 'reviewersindex' %}">All Reviewers</a>{% endblock %}
-            </span>
-             <span id='menubaritem right' style="float:right;">
-                {% block loginout %}
-                    {% if user and user.is_active %}
-                        <a href="{% url 'logout_view' %}">Log Out {{user.username}}</a>
-                    {% else %}
-                        <a href="{% url 'loginreviewerindex' %}">Log In</a>
-                    {% endif %}
-                {% endblock %}
-            </span>
-       </div>
-
-        <div id='content'>
-            {% block content %}
-            {% endblock %}
+    <body>
+        <!--[if !IE 7]>
+            <style type="text/css">
+                #wrap {display:table;height:100%}
+            </style>
+        <![endif]-->
+        <div id="wrap">
+            <div id="header">
+                <div id="toolbar" class="ui-widget-header ui-corner-all">
+                    {% block allreviews %}
+                        <a href="{% url 'index' %}"><button id="menubtn_latestreviews">Latest Reviews</button></a>
+                        <script>$( "#menubtn_latestreviews" ).button();</script>
+                    {% endblock %}
+                    {% block allcomics %}
+                        <a href="{% url 'comicsindex' %}"><button id="menubtn_allcomics">All Comics</button></a>
+                        <script>$( "#menubtn_allcomics" ).button();</script>
+                    {% endblock %}
+                    {% block allreviewers %}
+                        <a href="{% url 'reviewersindex' %}"><button id="menubtn_allreviewers">All Reviewers</button></a>
+                        <script>$( "#menubtn_allreviewers" ).button();</script>
+                    {% endblock %}
+                    {% block loginout %}
+                        {% if user and user.is_active %}
+                            <a href="{% url 'logout_view' %}"><button id="menubtn_loginout" class="menubtn_right">Log Out {{user.username}}</button></a>
+                            <script>$( "#menubtn_loginout" ).button();</script>
+                        {% else %}
+                            <a href="{% url 'loginreviewerindex' %}"><button id="menubtn_loginout" class="menubtn_right">Log In</button></a>
+                            <script>$( "#menubtn_loginout" ).button();</script>
+                        {% endif %}
+                    {% endblock %}
+                </div>
+                <br />
+            </div>
+            <div id="main">
+                <div id='content' class="ui-widget-container">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <br />
+            Questions?  Comments? Complains? Corrections? <a href="mailto:ibiwan@gmail.com">Tell me!</a><br />
+            Site built with <a href="https://www.djangoproject.com/">Django</a> 
+            and hosted at <a href="https://github.com/ibiwan/ibcomics">GitHub</a>.<br />
+            &copy; Jeremy Kent 2013
         </div>
     </body>
     <footer>
-        <br /><br />
-        Questions?  Comments? Complains? Corrections? <a href="mailto:ibiwan@gmail.com">Tell me!</a><br />
-        Site built with <a href="https://www.djangoproject.com/">Django</a> 
-        and hosted at <a href="https://github.com/ibiwan/ibcomics">GitHub</a>.<br />
-        &copy; Jeremy Kent 2013<br />
     </footer>
 </html>

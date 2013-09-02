@@ -1,14 +1,18 @@
 {% extends 'reviews/base.html' %}
-{% block title %}ibComics Reviews: Delete Comic{% endblock %}
 {% block allreviews %}{{ block.super }}{% endblock %}
 {% block allcomics %}{{ block.super }}{% endblock %}
 {% block allreviewers %}{{ block.super }}{% endblock %}
+{% block loginout %}{{ block.super }}{% endblock %}
+
+{% block title %}
+    {{ block.super }}: Delete Comic
+{% endblock %}
 
 {% block content %}
     <h1>Delete Comic</h1>
 
     {% if error_message %}
-        <p style="color:red;"><strong>{{ error_message }}</strong></p>
+        <span class="error_message"><strong>{{ error_message }}</strong></span>
     {% endif %}
 
     <table class="comicsummary">

@@ -1,14 +1,18 @@
 {% extends 'reviews/base.html' %}
-{% block title %}ibComics Reviews: {{ write_edit }} Review{% endblock %}
 {% block allreviews %}{{ block.super }}{% endblock %}
 {% block allcomics %}{{ block.super }}{% endblock %}
 {% block allreviewers %}{{ block.super }}{% endblock %}
+{% block loginout %}{{ block.super }}{% endblock %}
+
+{% block title %}
+    {{ block.super }}: {{ write_edit }} Review
+{% endblock %}
 
 {% block content %}
     <h1>{{ comic.name }}</h1>
 
     {% if error_message %}
-        <p style="color:red;"><strong>{{ error_message }}</strong></p>
+        <span class="error_message"><strong>{{ error_message }}</strong></span>
     {% endif %}
 
     <form action="{% url 'savereview' comic_id=comic.id write_edit=write_edit %}" method="post">

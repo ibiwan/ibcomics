@@ -1,14 +1,21 @@
 {% extends 'reviews/base.html' %}
-{% block title %}ibComics Reviews: All Comics{% endblock %}
 {% block allreviews %}{{ block.super }}{% endblock %}
-{% block allcomics %}All Comics{% endblock %}
 {% block allreviewers %}{{ block.super }}{% endblock %}
+{% block loginout %}{{ block.super }}{% endblock %}
+
+{% block title %}
+    {{ block.super }}: All Comics
+{% endblock %}
+
+{% block allcomics %}
+    {{ block.super }}
+    <script>$( "#menubtn_allcomics" ).button({ disabled: true });</script>
+{% endblock %}
 
 {% block content %}
-    <h1>All Comics</h1>
     {% if user and user.is_active %}
         <a href="{% url 'addcomic' %}" class="addcomiclink">Add A Comic</a>
-        <br /><br /><br />
+        <br />
     {% endif %}
     {% if comic_list %}
         <table class="comicslist" id="comicslist">
@@ -62,7 +69,7 @@
             $(document).ready(function() {
                 $('#'+tableid).dataTable({
                     "sPaginationType" : "full_numbers",
-                    "iDisplayLength"  : 20,
+                    "iDisplayLength"  : 150,
                     "bLengthChange"   : false,
                     "fnDrawCallback"  : function(){
                             if ( $('#'+tableid+'_paginate span a.paginate_button').size() ) {

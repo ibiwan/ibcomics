@@ -1,11 +1,18 @@
 {% extends 'reviews/base.html' %}
-{% block title %}ibComics Reviews: All Reviewers{% endblock %}
 {% block allreviews %}{{ block.super }}{% endblock %}
 {% block allcomics %}{{ block.super }}{% endblock %}
-{% block allreviewers %}All Reviewers{% endblock %}
+{% block loginout %}{{ block.super }}{% endblock %}
+
+{% block title %}
+    {{ block.super }}: All Reviewers
+{% endblock %}
+
+{% block allreviewers %}
+    {{ block.super }}
+    <script>$( "#menubtn_allreviewers" ).button({ disabled: true });</script>
+{% endblock %}
 
 {% block content %}
-    <h1>All Reviewers</h1>
     {% if reviewer_list %}
         <table class="reviewerstable" id="reviewerstable">
             <thead>
@@ -41,7 +48,7 @@
             $(document).ready(function() {
                 $('#'+tableid).dataTable({
                     "sPaginationType" : "full_numbers",
-                    "iDisplayLength"  : 20,
+                    "iDisplayLength"  : 15,
                     "bLengthChange"   : false,
                     "fnDrawCallback"  : function(){
                             if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
