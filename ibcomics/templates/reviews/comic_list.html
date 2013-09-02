@@ -9,7 +9,7 @@
 
 {% block allcomics %}
     {{ block.super }}
-    <script>$( "#menubtn_allcomics" ).button({ disabled: true });</script>
+    <script>$( "#menubtn_allcomics" ).button({  disabled: true });</script>
 {% endblock %}
 
 {% block content %}
@@ -18,58 +18,13 @@
         <br />
     {% endif %}
     {% if comic_list %}
-        <table class="comicslist" id="comicslist">
-            <thead>
-                <tr>
-                    {% if user and user.is_active %}
-                        <th>Tasks</th>
-                    {% endif %}
-                    <th>Avg. Stars</th>
-                    <th>Name</th>
-                    <th>Reviews</th>
-                    <th>Content</th>
-                    <th>Read Comic</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for comic in comic_list %}
-                    {% with avg=comic.average_rating count=comic.review_set.count %}
-                        <tr class="comicrow">
-                            {% if user and user.is_active %}
-                                <td class="tasks">
-                                    <a href="{% url 'editcomic' comic.id %}">(edit)</a>
-                                    <a href="{% url 'deletecomic' comic.id %}">(delete)</a>
-                                </td>
-                            {% endif %}
-                            <td class="starrating">
-                                <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true">
-                                </span>
-                                {{ avg }}
-                            </td>
-                            <td class="comicname">
-                                {{ comic.name }}
-                            </td>
-                            <td class="comicreviewcount">
-                                <a href="{% url 'comicdetail' comic.id %}">{{ count }} review{{ count|pluralize }}</a>
-                            </td>
-                            <td class="comiccontentrating">
-                                {{ comic.get_mpaa_rating_display }}
-                            </td>
-                            <td class="comicfirstpageurl">
-                                <a href="{{ comic.url }}">First Strip</a>
-                            </td>
-                        </tr>
-                    {% endwith %}
-                {% endfor %}
-            </tbody>
-        </table>
-
+        <table class="comicslist" id="comicslist"></table>
         <script>
             tableid = "comicslist";
             $(document).ready(function() {
                 $('#'+tableid).dataTable({
                     "sPaginationType" : "full_numbers",
-                    "iDisplayLength"  : 150,
+                    "iDisplayLength"  : 15,
                     "bLengthChange"   : false,
                     "fnDrawCallback"  : function(){
                             if ( $('#'+tableid+'_paginate span a.paginate_button').size() ) {
@@ -79,11 +34,38 @@
                             }
                         },                    
                     {% if user and user.is_active %}
-                        "aaSorting": [[2, 'asc']],
+                        "aaSorting" : [[2, 'asc']],
                     {% else %}
-                        "aaSorting": [[1, 'asc']],
+                        "aaSorting" : [[1, 'asc']],
                     {% endif %}
+                    "aoColumns" : [
+                        {% if user and user.is_active %}
+                            {'sTitle' : 'Tasks'},
+                        {% endif %}
+                        {'sTitle' : 'Avg. Stars'},
+                        {'sTitle' : 'Name'},
+                        {'sTitle' : 'Reviews'},
+                        {'sTitle' : 'Content'},
+                        {'sTitle' : 'Read Comic'},
+                    ],
+                    "aaData" : [
+                        {% for comic in comic_list %}
+                        [
+                            {% with avg=comic.average_rating count=comic.review_set.count %}
+                                {% if user and user.is_active %}
+                                        '<a href="{% url 'editcomic' comic.id %}">(edit)</a><a href="{% url 'deletecomic' comic.id %}">(delete)</a>',
+                                {% endif %}
+                                '<span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>{{ avg }}',
+                                '{{ comic.name }}',
+                                '<a href="{% url 'comicdetail' comic.id %}">{{ count }} review{{ count|pluralize }}</a>',
+                                '{{ comic.get_mpaa_rating_display }}',
+                                '<a href="{{ comic.url }}">First Strip</a>',
+                            {% endwith %}
+                        ],
+                        {% endfor %}
+                    ],
                 });
+                $(".rateit").rateit();
             } );
         </script>
     {% else %}
