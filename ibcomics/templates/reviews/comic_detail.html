@@ -39,6 +39,7 @@
                     </td>
                     <td>
                         <span class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>
+                        ({{ review.stars }})
                     </td>
                     <td>
                         <a href="{% url 'detail' review.id %}">Full Review</a>

@@ -14,34 +14,34 @@
     <table class="reviewslist" id="reviewslist">
         <thead>
             <tr>
-                {% if user and user.is_active and user.id == reviewer.user.id %}
+                <th>Rating</th>
+                <th>Comic Detail</th> 
+                 <th>Full Review</th>
+               {% if user and user.is_active and user.id == reviewer.user.id %}
                     <th>Tasks</th>
                 {% endif %}           
-                <th>Rating</th>
-                <th>Full Review</th>
-                <th>Comic Detail</th> 
             </tr>
         </thead>
         <tbody>
             {% for review in reviewer.reviews_by_comic %}
                 <tr>
-                    {% if user and user.is_active and user.id == reviewer.user.id %}
-                        <td>
-                            (<a href="{% url 'editreview' review.id %}">edit</a>)
-                            (<a href="{% url 'deletereview' review.id %}">delete</a>)
-                        </td>
-                    {% endif %}     
                     <td class="starrating">
                         <span class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true">
                         </span>
                         {{ review.stars }}
                     </td>
                     <td>
-                        <a href="{% url 'detail' review.id %}">Full Review</a>
-                    </td>
-                    <td>
                         <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
                     </td>       
+                    <td>
+                        <a href="{% url 'detail' review.id %}">Full Review</a>
+                    </td>
+                    {% if user and user.is_active and user.id == reviewer.user.id %}
+                        <td>
+                            (<a href="{% url 'editreview' review.id %}">edit</a>)
+                            (<a href="{% url 'deletereview' review.id %}">delete</a>)
+                        </td>
+                    {% endif %}     
                 </tr>
             {% endfor %}
         </tbody>
@@ -54,13 +54,13 @@
                 "sPaginationType" : "full_numbers",
                 "iDisplayLength"  : 15,
                 "bLengthChange"   : false,
+                "aaSorting"       : [[1, 'asc']],
                 "fnDrawCallback"  : function(){
                         if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
                             $('#'+tableid+'_paginate')[0].style.display = "block";
                         else
                             $('#'+tableid+'_paginate')[0].style.display = "none";
                     },                    
-                "aaSorting": [[2, 'asc']],
             });
         } );
     </script>

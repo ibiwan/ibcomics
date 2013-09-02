@@ -27,10 +27,8 @@
             <tbody>
                 {% for reviewer in reviewer_list %}
                     <tr>
-                        <td>{{ reviewer.name }}</td>
-                        <td>
-                            <a href="{% url 'reviewerdetail' reviewer.id %}">({{ reviewer.review_set.count }} reviews)</a>
-                        </td>
+                        <td><a href="{% url 'reviewerdetail' reviewer.id %}">{{ reviewer.name }}</a></td>
+                        <td>({{ reviewer.review_set.count }} reviews)</td>
                         {% if user and user.is_active %}
                             <td>
                                 {% if user.id == reviewer.user.id %}
