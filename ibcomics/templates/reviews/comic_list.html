@@ -55,7 +55,7 @@
                                 '{{ count }} review{{ count|pluralize }}',
                                 '{{ comic.get_mpaa_rating_display }}',
                                 '<a href="{% url 'comicdetail' comic.id %}">{{ comic.name }}</a>',
-                                '<a href="{{ comic.url }} target="_blank"">First Strip</a>',
+                                '<a href="{{ comic.url }}" target="_blank">First Strip</a>',
                                 {% if user and user.is_active %}
                                         '<a href="{% url 'editcomic' comic.id %}">(edit)</a>' + 
                                         '<a href="{% url 'deletecomic' comic.id %}">(delete)</a>',
