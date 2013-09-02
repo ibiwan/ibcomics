@@ -26,36 +26,36 @@
                     "sPaginationType" : "full_numbers",
                     "iDisplayLength"  : 15,
                     "bLengthChange"   : false,
-                    "fnDrawCallback"  : function(){
+                    "bDeferRender"    : true,
+                    "aaSorting"       : {% if user and user.is_active %}[[2, 'asc']],{% else %}[[1, 'asc']],{% endif %}
+                    "fnDrawCallback"  : function(){ /* hide pagination if single-page results */
                             if ( $('#'+tableid+'_paginate span a.paginate_button').size() ) {
                                 $('#'+tableid+'_paginate')[0].style.display = "block";
                             } else {
                                 $('#'+tableid+'_paginate')[0].style.display = "none";
                             }
                         },                    
-                    {% if user and user.is_active %}
-                        "aaSorting" : [[2, 'asc']],
-                    {% else %}
-                        "aaSorting" : [[1, 'asc']],
-                    {% endif %}
                     "aoColumns" : [
                         {% if user and user.is_active %}
-                            {'sTitle' : 'Tasks'},
+                            {'sTitle' : 'Tasks', 'sWidth' : '5em'},
                         {% endif %}
-                        {'sTitle' : 'Avg. Stars'},
+                        {'sTitle' : 'Avg. Stars', 'sWidth' : '6em'},
                         {'sTitle' : 'Name'},
-                        {'sTitle' : 'Reviews'},
-                        {'sTitle' : 'Content'},
-                        {'sTitle' : 'Read Comic'},
+                        {'sTitle' : 'Reviews', 'sWidth' : '4em'},
+                        {'sTitle' : 'Content', 'sWidth' : '4em'},
+                        {'sTitle' : 'Read Comic', 'sWidth' : '4em'},
                     ],
                     "aaData" : [
                         {% for comic in comic_list %}
                         [
                             {% with avg=comic.average_rating count=comic.review_set.count %}
                                 {% if user and user.is_active %}
-                                        '<a href="{% url 'editcomic' comic.id %}">(edit)</a><a href="{% url 'deletecomic' comic.id %}">(delete)</a>',
+                                        '<a href="{% url 'editcomic' comic.id %}">(edit)</a>' + 
+                                        '<a href="{% url 'deletecomic' comic.id %}">(delete)</a>',
                                 {% endif %}
-                                '<span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>{{ avg }}',
+                                '<span class="rateit" data-rateit-value="{{ avg }}" ' + 
+                                    'data-rateit-ispreset="true" data-rateit-readonly="true"></span>' + 
+                                    '{{ avg }}',
                                 '{{ comic.name }}',
                                 '<a href="{% url 'comicdetail' comic.id %}">{{ count }} review{{ count|pluralize }}</a>',
                                 '{{ comic.get_mpaa_rating_display }}',
@@ -64,8 +64,10 @@
                         ],
                         {% endfor %}
                     ],
+                    "fnDrawCallback" : function(){
+                        $(".rateit").rateit(); /* redraw rating widgets */
+                    },
                 });
-                $(".rateit").rateit();
             } );
         </script>
     {% else %}
