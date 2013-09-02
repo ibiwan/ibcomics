@@ -10,7 +10,7 @@
 
 {% block content %}
 
-    <h1>Reviews of <a href="{{ comic.url }}"/>{{ comic.name }}</a></h1>
+    <h1>Reviews of <a href="{{ comic.url }}" target="_blank"/>{{ comic.name }}</a></h1>
     <div class="comicaveragerating">
         {% with avg=comic.average_rating %}
             Overall: 
