@@ -52,8 +52,9 @@ def savereview(request, comic_id, write_edit):
     try:
         comic = get_object_or_404(Comic, pk=comic_id)
         reviewer = get_object_or_404(Reviewer, user=request.user) if (request.user and request.user.is_active) else None
-        review, created = Review.objects.get_or_create(reviewer=reviewer, comic=comic, defaults={'pub_date':timezone.now()})
+        review, created = Review.objects.get_or_create(reviewer=reviewer, comic=comic)
         (review.review_text, review.stars) = [request.POST[i] for i in ('review_text', 'rating')]
+        review.pub_date = timezone.now() # update timestamps for edits as well as creation
         review.save()
         return HttpResponseRedirect(reverse('comicdetail', args=(comic.id,)))
     except (KeyError):
