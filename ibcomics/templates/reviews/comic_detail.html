@@ -28,7 +28,7 @@
             <tr>
                 <th>Reviewer</th>
                 <th>Rating</th>
-                <th>Full Review</th>
+                <th>Review Summary</th>
             </tr>
         </thead>
         <tbody>
@@ -42,7 +42,10 @@
                         ({{ review.stars }})
                     </td>
                     <td>
-                        <a href="{% url 'detail' review.id %}">Full Review</a>
+                        {{ review.summary }}
+                        {% if review.review_text != review.summary %}
+                            <a href="{% url 'detail' review.id %}">(Full Review)</a>
+                        {% endif %}
                     </td>
                 </tr>
         {% endfor %}
@@ -69,6 +72,11 @@
                                 $('#'+tableid+'_paginate')[0].style.display = "none";
                         },                    
                     "aaSorting": [[0, 'asc']],
+                    "aoColumns": [
+                        null,
+                        {"asSorting": ["desc", "asc"]},
+                        {"asSorting": []},
+                    ],    
                 });
             } );
         </script>

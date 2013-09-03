@@ -15,9 +15,9 @@
         <thead>
             <tr>
                 <th>Rating</th>
-                <th>Comic Detail</th> 
-                 <th>Full Review</th>
-               {% if user and user.is_active and user.id == reviewer.user.id %}
+                <th>Comic (and all reviews for it)</th> 
+                <th>Review Summary</th>
+                {% if user and user.is_active and user.id == reviewer.user.id %}
                     <th>Tasks</th>
                 {% endif %}           
             </tr>
@@ -34,7 +34,10 @@
                         <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
                     </td>       
                     <td>
-                        <a href="{% url 'detail' review.id %}">Full Review</a>
+                        {{ review.summary }}
+                        {% if review.review_text != review.summary %}
+                            <a href="{% url 'detail' review.id %}">(Full Review)</a>
+                        {% endif %}
                     </td>
                     {% if user and user.is_active and user.id == reviewer.user.id %}
                         <td>
@@ -60,7 +63,15 @@
                             $('#'+tableid+'_paginate')[0].style.display = "block";
                         else
                             $('#'+tableid+'_paginate')[0].style.display = "none";
-                    },                    
+                    },        
+                "aoColumns": [
+                    {"asSorting": ["desc", "asc"]},
+                    null,
+                    {"asSorting": []},
+                    {% if user and user.is_active and user.id == reviewer.user.id %}
+                        {"asSorting": []},
+                    {% endif %}           
+                ],            
             });
         } );
     </script>

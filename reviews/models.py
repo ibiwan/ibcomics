@@ -55,6 +55,13 @@ class Review(models.Model):
     pub_date = models.DateTimeField('date reviewed')
     def __unicode__(self):
         return str(self.reviewer) + ": " + str(self.stars)
+    def summary(self):
+        maxlen = 60
+        t = self.review_text.strip()
+        if len(t) > maxlen:
+            return t[:maxlen-3] + '...'
+        else:
+            return t
 
 class ComicTag(models.Model):
     comic = models.ForeignKey(Comic)

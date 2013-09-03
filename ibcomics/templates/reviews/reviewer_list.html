@@ -55,6 +55,13 @@
                                 $('#'+tableid+'_paginate')[0].style.display = "none";
                         },                    
                     "aaSorting": [[0, 'asc']],
+                    "aoColumns": [
+                        null,
+                        {"asSorting": ["desc", "asc"]},
+                        {% if user and user.is_active %}
+                            {"asSorting": []},
+                        {% endif %}
+                    ]
                 });
             } );
         </script>

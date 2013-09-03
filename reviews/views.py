@@ -13,7 +13,7 @@ from reviews.models import Comic, Reviewer, Review
 
 class ReviewIndexView(generic.ListView):
     def get_queryset(self):
-        return Review.objects.order_by('-pub_date')[:5]
+        return Review.objects.order_by('-pub_date')[:10]
 
 class ComicIndexView(generic.ListView):
     def get_queryset(self):

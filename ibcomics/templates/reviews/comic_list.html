@@ -23,6 +23,7 @@
             tableid = "comicslist";
             $(document).ready(function() {
                 $('#'+tableid).dataTable({
+                    "bProcessing" : true,
                     "sPaginationType" : "full_numbers",
                     "iDisplayLength"  : 15,
                     "bLengthChange"   : false,
@@ -36,13 +37,13 @@
                             }
                         },                    
                     "aoColumns" : [
-                        {'sTitle' : 'Avg. Stars', 'sWidth' : '6em'},
-                        {'sTitle' : 'Reviews', 'sWidth' : '4em'},
-                        {'sTitle' : 'Content', 'sWidth' : '4em'},
+                        {'sTitle' : 'Avg. Stars', 'sWidth' : '6em', "asSorting" : ["desc", "asc"]},
+                        {'sTitle' : 'Reviews',    'sWidth' : '4em', "asSorting" : ["desc", "asc"]},
+                        {'sTitle' : 'Content',    'sWidth' : '4em'},
                         {'sTitle' : 'Name'},
-                        {'sTitle' : 'Read Comic', 'sWidth' : '4em'},
+                        {'sTitle' : 'Read Comic', 'sWidth' : '6em', "asSorting" : []},
                          {% if user and user.is_active %}
-                            {'sTitle' : 'Tasks', 'sWidth' : '5em'},
+                            {'sTitle' : 'Tasks',  'sWidth' : '5em', "asSorting" : []},
                         {% endif %}
                    ],
                     "aaData" : [
@@ -57,7 +58,7 @@
                                 '<a href="{% url 'comicdetail' comic.id %}">{{ comic.name }}</a>',
                                 '<a href="{{ comic.url }}" target="_blank">First Strip</a>',
                                 {% if user and user.is_active %}
-                                        '<a href="{% url 'editcomic' comic.id %}">(edit)</a>' + 
+                                        '<a href="{% url 'editcomic' comic.id %}">(edit)</a> ' + 
                                         '<a href="{% url 'deletecomic' comic.id %}">(delete)</a>',
                                 {% endif %}
                             {% endwith %}
@@ -65,7 +66,7 @@
                         {% endfor %}
                     ],
                     "fnDrawCallback" : function(){
-                        $(".rateit").rateit(); /* redraw rating widgets */
+                        $(".dataTable .rateit").rateit(); /* redraw visible rating widgets */
                     },
                 });
             } );
