@@ -17,7 +17,7 @@
 
     <form action="{% url 'savecomic' comic_id=comic_id add_edit=add_edit %}" method="post">
         {% csrf_token %}
-        <input type="text" name="comic_name" value="{{ comic_name }}" onclick="this.focus();this.select()">
+        <input type="text" name="comic_name" value="{{ comic_name }}" onfocus="this.select()">
         <select name="mpaa_rating">
             {% for rating in mpaa_rating_choices %}
                 {% if rating.db == comic_mpaa_rating %}
@@ -29,7 +29,7 @@
                 </option>
             {% endfor %}
         </select>
-        <input type="text" name="comic_url" size="30" value="{{ comic_url }}" onclick="this.focus();this.select()">
+        <input type="text" name="comic_url" size="30" value="{{ comic_url }}" onfocus="this.select()">
 
         <input type="submit" value="{{ add_edit }}" />
     </form>
