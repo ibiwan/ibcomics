@@ -31,3 +31,8 @@ body {
 .menubtn_right {
     float:right;
 }
+
+.ui-button .ui-button-text
+{
+ line-height: 1.0;
+}
