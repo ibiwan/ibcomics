@@ -17,16 +17,6 @@
 
     <form action="{% url 'savereview' comic_id=comic.id write_edit=write_edit %}" method="post">
         {% csrf_token %}
-        <div class="login">
-            Reviewer:
-            <input type="text" name="username" />
-
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-            Password:
-            <input type="password" name="password" />
-        </div>
-        <br />
         <div class="review">
             <input type="range" value="{{ rating }}" id="starbacking" name="rating" />
             <div class="rateit" data-rateit-backingfld="#starbacking" ></div>
