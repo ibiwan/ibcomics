@@ -5,14 +5,6 @@ from reviews import views
 
 urlpatterns = patterns('',
 
-#################################  LISTS  #############################################
-    # ex: /
-    url(r'^$', views.ReviewIndexView.as_view(), name='index'),
-    # ex: /comics/
-    url(r'^comics$', views.ComicIndexView.as_view(), name='comicsindex'),
-    # ex: /reviewers/
-    url(r'^reviewers$', views.ReviewerIndexView.as_view(), name='reviewersindex'),
-
 #################################  LOGIN/LOGOUT  #############################################
 
     #ex: /login/
@@ -21,6 +13,18 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
     #ex: /logout/
     url(r'^logout$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout_view'),
+
+#################################  LISTS  #############################################
+    # ex: /
+    url(r'^$', views.ReviewIndexView.as_view(), name='index'),
+    # ex: /comics/
+    url(r'^comics$', views.ComicIndexView.as_view(), name='comicsindex'),
+    # ex: /comicsandtags/
+    url(r'^comicsandtags$', views.filtercomicsbytag, name='comicsandtags'),
+    # ex: /comicswithtag/27/
+    url(r'^comicswithtag/(?P<tag>[a-zA-Z-]+)/$', views.filtercomicsbytag, name='comicswithtag'),
+    # ex: /reviewers/
+    url(r'^reviewers$', views.ReviewerIndexView.as_view(), name='reviewersindex'),
 
 #################################  DETAILS  #############################################
     # ex: /reviews/5/

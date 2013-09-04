@@ -36,6 +36,9 @@
                     {% block allreviewers %}
                         <a href="{% url 'reviewersindex' %}"><button id="menubtn_allreviewers" class="menubtn">All Reviewers</button></a>
                     {% endblock %}
+                    {% block comicstags %}
+                        <a href="{% url 'comicsandtags' %}"><button id="menubtn_comicswithtags" class="menubtn">Tags</button></a>
+                    {% endblock %}
                     {% block loginout %}
                         {% if user and user.is_active %}
                             <a href="{% url 'logout_view' %}">

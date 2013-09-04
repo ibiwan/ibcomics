@@ -17,19 +17,43 @@
 
     <form action="{% url 'savecomic' comic_id=comic_id add_edit=add_edit %}" method="post">
         {% csrf_token %}
-        <input type="text" name="comic_name" value="{{ comic_name }}" onfocus="this.select()">
-        <select name="mpaa_rating">
-            {% for rating in mpaa_rating_choices %}
-                {% if rating.db == comic_mpaa_rating %}
-                    <option value={{ rating.db }} selected="selected">
-                {% else %}
-                    <option value={{ rating.db }}>
-                {% endif %}
-                    {{ rating.readable }}
-                </option>
-            {% endfor %}
-        </select>
-        <input type="text" name="comic_url" size="30" value="{{ comic_url }}" onfocus="this.select()">
+        <div>
+            <span style="display:block; float:left;">
+                Comic Name:<br />
+                <input type="text" name="comic_name" value="{{ comic_name }}" onfocus="this.select()">
+            </span>
+            <span style="display:block; float:left;">
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+
+            <span style="display:block; float:left;">
+                Content Rating:<br />
+                <select name="mpaa_rating">
+                    {% for rating in mpaa_rating_choices %}
+                        {% if rating.db == comic_mpaa_rating %}
+                            <option value={{ rating.db }} selected="selected">
+                        {% else %}
+                            <option value={{ rating.db }}>
+                        {% endif %}
+                            {{ rating.readable }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </span>
+        </div>
+        <div style="clear:both;"><br /></div>
+        
+        <div>
+            URL to first episode of comic:<br />
+            <input type="text" name="comic_url" size="50" value="{{ comic_url }}" onfocus="this.select()">
+        </div>
+        <br />
+
+        <div>
+            Tags, separated by spaces:<br />
+            <textarea rows="4" cols="60" name="tag_string">{{ comic_tag_string }}</textarea>
+        </div>
+        <br />
 
         <input type="submit" value="{{ add_edit }}" />
     </form>

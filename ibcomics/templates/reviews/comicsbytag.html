@@ -2,32 +2,25 @@
 {% block allreviews %}{{ block.super }}{% endblock %}
 {% block allreviewers %}{{ block.super }}{% endblock %}
 {% block loginout %}{{ block.super }}{% endblock %}
+{% block allcomics %}{{ block.super }}{% endblock %}
 
 {% block title %}
-    {{ block.super }}: All Comics
-{% endblock %}
-
-{% block allcomics %}
-    {{ block.super }}
-    <script>$( "#menubtn_allcomics" ).button({  disabled: true });</script>
+    {{ block.super }}: Comics by Tag
 {% endblock %}
 
 {% block content %}
-    {% if user and user.is_active %}
-        <a href="{% url 'addcomic' %}" class="addcomiclink">Add A Comic</a>
-        <br />
-    {% endif %}
     {% if comic_list %}
-        <table class="comicslist" id="comicslist"></table>
+        <table class="comicstags" id="comicstags"></table>
         <script>
-            tableid = "comicslist";
+            tableid = "comicstags";
             $(document).ready(function() {
-                $('#'+tableid).dataTable({
+                comicTagTable = $('#'+tableid).dataTable({
                     "bProcessing" : true,
                     "sPaginationType" : "full_numbers",
                     "iDisplayLength"  : 15,
                     "bLengthChange"   : false,
                     "bDeferRender"    : true,
+                    "oSearch"         : {"sSearch": "{{ search_tag }}",},
                     "fnDrawCallback"  : function(){ /* hide pagination if single-page results */
                             if ( $('#'+tableid+'_paginate span a.paginate_button').size() ) {
                                 $('#'+tableid+'_paginate')[0].style.display = "block";
@@ -36,16 +29,11 @@
                             }
                         },                    
                     "aoColumns" : [
-                        {'sTitle' : 'Avg. Stars', 'sWidth' : '7em', "asSorting" : ["desc", "asc"]},
-                        {'sTitle' : 'Reviews',    'sWidth' : '4em', "asSorting" : ["desc", "asc"]},
-                        {'sTitle' : 'Content',    'sWidth' : '4em'},
-                        {'sTitle' : 'Name'},
-                        {'sTitle' : 'Read Comic', 'sWidth' : '6em', "asSorting" : []},
-                         {% if user and user.is_active %}
-                            {'sTitle' : 'Tasks',  'sWidth' : '5em', "asSorting" : []},
-                        {% endif %}
+                        {'sTitle' : 'Avg. Stars', 'sWidth' : '7em', "asSorting" : ["desc", "asc"], "bSearchable" : false},
+                        {'sTitle' : 'Comic', 'sWidth' : '8em', "bSearchable" : false},
+                        {'sTitle' : 'Tags', "asSorting" : []},
                     ],
-                    "aaSorting"       : [[3, 'asc']],
+                    "aaSorting"       : [[1, 'asc']],
                     "aaData" : [
                         {% for comic in comic_list %}
                             [
@@ -53,14 +41,11 @@
                                     '<span class="rateit" data-rateit-value="{{ avg }}" ' + 
                                         'data-rateit-ispreset="true" data-rateit-readonly="true"></span>' + 
                                         '({{ avg }})',
-                                    '{{ count }} review{{ count|pluralize }}',
-                                    '{{ comic.get_mpaa_rating_display }}',
                                     '<a href="{% url 'comicdetail' comic.id %}">{{ comic.name }}</a>',
-                                    '<a href="{{ comic.url }}" target="_blank">First Strip</a>',
-                                    {% if user and user.is_active %}
-                                            '<a href="{% url 'editcomic' comic.id %}">(edit)</a> ' + 
-                                            '<a href="{% url 'deletecomic' comic.id %}">(delete)</a>',
-                                    {% endif %}
+                                    {% for tag in comic.comictag_set.all %}
+                                        '<button class="tagbtn" onclick="comicTagTable.fnFilter(\'{{ tag }}\');">{{ tag }}</button>'+
+                                    {% endfor %}
+                                    '',
                                 {% endwith %}
                             ],
                         {% endfor %}
@@ -69,6 +54,7 @@
                         $(".dataTable .rateit").rateit(); /* redraw visible rating widgets */
                     },
                 });
+                $( ".tagbtn" ).button();
             } );
         </script>
     {% else %}

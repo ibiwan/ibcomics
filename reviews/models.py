@@ -37,6 +37,9 @@ class Comic(models.Model):
         return self.mpaa_rating
     def mpaa_rating_readable(self):
         return {key:val for (key,val) in Comic.MPAA_RATING_CHOICES}[self.mpaa_rating]
+    def tag_string(self):
+        tagset = self.comictag_set.extra(order_by=['tag_text'])
+        return " ".join([t.tag_text for t in tagset])
 
 class Reviewer(models.Model):
     user = models.OneToOneField(User) 

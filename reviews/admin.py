@@ -1,9 +1,13 @@
 from django.contrib import admin
-from reviews.models import Comic, Reviewer, Review
+from reviews.models import Comic, Reviewer, Review, ComicTag
 
 class ReviewInline(admin.TabularInline):
     model = Review
     extra = 1
+
+class TagInline(admin.TabularInline):
+    model = ComicTag
+    extra = 3
 
 class ReviewAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -16,7 +20,7 @@ class ReviewAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
 
 class ComicAdmin(admin.ModelAdmin):
-    inlines = [ReviewInline]
+    inlines = [TagInline, ReviewInline]
     list_display = ('name', 'url')
 
 class ReviewerAdmin(admin.ModelAdmin):

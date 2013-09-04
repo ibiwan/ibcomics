@@ -10,74 +10,113 @@
 
 {% block content %}
 
-    <h1>Reviews of <a href="{{ comic.url }}" target="_blank"/>{{ comic.name }}</a></h1>
-    <div class="comicaveragerating">
-        {% with avg=comic.average_rating %}
-            Overall: 
-            <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>
-            {{ avg }} stars.
-        {% endwith %}
-    </div>
-    <div class="comiccontentrating">
-        Content Rating:
-        {{ comic.get_mpaa_rating_display }}
-    </div>
-    <br />
-    <table class="comicreviews" id="comicreviews">
-        <thead>
-            <tr>
-                <th>Reviewer</th>
-                <th>Rating</th>
-                <th>Review Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for review in comic.review_set.all %}
-                <tr>
-                    <td>
-                        <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
-                    </td>
-                    <td>
-                        <span class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true"></span>
-                        ({{ review.stars }})
-                    </td>
-                    <td>
-                        {{ review.summary }}
-                        {% if review.review_text != review.summary %}
-                            <a href="{% url 'detail' review.id %}">(Full Review)</a>
-                        {% endif %}
-                    </td>
-                </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <br /><br />
-    <a href="{% url 'writereview' comic.id %}">Add A Review</a>
+    <h1>{{ comic.name }} <a href="{{ comic.url }}" target="_blank"/>(First Strip)</a></h1>
 
-    <br /><br />
+    {% if user and user.is_active %}
+        <a href="{% url 'editcomic' comic.id %}">Edit Comic</a>
+    {% endif %}
+
+    <table>
+        <tr>
+            {% with avg=comic.average_rating %}
+                <td>Overall:</td>
+                <td>
+                    <span class="rateit" 
+                        data-rateit-value="{{ avg }}" 
+                        data-rateit-ispreset="true" 
+                        data-rateit-readonly="true">
+                    </span>
+                    {{ avg }} stars.
+                </td>
+            {% endwith %}
+        </tr>
+        <tr>
+            <td>Content:</td>
+            <td>{{ comic.get_mpaa_rating_display }}</td>
+        </tr>
+    </table>
+
+    <h2>Tags</h2>
+    <div id="tagdisplay">
+        {% if comic.comictag_set.all %}
+            {% for tag in comic.comictag_set.all %}
+                <a href="{% url 'comicswithtag' tag %}"><button class="comictag">{{ tag }}</button></a>
+            {% endfor %}
+            <br /><br />
+            <script>
+                $(".comictag")
+                    .button()
+                    .removeClass('ui-corner-all');
+            </script>
+        {% else %}
+            <h3>No Tags to be found!</h3>
+        {% endif %}
+    </div>
+
+    <h2>Reviews</h2>
+    <div id="reviews">
+        {% if comic.review_set.all %}
+            <table class="comicreviews" id="comicreviews">
+                <thead>
+                    <tr>
+                        <th>Reviewer</th>
+                        <th>Rating</th>
+                        <th>Review Summary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in comic.review_set.all %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
+                            </td>
+                            <td>
+                                <span class="rateit"
+                                    data-rateit-value   ="{{ review.stars }}" 
+                                    data-rateit-ispreset="true" 
+                                    data-rateit-readonly="true">
+                                </span>
+                                ({{ review.stars }})
+                            </td>
+                            <td>
+                                {{ review.summary }}
+                                {% if review.review_text != review.summary %}
+                                    <a href="{% url 'detail' review.id %}">(Full Review)</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br /><br />
+        {% else %}
+            <h3>Huh.  Nothing here...</h3>
+        {% endif %}
+        <a href="{% url 'writereview' comic.id %}">Add A Review</a>
+    </div>
 
     {% if debug_message %}<p><strong>{{ debug_message }}</strong></p>{% endif %}
 
-        <script>
-            tableid = "comicreviews";
-            $(document).ready(function() {
-                $('#'+tableid).dataTable({
-                    "sPaginationType" : "full_numbers",
-                    "iDisplayLength"  : 15,
-                    "bLengthChange"   : false,
-                    "fnDrawCallback"  : function(){
-                            if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
-                                $('#'+tableid+'_paginate')[0].style.display = "block";
-                            else
-                                $('#'+tableid+'_paginate')[0].style.display = "none";
-                        },                    
-                    "aaSorting": [[0, 'asc']],
-                    "aoColumns": [
-                        null,
-                        {"asSorting": ["desc", "asc"]},
-                        {"asSorting": []},
-                    ],    
-                });
-            } );
-        </script>
+    <script>
+        tableid = "comicreviews";
+        $(document).ready(function() {
+            $('#'+tableid).dataTable({
+                "sPaginationType" : "full_numbers",
+                "iDisplayLength"  : 15,
+                "bLengthChange"   : false,
+                "fnDrawCallback"  : function(){
+                        if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
+                            $('#'+tableid+'_paginate')[0].style.display = "block";
+                        else
+                            $('#'+tableid+'_paginate')[0].style.display = "none";
+                    },                    
+                "aaSorting": [[0, 'asc']],
+                "aoColumns": [
+                    null,
+                    {"asSorting": ["desc", "asc"]},
+                    {"asSorting": []},
+                ],    
+            });
+        } );
+    </script>
 {% endblock %}

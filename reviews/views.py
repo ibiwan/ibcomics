@@ -6,8 +6,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.utils import timezone
 from django.views import generic
+import re
 
-from reviews.models import Comic, Reviewer, Review
+from reviews.models import Comic, Reviewer, Review, ComicTag
 
 #################################  LIST VIEWS  #############################################
 
@@ -22,6 +23,10 @@ class ComicIndexView(generic.ListView):
 class ReviewerIndexView(generic.ListView):
     def get_queryset(self):
         return Reviewer.objects.extra( select={'lower_name': 'lower(name)'}).order_by('lower_name')
+
+def filtercomicsbytag(request, tag=""):
+    comic_list = Comic.objects.all()
+    return render(request, 'reviews/comicsbytag.html', {'comic_list':comic_list, 'search_tag':tag})
 
 #################################  DETAIL VIEWS  #############################################
 
@@ -80,19 +85,28 @@ def confirmdeletereview(request, review_id):
 
 #################################  COMIC MANIP (ALL REQUIRE AUTH)  #############################################
 
-def addcomic(request, comic_id=0, comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", comic_mpaa_rating=Comic.RATING_UNRATED, 
+def addcomic(request, comic_id=0, 
+             comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", 
+             comic_mpaa_rating=Comic.RATING_UNRATED, comic_tag_string="",
              add_edit="Add New", error_message=None):
     return render(request, 'reviews/addcomic.html', {'add_edit'            : add_edit,
                                                      'comic_id'            : comic_id,
                                                      'comic_name'          : comic_name,
                                                      'comic_url'           : comic_url,
                                                      'comic_mpaa_rating'   : comic_mpaa_rating,
+                                                     'comic_tag_string'    : comic_tag_string,
                                                      'mpaa_rating_choices' : Comic.mpaa_choices(),
                                                      'error_message'       : error_message,});
 
 def editcomic(request, comic_id):
     comic = get_object_or_404(Comic, pk=comic_id)
-    return addcomic(request, comic_id, comic.name, comic.url, comic.mpaa_rating, add_edit="Edit")
+    return addcomic(request, comic_id, comic.name, comic.url, comic.mpaa_rating, comic.tag_string(), add_edit="Edit")
+
+def tagsfromstring(tag_string):
+    tag_string = tag_string.lower()
+    tag_string = re.sub(',',' ', tag_string)
+    tag_string = re.sub('[^a-zA-Z- ,]','-', tag_string)
+    return set(tag_string.split(" "))
 
 def savecomic(request, comic_id, add_edit):
     try:
@@ -100,6 +114,11 @@ def savecomic(request, comic_id, add_edit):
         comic = Comic() if int(comic_id)==0 else get_object_or_404(Comic, pk=comic_id)
         (comic.name, comic.url, comic.mpaa_rating) = [request.POST[i] for i in ('comic_name', 'comic_url', 'mpaa_rating')]
         comic.save()
+
+        comic.comictag_set.all().delete()
+        for tag in tagsfromstring(request.POST['tag_string']):
+            ComicTag(comic=comic, tag_text=tag).save()
+
         return HttpResponseRedirect(reverse('comicsindex'))
     except (KeyError):
         return addcomic(request, add_edit=add_edit, error_message="Malformed Request; try again");
