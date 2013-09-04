@@ -59,20 +59,21 @@
                     "sPaginationType" : "full_numbers",
                     "iDisplayLength"  : 15,
                     "bLengthChange"   : false,
+                    "aaSorting"       : [[1, 'desc']],
                     "fnDrawCallback"  : function(){
                             if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
                                 $('#'+tableid+'_paginate')[0].style.display = "block";
                             else
                                 $('#'+tableid+'_paginate')[0].style.display = "none";
                         },                    
-                    "aaSorting": [[0, 'desc']],
                     "aoColumns": [
-                        {"bSearchable":false, "bVisible":false},
-                        {"iDataSort" : 0},
-                        null,
-                        {"asSorting": ["desc", "asc"]},
-                        {"asSorting": []},
-                        null,
+                        {"bSearchable" : false,            /* Date     */
+                         "bVisible"    : false},
+                        {"iDataSort"   : 0},               /* When     */
+                        null,                              /* Reviewer */
+                        {"asSorting"   : ["desc", "asc"]}, /* Rating   */
+                        {"asSorting"   : []},              /* Review   */
+                        null,                              /* Comic    */
                     ],
                 });
             } );

@@ -72,13 +72,14 @@
                             $('#'+tableid+'_paginate')[0].style.display = "none";
                     },        
                 "aoColumns": [
-                    {'bSearchable':false, 'bVisible':false},
-                    {"iDataSort" : 0},      
-                    {"asSorting": ["desc", "asc"]},
-                    null,
-                    {"asSorting": []},
+                    {'bSearchable' : false,            /* Date   */
+                     'bVisible'    : false},
+                    {"iDataSort"   : 0},               /* When   */
+                    {"asSorting"   : ["desc", "asc"]}, /* Rating */
+                    null,                              /* Comic  */
+                    {"asSorting"   : []},              /* Review */
                     {% if user and user.is_active and user.id == reviewer.user.id %}
-                        {"asSorting": []},
+                        {"asSorting" : []},            /* Tasks  */
                     {% endif %}           
                 ],            
             });
