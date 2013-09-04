@@ -28,26 +28,24 @@
             <div id="header">
                 <div id="toolbar" class="ui-widget-header ui-corner-all">
                     {% block allreviews %}
-                        <a href="{% url 'index' %}"><button id="menubtn_latestreviews">Latest Reviews</button></a>
-                        <script>$( "#menubtn_latestreviews" ).button();</script>
+                        <a href="{% url 'index' %}"><button id="menubtn_latestreviews" class="menubtn">Latest Reviews</button></a>
                     {% endblock %}
                     {% block allcomics %}
-                        <a href="{% url 'comicsindex' %}"><button id="menubtn_allcomics">All Comics</button></a>
-                        <script>$( "#menubtn_allcomics" ).button();</script>
+                        <a href="{% url 'comicsindex' %}"><button id="menubtn_allcomics" class="menubtn">All Comics</button></a>
                     {% endblock %}
                     {% block allreviewers %}
-                        <a href="{% url 'reviewersindex' %}"><button id="menubtn_allreviewers">All Reviewers</button></a>
-                        <script>$( "#menubtn_allreviewers" ).button();</script>
+                        <a href="{% url 'reviewersindex' %}"><button id="menubtn_allreviewers" class="menubtn">All Reviewers</button></a>
                     {% endblock %}
                     {% block loginout %}
                         {% if user and user.is_active %}
-                            <a href="{% url 'logout_view' %}"><button id="menubtn_loginout" class="menubtn_right">Log Out {{user.username}}</button></a>
-                            <script>$( "#menubtn_loginout" ).button();</script>
+                            <a href="{% url 'logout_view' %}">
+                                <button id="menubtn_loginout" class="menubtn_right menubtn">Log Out {{user.username}}</button>
+                            </a>
                         {% else %}
-                            <a href="{% url 'loginreviewerindex' %}"><button id="menubtn_loginout" class="menubtn_right">Log In</button></a>
-                            <script>$( "#menubtn_loginout" ).button();</script>
+                            <a href="{% url 'loginreviewerindex' %}"><button id="menubtn_loginout" class="menubtn_right menubtn">Log In</button></a>
                         {% endif %}
                     {% endblock %}
+                    <script>$( ".menubtn" ).button();</script>
                 </div>
                 <br />
             </div>
