@@ -4,6 +4,11 @@
 {% block loginout %}{{ block.super }}{% endblock %}
 {% block allcomics %}{{ block.super }}{% endblock %}
 
+{% block comicstags %}
+    {{ block.super }}
+    <script>$( "#menubtn_comicswithtags" ).button({  disabled: true });</script>
+{% endblock %}
+
 {% block title %}
     {{ block.super }}: Comics by Tag
 {% endblock %}
