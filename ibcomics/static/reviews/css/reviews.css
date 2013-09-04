@@ -31,3 +31,17 @@ body {
 .menubtn_right {
     float:right;
 }
+
+.ui-button .ui-button-text
+{
+    line-height: 1.0;
+}
+
+.blockrow
+{
+    display: inline-block;
+}
+
+.tagbtn {
+   font-size: .8em !important;
+}
