@@ -52,7 +52,7 @@
                             {% with avg=comic.average_rating count=comic.review_set.count %}
                                 '<span class="rateit" data-rateit-value="{{ avg }}" ' + 
                                     'data-rateit-ispreset="true" data-rateit-readonly="true"></span>' + 
-                                    '{{ avg }}',
+                                    '({{ avg }})',
                                 '{{ count }} review{{ count|pluralize }}',
                                 '{{ comic.get_mpaa_rating_display }}',
                                 '<a href="{% url 'comicdetail' comic.id %}">{{ comic.name }}</a>',
