@@ -105,7 +105,7 @@ def editcomic(request, comic_id):
 def tagsfromstring(tag_string):
     tag_string = tag_string.lower()
     tag_string = re.sub(',',' ', tag_string)
-    tag_string = re.sub('[^a-zA-Z- ,]','-', tag_string)
+    tag_string = re.sub('[^a-zA-Z0-9- ,]','-', tag_string)
     s = set(tag_string.split(" "))
     if '' in s:   s.remove('')
     if None in s: s.remove(None)
