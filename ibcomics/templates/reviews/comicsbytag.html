@@ -21,9 +21,8 @@
             $(document).ready(function() {
                 comicTagTable = $('#'+tableid).dataTable({
                     "bProcessing" : true,
-                    "sPaginationType" : "full_numbers",
-                    "iDisplayLength"  : 15,
-                    "bLengthChange"   : false,
+                    "bPaginate"   : false,
+                    "sScrollY": "30em",
                     "bDeferRender"    : true,
                     "oSearch"         : {"sSearch": "{{ search_tag }}",},
                     "fnDrawCallback"  : function(){ /* hide pagination if single-page results */
@@ -36,9 +35,10 @@
                     "aoColumns" : [
                         {'sTitle' : 'Avg. Stars', 'sWidth' : '7em', "asSorting" : ["desc", "asc"], "bSearchable" : false},
                         {'sTitle' : 'Comic', 'sWidth' : '8em', "bSearchable" : false},
-                        {'sTitle' : 'Tags', "asSorting" : []},
+                        {'sTitle' : 'Tags', 'iDataSort' : 3},
+                        {'sTitle' : 'numTags', "asSorting" : ['desc', 'asc'], 'bSearchable':false, 'bVisible':false},
                     ],
-                    "aaSorting"       : [[1, 'asc']],
+                    "aaSorting"       : [[2, 'desc']],
                     "aaData" : [
                         {% for comic in comic_list %}
                             [
@@ -51,6 +51,7 @@
                                         '<button class="tagbtn" onclick="comicTagTable.fnFilter(\'{{ tag }}\');">{{ tag }}</button>'+
                                     {% endfor %}
                                     '',
+                                    {{ comic.comictag_set.count }},
                                 {% endwith %}
                             ],
                         {% endfor %}
