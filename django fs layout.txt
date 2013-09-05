@@ -1,27 +1,28 @@
 project_root/
-    collected_static/ # in production using the collectstatic command
-        admin/    ...js/, css/, img/
-        some_app/ ...js/, css/, img/
+    collected_static/   # no manual changes; use collectstatic
+        admin/          ...js/, css/, img/
+        some_app/       ...js/, css/, img/
     project_name/
      |  templates/
      |      registration/login.html
-     |      some_app/
-     |          blah_detail.html
-     |          blah_list.html
-     |          other.html
      |  __init__.py
      |  settings.py
      |  urls.py
      +  wsgi.py
     some_app/
      |  static/
-     |      some_app/ ...js/, css/, img/
+     |      some_app/   ...js/, css/, img/
+     |  templates/
+     |      some_app/
+     |          blah_detail.html
+     |          blah_list.html
+     |          other.html
      |  admin.py
      |  models.py
      |  urls.py
      +  views.py
     static/
-        admin/    ...js/, css/, img/
+        admin/          ...js/, css/, img/
     httpd.conf          # copy of production conf file
     ibcomics.sqlite
     manage.py
