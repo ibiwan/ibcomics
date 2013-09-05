@@ -3,7 +3,7 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 # Django settings for ibcomics project.
 
-DEBUG = False
+from debugsetting import *
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
