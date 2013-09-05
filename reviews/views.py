@@ -25,19 +25,13 @@ class ReviewerIndexView(generic.ListView):
         return Reviewer.objects.extra( select={'lower_name': 'lower(name)'}).order_by('lower_name')
 
 def filtercomicsbytag(request, tag=""):
-    comic_list = Comic.objects.all()
-    return render(request, 'reviews/comicsbytag.html', {'comic_list':comic_list, 'search_tag':tag})
+    return render(request, 'reviews/comicsbytag.html', {'comic_list':Comic.objects.all(), 'search_tag':tag})
 
 #################################  DETAIL VIEWS  #############################################
 
-class ComicDetailView(generic.DetailView):
-    model = Comic
-
-class ReviewerDetailView(generic.DetailView):
-    model = Reviewer
-
-class ReviewDetailView(generic.DetailView):
-    model = Review
+class ComicDetailView(generic.DetailView):    model = Comic
+class ReviewerDetailView(generic.DetailView): model = Reviewer
+class ReviewDetailView(generic.DetailView):   model = Review
 
 #################################  REVIEW MANIP (ALL REQUIRE AUTH) #############################################
 
@@ -69,8 +63,7 @@ def savereview(request, comic_id, write_edit):
 
 def deletereview(request, review_id, error_message=None):
     review = get_object_or_404(Review, pk=review_id)
-    return render(request, 'reviews/deletereview.html', {'review'        : review, 
-                                                         'error_message' : error_message,})
+    return render(request, 'reviews/deletereview.html', {'review' : review, 'error_message' : error_message,})
 
 def confirmdeletereview(request, review_id):
     try:
@@ -104,12 +97,13 @@ def editcomic(request, comic_id):
 
 def tagsfromstring(tag_string):
     tag_string = tag_string.lower()
+    tag_string = tag_string.replace("\r", " ")
     tag_string = re.sub(',',' ', tag_string)
     tag_string = re.sub('[^a-zA-Z0-9- ,]','-', tag_string)
     s = set(tag_string.split(" "))
-    if '' in s:   s.remove('')
-    if None in s: s.remove(None)
-    return s
+    lst = [tag.strip(' \t\n\r-') for tag in s]
+    if '' in lst: lst.remove('')
+    return lst
 
 def savecomic(request, comic_id, add_edit):
     try:
@@ -130,13 +124,12 @@ def savecomic(request, comic_id, add_edit):
 
 def deletecomic(request, comic_id, error_message=None):
     comic = get_object_or_404(Comic, pk=comic_id)
-    return render(request, 'reviews/deletecomic.html', {'comic'        : comic, 
-                                                        'error_message' : error_message,})
+    return render(request, 'reviews/deletecomic.html', {'comic' : comic, 'error_message' : error_message,})
 
 def confirmdeletecomic(request, comic_id):
     try:
         get_object_or_404(Comic, pk=comic_id).delete()
-        return HttpResponseRedirect(reverse('comicsindex'))
+        return HttpResponseRedirect( reverse('comicsindex') )
     except (Reviewer.DoesNotExist):
         return deletecomic(request, comic_id, "Invalid User or Password")
 
