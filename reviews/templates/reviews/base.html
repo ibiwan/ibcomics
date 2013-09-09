@@ -29,24 +29,22 @@
             <div id="header">
                 <div id="toolbar" class="ui-widget-header ui-corner-all">
                     {% block allreviews %}
-                        <a href="{% url 'index' %}"><button id="menubtn_latestreviews" class="menubtn">Latest Reviews</button></a>
+                        <button onClick="window.location='{% url 'index' %}'" id="menubtn_latestreviews" class="menubtn">Latest Reviews</button>
                     {% endblock %}
                     {% block allcomics %}
-                        <a href="{% url 'comicsindex' %}"><button id="menubtn_allcomics" class="menubtn">All Comics</button></a>
+                        <button onClick="window.location='{% url 'comicsindex' %}'" id="menubtn_allcomics" class="menubtn">All Comics</button>
                     {% endblock %}
                     {% block allreviewers %}
-                        <a href="{% url 'reviewersindex' %}"><button id="menubtn_allreviewers" class="menubtn">All Reviewers</button></a>
+                        <button onClick="window.location='{% url 'reviewersindex' %}'" id="menubtn_allreviewers" class="menubtn">All Reviewers</button>
                     {% endblock %}
                     {% block comicstags %}
-                        <a href="{% url 'comicsandtags' %}"><button id="menubtn_comicswithtags" class="menubtn">Tags</button></a>
+                        <button onClick="window.location='{% url 'comicsandtags' %}'" id="menubtn_comicswithtags" class="menubtn">Tags</button>
                     {% endblock %}
                     {% block loginout %}
                         {% if user and user.is_active %}
-                            <a href="{% url 'logout_view' %}">
-                                <button id="menubtn_loginout" class="menubtn_right menubtn">Log Out {{user.username}}</button>
-                            </a>
+                            <button onClick="window.location='{% url 'logout_view' %}'" id="menubtn_loginout" class="menubtn_right menubtn">Log Out {{user.username}}</button>
                         {% else %}
-                            <a href="{% url 'loginreviewerindex' %}"><button id="menubtn_loginout" class="menubtn_right menubtn">Log In</button></a>
+                            <button onClick="window.location='{% url 'loginreviewerindex' %}'" id="menubtn_loginout" class="menubtn_right menubtn">Log In</button>
                         {% endif %}
                     {% endblock %}
                     <script>$( ".menubtn" ).button();</script>
