@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    <h1>{{ comic.name }} <a href="{{ comic.url }}" target="_blank"/>(First Strip)</a></h1>
+    <h1>{{ comic.name }} <a href="{{ comic.url }}" target="_blank">(First Strip)</a></h1>
 
     {% if user and user.is_active %}
         <a href="{% url 'editcomic' comic.id %}">Edit Comic</a>
