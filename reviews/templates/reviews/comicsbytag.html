@@ -55,7 +55,7 @@
                         $(".dataTable .rateit").rateit(); /* redraw visible rating widgets */
                     },
                 });
-                $( ".tagbtn" ).button();
+                $( ".tagbtn" ).button().removeClass('ui-corner-all');
                 $( ".dataTables_filter input" ).after("<button class='clearbtn' onclick=\"comicTagTable.fnFilter('');\">clear</button>");
                 $( ".clearbtn" ).button();
             } );
