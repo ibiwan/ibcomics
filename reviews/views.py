@@ -117,11 +117,11 @@ def savecomic(request, comic_id, add_edit):
         alts = []
         for i in range(len(comic.alternateurl_set.all())):
             desc = request.POST['alt_desc'+str(i)]; url = request.POST['alt_url'+str(i)]
-            if desc and url: alts.append((desc, url))
+            if desc and url: alts.append((desc.lower(), url))
         for i in range(3):
             desc = request.POST['new_alt_desc'+str(i)]; url = request.POST['new_alt_url'+str(i)]
-            if desc and url: alts.append((desc, url))
-        
+            if desc and url: alts.append((desc.lower(), url))
+
         comic.alternateurl_set.all().delete()
         for alt in alts:
             AlternateUrl(comic=comic, description=alt[0], url=alt[1]).save()

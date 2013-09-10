@@ -6,10 +6,10 @@
 
 {% block content %}
 
-    <h1>{{ comic.name }} <a href="{{ comic.url }}" target="_blank">(First Strip)</a></h1>
+    <h1>{{ comic.name }}</h1>
 
     {% if user and user.is_active %}
-        <a href="{% url 'editcomic' comic.id %}">Edit Comic</a>
+        <h2><a href="{% url 'editcomic' comic.id %}">Edit Comic</a></h2>
     {% endif %}
 
     <table>
@@ -49,8 +49,9 @@
         {% endif %}
     </div>
 
-    <h2>Alternate URLs</h2>
+    <h2>Links</h2>
     <div id="urldisplay">
+        <a href="{{ comic.url }}" class="alturl">FIRST</a>
         {% if comic.alternateurl_set.all %}
             {% for url in comic.alternateurl_set.all %}
                 <a href="{{ url.url }}" class="alturl">{{ url.description }}</a>

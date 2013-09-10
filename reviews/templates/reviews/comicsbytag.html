@@ -19,7 +19,6 @@
                     "bPaginate"   : false,
                     "sScrollY": "30em",
                     "bDeferRender"    : true,
-                    "oSearch"         : {"sSearch": "{{ search_tag }}",},
                     "fnDrawCallback"  : function(){ /* hide pagination if single-page results */
                             if ( $('#'+tableid+'_paginate span a.paginate_button').size() ) {
                                 $('#'+tableid+'_paginate')[0].style.display = "block";
@@ -58,6 +57,7 @@
                 $( ".tagbtn" ).button().removeClass('ui-corner-all');
                 $( ".dataTables_filter input" ).after("<button class='clearbtn' onclick=\"comicTagTable.fnFilter('');\">clear</button>");
                 $( ".clearbtn" ).button();
+                comicTagTable.fnFilter("{{ search_tag }}");
             } );
         </script>
     {% else %}
