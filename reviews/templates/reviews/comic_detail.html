@@ -8,10 +8,6 @@
 
     <h1>{{ comic.name }}</h1>
 
-    {% if user and user.is_active %}
-        <h2><a href="{% url 'editcomic' comic.id %}">Edit Comic</a></h2>
-    {% endif %}
-
     <table>
         <tr>
             {% with avg=comic.average_rating %}
@@ -99,8 +95,13 @@
         {% else %}
             <h3>Huh.  Nothing here...</h3>
         {% endif %}
-        <a href="{% url 'writereview' comic.id %}">Add A Review</a>
     </div>
+
+    {% if user and user.is_active %}
+        <h3><a href="{% url 'writereview' comic.id %}">Add A Review</a></h3>
+        <h3><a href="{% url 'editcomic' comic.id %}">Edit Comic</a></h3>
+    {% endif %}
+
 
     {% if debug_message %}<p><strong>{{ debug_message }}</strong></p>{% endif %}
 

@@ -35,7 +35,7 @@ class ReviewDetailView(generic.DetailView):   model = Review
 
 #################################  REVIEW MANIP (ALL REQUIRE AUTH) #############################################
 
-def writereview(request, comic_id, rating=0, review_text="Enter Review here...", write_edit='Write', error_message=None):
+def writereview(request, comic_id, rating=0, review_text='', write_edit='Write', error_message=None):
     comic = get_object_or_404(Comic, pk=comic_id)
     return render(request, 'reviews/writereview.html', {'write_edit'   : write_edit,  
                                                         'comic'        : comic, 
@@ -79,7 +79,7 @@ def confirmdeletereview(request, review_id):
 #################################  COMIC MANIP (ALL REQUIRE AUTH)  #############################################
 
 def addcomic(request, comic_id=0, 
-             comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", alt_urls=[],
+             comic_name='', comic_url='', alt_urls=[],
              comic_mpaa_rating=Comic.RATING_UNRATED, comic_tag_string="",
              add_edit="Add New", error_message=None):
     return render(request, 'reviews/addcomic.html', {'add_edit'            : add_edit,

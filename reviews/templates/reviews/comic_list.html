@@ -11,8 +11,7 @@
 
 {% block content %}
     {% if user and user.is_active %}
-        <a href="{% url 'addcomic' %}" class="addcomiclink">Add A Comic</a>
-        <br />
+        <h3><a href="{% url 'addcomic' %}" class="addcomiclink">Add A Comic</a></h3>
     {% endif %}
     {% if comic_list %}
         <table class="comicslist" id="comicslist"></table>

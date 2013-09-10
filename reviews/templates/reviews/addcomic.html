@@ -16,7 +16,7 @@
         <div>
             <span style="display:block; float:left;">
                 Comic Name:<br />
-                <input type="text" name="comic_name" value="{{ comic_name }}" onfocus="this.select()">
+                <input type="text" name="comic_name" value="{{ comic_name }}" placeholder="Comic Name">
             </span>
             <span style="display:block; float:left;">
                 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -41,7 +41,7 @@
         
         <div>
             URL to first episode of comic:<br />
-            <input type="text" name="comic_url" size="50" value="{{ comic_url }}" onfocus="this.select()">
+            <input type="text" name="comic_url" size="50" value="{{ comic_url }}" placeholder="URL to FIRST STRIP of Comic">
         </div>
         <br />
 
@@ -55,8 +55,8 @@
                 {% endfor %}
             {% endif %}
             {% for i in spares %}
-                <input type="text" name="new_alt_desc{{ i }}" size="20" value="{{ url.description }}" onfocus="this.select()" placeholder="Description">
-                <input type="text" name="new_alt_url{{ i }}" size="50" value="{{ url.url }}" onfocus="this.select()" placeholder="URL">
+                <input type="text" name="new_alt_desc{{ i }}" size="20" value="{{ url.description }}" placeholder="Short Description">
+                <input type="text" name="new_alt_url{{ i }}" size="50" value="{{ url.url }}" placeholder="URL">
                 <br />
             {% endfor %}
             <script>$(".alturl").button()</script>
