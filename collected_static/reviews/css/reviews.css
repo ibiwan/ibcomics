@@ -42,6 +42,6 @@ body {
     display: inline-block;
 }
 
-.tagbtn {
+.tagbtn,.clearbtn{
    font-size: .8em !important;
 }
