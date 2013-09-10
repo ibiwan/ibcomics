@@ -56,6 +56,8 @@
                     },
                 });
                 $( ".tagbtn" ).button();
+                $( ".dataTables_filter input" ).after("<button class='clearbtn' onclick=\"comicTagTable.fnFilter('');\">clear</button>");
+                $( ".clearbtn" ).button();
             } );
         </script>
     {% else %}
