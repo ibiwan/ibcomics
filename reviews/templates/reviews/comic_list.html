@@ -4,8 +4,7 @@
     {{ block.super }}: All Comics
 {% endblock %}
 
-{% block allcomics %}
-    {{ block.super }}
+{% block editmenu %}
     <script>$( "#menubtn_allcomics" ).button({  disabled: true });</script>
 {% endblock %}
 
@@ -23,13 +22,7 @@
                     "iDisplayLength"  : 15,
                     "bLengthChange"   : false,
                     "bDeferRender"    : true,
-                    "fnDrawCallback"  : function(){ /* hide pagination if single-page results */
-                            if ( $('#'+tableid+'_paginate span a.paginate_button').size() ) {
-                                $('#'+tableid+'_paginate')[0].style.display = "block";
-                            } else {
-                                $('#'+tableid+'_paginate')[0].style.display = "none";
-                            }
-                        },                    
+                    "aaSorting"       : [[3, 'asc']],
                     "aoColumns" : [
                         {'sTitle' : 'Avg. Stars', 'sWidth' : '7em', "asSorting" : ["desc", "asc"]},
                         {'sTitle' : 'Reviews',    'sWidth' : '4em', "asSorting" : ["desc", "asc"]},
@@ -40,7 +33,6 @@
                             {'sTitle' : 'Tasks',  'sWidth' : '5em', "asSorting" : []},
                         {% endif %}
                     ],
-                    "aaSorting"       : [[3, 'asc']],
                     "aaData" : [
                         {% for comic in comic_list %}
                             [
@@ -62,9 +54,11 @@
                     ],
                     "fnDrawCallback" : function(){
                         $(".dataTable .rateit").rateit(); /* redraw visible rating widgets */
+                        pagination_hider();
                     },
                 });
-            } );
+            } 
+        );
         </script>
     {% else %}
         <p>No comics are available.</p>

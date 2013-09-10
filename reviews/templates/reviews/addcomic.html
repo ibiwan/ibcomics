@@ -14,61 +14,62 @@
     <form action="{% url 'savecomic' comic_id=comic_id add_edit=add_edit %}" method="post">
         {% csrf_token %}
         <div>
-            <span style="display:block; float:left;">
+            <span class="charblock">
                 Comic Name:<br />
                 <input type="text" name="comic_name" value="{{ comic_name }}" placeholder="Comic Name">
             </span>
-            <span style="display:block; float:left;">
+
+            <span class="charblock">
                 &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
 
-            <span style="display:block; float:left;">
+            <span class="charblock">
                 Content Rating:<br />
                 <select name="mpaa_rating">
                     {% for rating in mpaa_rating_choices %}
-                        {% if rating.db == comic_mpaa_rating %}
-                            <option value={{ rating.db }} selected="selected">
-                        {% else %}
-                            <option value={{ rating.db }}>
-                        {% endif %}
+                        <option value={{ rating.db }}
+                                {% if rating.db == comic_mpaa_rating %}
+                                    selected="selected"
+                                {% endif %}>
                             {{ rating.readable }}
                         </option>
                     {% endfor %}
                 </select>
             </span>
+            <div class="endchar"></div>
         </div>
-        <div style="clear:both;"><br /></div>
-        
+        <br />
         <div>
             URL to first episode of comic:<br />
             <input type="text" name="comic_url" size="50" value="{{ comic_url }}" placeholder="URL to FIRST STRIP of Comic">
         </div>
         <br />
-
         <div>
-            Alternate URLs:<br />
+            Alternate URLs:
+            <br />
             {% if alternate_urls %}
                 {% for url in alternate_urls %}
-                    <input type="text" name="alt_desc{{ forloop.counter0 }}" size="20" value="{{ url.description }}" onfocus="this.select()">
-                    <input type="text" name="alt_url{{ forloop.counter0 }}" size="50" value="{{ url.url }}" onfocus="this.select()">
-                    <br />
+                    <div>
+                        <input type="text" name="alt_desc{{ forloop.counter0 }}" size="20" value="{{ url.description }}">
+                        <input type="text" name="alt_url{{ forloop.counter0 }}" size="50" value="{{ url.url }}">
+                    </div>
                 {% endfor %}
             {% endif %}
             {% for i in spares %}
-                <input type="text" name="new_alt_desc{{ i }}" size="20" value="{{ url.description }}" placeholder="Short Description">
-                <input type="text" name="new_alt_url{{ i }}" size="50" value="{{ url.url }}" placeholder="URL">
-                <br />
+                <div>
+                    <input type="text" name="new_alt_desc{{ i }}" size="20" 
+                           value="{{ url.description }}" placeholder="Short Description">
+                    <input type="text" name="new_alt_url{{ i }}" size="50" value="{{ url.url }}" placeholder="URL">
+                </div>
             {% endfor %}
             <script>$(".alturl").button()</script>
         </div>
         <br />
-
         <div>
             Tags, separated by spaces:<br />
             <textarea rows="4" cols="60" name="tag_string">{{ comic_tag_string }}</textarea>
         </div>
         <br />
-
         <input type="submit" value="{{ add_edit }}" />
     </form>
 {% endblock %}

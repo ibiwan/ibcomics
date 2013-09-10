@@ -60,12 +60,7 @@
                 "iDisplayLength"  : 15,
                 "bLengthChange"   : false,
                 "aaSorting"       : [[3, 'asc']],
-                "fnDrawCallback"  : function(){
-                        if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
-                            $('#'+tableid+'_paginate')[0].style.display = "block";
-                        else
-                            $('#'+tableid+'_paginate')[0].style.display = "none";
-                    },        
+                "fnDrawCallback"  : pagination_hider,
                 "aoColumns": [
                     {'bSearchable' : false,            /* Date   */
                      'bVisible'    : false},

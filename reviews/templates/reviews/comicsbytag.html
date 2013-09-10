@@ -1,7 +1,6 @@
 {% extends 'reviews/base.html' %}
 
-{% block comicstags %}
-    {{ block.super }}
+{% block editmenu %}
     <script>$( "#menubtn_comicswithtags" ).button({  disabled: true });</script>
 {% endblock %}
 
@@ -19,13 +18,6 @@
                     "bPaginate"   : false,
                     "sScrollY": "30em",
                     "bDeferRender"    : true,
-                    "fnDrawCallback"  : function(){ /* hide pagination if single-page results */
-                            if ( $('#'+tableid+'_paginate span a.paginate_button').size() ) {
-                                $('#'+tableid+'_paginate')[0].style.display = "block";
-                            } else {
-                                $('#'+tableid+'_paginate')[0].style.display = "none";
-                            }
-                        },                    
                     "aoColumns" : [
                         {'sTitle' : 'Avg. Stars', 'sWidth' : '7em', "asSorting" : ["desc", "asc"], "bSearchable" : false},
                         {'sTitle' : 'Comic', 'sWidth' : '8em', "bSearchable" : false},

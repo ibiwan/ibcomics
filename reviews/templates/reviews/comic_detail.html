@@ -18,7 +18,7 @@
                         data-rateit-ispreset="true" 
                         data-rateit-readonly="true">
                     </span>
-                    {{ avg }} stars.
+                    ({{ avg }}).
                 </td>
             {% endwith %}
         </tr>
@@ -34,7 +34,6 @@
             {% for tag in comic.comictag_set.all %}
                 <a href="{% url 'comicswithtag' tag %}"><button class="comictag">{{ tag }}</button></a>
             {% endfor %}
-            <br /><br />
             <script>
                 $(".comictag")
                     .button()
@@ -44,6 +43,7 @@
             <h3>No Tags to be found!</h3>
         {% endif %}
     </div>
+    <br />
 
     <h2>Links</h2>
     <div id="urldisplay">
@@ -55,24 +55,17 @@
         {% endif %}
         <script>$(".alturl").button()</script>
     </div>
+    <br />
 
     <h2>Reviews</h2>
     <div id="reviews">
         {% if comic.review_set.all %}
             <table class="comicreviews" id="comicreviews">
-                <thead>
-                    <tr>
-                        <th>Reviewer</th>
-                        <th>Rating</th>
-                        <th>Review Summary</th>
-                    </tr>
-                </thead>
                 <tbody>
                     {% for review in comic.review_set.all %}
                         <tr>
                             <td>
                                 <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
-                            </td>
                             <td>
                                 <span class="rateit"
                                     data-rateit-value   ="{{ review.stars }}" 
@@ -80,16 +73,12 @@
                                     data-rateit-readonly="true">
                                 </span>
                                 ({{ review.stars }})
-                            </td>
                             <td>
                                 {{ review.summary }}
                                 {% if review.review_text != review.summary %}
                                     <a href="{% url 'detail' review.id %}">(Full Review)</a>
                                 {% endif %}
-                            </td>
-                        </tr>
                 {% endfor %}
-                </tbody>
             </table>
             <br /><br />
         {% else %}
@@ -102,7 +91,6 @@
         <h3><a href="{% url 'editcomic' comic.id %}">Edit Comic</a></h3>
     {% endif %}
 
-
     {% if debug_message %}<p><strong>{{ debug_message }}</strong></p>{% endif %}
 
     <script>
@@ -112,17 +100,12 @@
                 "sPaginationType" : "full_numbers",
                 "iDisplayLength"  : 15,
                 "bLengthChange"   : false,
-                "fnDrawCallback"  : function(){
-                        if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
-                            $('#'+tableid+'_paginate')[0].style.display = "block";
-                        else
-                            $('#'+tableid+'_paginate')[0].style.display = "none";
-                    },                    
+                "fnDrawCallback"  : pagination_hider,
                 "aaSorting": [[0, 'asc']],
                 "aoColumns": [
-                    null,
-                    {"asSorting": ["desc", "asc"]},
-                    {"asSorting": []},
+                    {'sTitle' : 'Reviewer'},
+                    {'sTitle' : 'Rating',         "asSorting": ["desc", "asc"]},
+                    {'sTitle' : 'Review Summary', "asSorting": []},
                 ],    
             });
         } );

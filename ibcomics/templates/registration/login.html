@@ -1,14 +1,10 @@
 {% extends 'reviews/base.html' %}
-{% block allreviews %}{{ block.super }}{% endblock %}
-{% block allcomics %}{{ block.super }}{% endblock %}
-{% block allreviewers %}{{ block.super }}{% endblock %}
 
 {% block title %}
     {{ block.super }}: Log In
 {% endblock %}
 
-{% block loginout %}
-    {{ block.super }}
+{% block editmenu %}
     <script>$( "#menubtn_loginout" ).button({ disabled: true });</script>
 {% endblock %}
 

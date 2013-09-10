@@ -6,8 +6,7 @@
     {{ block.super }}: Latest Reviews
 {% endblock %}
 
-{% block allreviews %}
-    {{ block.super }}
+{% block editmenu %}
     <script>$( "#menubtn_latestreviews" ).button({ disabled: true });</script>
 {% endblock %}
 
@@ -56,12 +55,7 @@
                     "iDisplayLength"  : 15,
                     "bLengthChange"   : false,
                     "aaSorting"       : [[1, 'desc']],
-                    "fnDrawCallback"  : function(){
-                            if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
-                                $('#'+tableid+'_paginate')[0].style.display = "block";
-                            else
-                                $('#'+tableid+'_paginate')[0].style.display = "none";
-                        },                    
+                    "fnDrawCallback"  : pagination_hider,
                     "aoColumns": [
                         {"bSearchable" : false,            /* Date     */
                          "bVisible"    : false,},

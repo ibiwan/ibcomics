@@ -4,8 +4,7 @@
     {{ block.super }}: All Reviewers
 {% endblock %}
 
-{% block allreviewers %}
-    {{ block.super }}
+{% block editmenu %}
     <script>$( "#menubtn_allreviewers" ).button({ disabled: true });</script>
 {% endblock %}
 
@@ -45,12 +44,7 @@
                     "sPaginationType" : "full_numbers",
                     "iDisplayLength"  : 15,
                     "bLengthChange"   : false,
-                    "fnDrawCallback"  : function(){
-                            if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
-                                $('#'+tableid+'_paginate')[0].style.display = "block";
-                            else
-                                $('#'+tableid+'_paginate')[0].style.display = "none";
-                        },                    
+                    "fnDrawCallback"  : pagination_hider,
                     "aaSorting": [[0, 'asc']],
                     "aoColumns": [
                         null,

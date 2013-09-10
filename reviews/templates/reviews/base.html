@@ -18,6 +18,13 @@
         <title>
             {% block title %}ibComics Reviews{% endblock %}
         </title>
+        <!-- common scripts -->
+        <script>
+            pagination_hider = function(){if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
+                                              $('#'+tableid+'_paginate')[0].style.display = "block";
+                                          else
+                                              $('#'+tableid+'_paginate')[0].style.display = "none";};
+        </script>
     </head>
     <body>
         <!--[if !IE 7]>
@@ -27,27 +34,20 @@
         <![endif]-->
         <div id="wrap">
             <div id="header">
-                <div id="toolbar" class="ui-widget-header ui-corner-all">
-                    {% block allreviews %}
-                        <a href='{% url "index" %}' id="menubtn_latestreviews" class="menubtn">Latest Reviews</a>
-                    {% endblock %}
-                    {% block allcomics %}
-                        <a href='{% url "comicsindex" %}' id="menubtn_allcomics" class="menubtn">All Comics</a>
-                    {% endblock %}
-                    {% block allreviewers %}
-                        <a href='{% url "reviewersindex" %}' id="menubtn_allreviewers" class="menubtn">All Reviewers</a>
-                    {% endblock %}
-                    {% block comicstags %}
-                        <a href='{% url "comicsandtags" %}' id="menubtn_comicswithtags" class="menubtn">Tags</a>
-                    {% endblock %}
-                    {% block loginout %}
-                        {% if user and user.is_active %}
-                            <a href='{% url "logout_view" %}' id="menubtn_loginout" class="menubtn menubtn_right">Log Out {{user.username}}</a>
-                        {% else %}
-                            <a href='{% url "loginreviewerindex" %}' id="menubtn_loginout" class="menubtn menubtn_right">Log In</a>
-                        {% endif %}
-                    {% endblock %}
+                <div id="toolbar" class="menubar ui-widget-header ui-corner-all">
+                    <a class="menubtn" id="menubtn_latestreviews"  href='{% url "index" %}'         >Latest Reviews</a>
+                    <a class="menubtn" id="menubtn_allcomics"      href='{% url "comicsindex" %}'   >All Comics</a>
+                    <a class="menubtn" id="menubtn_allreviewers"   href='{% url "reviewersindex" %}'>All Reviewers</a>
+                    <a class="menubtn" id="menubtn_comicswithtags" href='{% url "comicsandtags" %}' >Tags</a>
+                    {% if user and user.is_active %}
+                        <a class="menubtn menubtn_right" id="menubtn_loginout" href='{% url "logout_view" %}'>
+                            Log Out {{user.username}}</a>
+                    {% else %}
+                        <a class="menubtn menubtn_right" id="menubtn_loginout" href='{% url "loginreviewerindex" %}'>
+                            Log In</a>
+                    {% endif %}
                     <script>$( ".menubtn" ).button();</script>
+                    {% block editmenu %}{% endblock %}
                 </div>
                 <br />
             </div>
