@@ -1,3 +1,5 @@
+/* sticky-footer code */
+
 html, body {height: 100%;}
 
 #wrap {min-height: 100%;}
@@ -19,6 +21,9 @@ body:before {
     margin-top:-32767px;
 }
 
+
+/* my own display code */
+
 .error_message {
     color:red;
 }
@@ -28,20 +33,36 @@ body {
     margin:0 auto;
 }
 
+.menubar {
+    padding:3px;
+}
+
 .menubtn_right {
     float:right;
 }
 
-.ui-button .ui-button-text
-{
+.ui-button .ui-button-text {
     line-height: 1.0;
 }
 
-.blockrow
-{
+.blockrow {
     display: inline-block;
 }
 
-.tagbtn,.clearbtn{
-   font-size: .8em !important;
+.tagbtn,.clearbtn {
+   font-size:.8em !important;
+   margin:1px;
+}
+
+.comictag {
+    margin-bottom:4px;
+}
+
+.charblock {
+    display:block;
+    float:left;
+}
+
+.endchar {
+    clear:both;
 }
