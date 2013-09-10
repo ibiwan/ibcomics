@@ -59,7 +59,7 @@ class Review(models.Model):
     def __unicode__(self):
         return str(self.reviewer) + ": " + str(self.stars)
     def summary(self):
-        maxlen = 60
+        maxlen = 140
         t = self.review_text.strip()
         if len(t) > maxlen:
             return t[:maxlen-3] + '...'
