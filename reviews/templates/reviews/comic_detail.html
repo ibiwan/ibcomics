@@ -61,27 +61,26 @@
     <div id="reviews">
         {% if comic.review_set.all %}
             <table class="comicreviews" id="comicreviews">
-                <tbody>
-                    {% for review in comic.review_set.all %}
-                        <tr>
-                            <td>
-                                <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
-                            </td>
-                            <td>
-                                <span class="rateit"
-                                    data-rateit-value   ="{{ review.stars }}" 
-                                    data-rateit-ispreset="true" 
-                                    data-rateit-readonly="true">
-                                </span>
-                                ({{ review.stars }})
-                            </td>
-                            <td>
-                                {{ review.summary }}
-                                {% if review.review_text != review.summary %}
-                                    <a href="{% url 'detail' review.id %}">(Full Review)</a>
-                                {% endif %}
-                            </td>
-                        </tr>
+                {% for review in comic.review_set.all %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a>
+                        </td>
+                        <td>
+                            <span class="rateit"
+                                data-rateit-value   ="{{ review.stars }}" 
+                                data-rateit-ispreset="true" 
+                                data-rateit-readonly="true">
+                            </span>
+                            ({{ review.stars }})
+                        </td>
+                        <td>
+                            {{ review.summary }}
+                            {% if review.review_text != review.summary %}
+                                <a href="{% url 'detail' review.id %}">(Full Review)</a>
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endfor %}
             </table>
             <br /><br />

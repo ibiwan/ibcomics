@@ -10,46 +10,33 @@
     <h1>Reviews by {{ reviewer.name }}</h1>
 
     <table class="reviewslist" id="reviewslist">
-        <thead>
+        {% for review in reviewer.reviews_by_comic %}
             <tr>
-                <th>Date</th>
-                <th>When</th>
-                <th>Rating</th>
-                <th>Comic (and all reviews for it)</th> 
-                <th>Review Summary</th>
+                <td>{{ review.pub_date }}</td>
+                <td>{{ review.pub_date|naturaltime }}</td>
+                <td class="starrating">
+                    <span class="rateit" data-rateit-value="{{ review.stars }}" 
+                          data-rateit-ispreset="true" data-rateit-readonly="true">
+                    </span>
+                    ({{ review.stars }})
+                </td>
+                <td>
+                    <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
+                </td>       
+                <td>
+                    {{ review.summary }}
+                    {% if review.review_text != review.summary %}
+                        <a href="{% url 'detail' review.id %}">(Full Review)</a>
+                    {% endif %}
+                </td>
                 {% if user and user.is_active and user.id == reviewer.user.id %}
-                    <th>Tasks</th>
-                {% endif %}           
+                    <td>
+                        (<a href="{% url 'editreview' review.id %}">edit</a>)
+                        (<a href="{% url 'deletereview' review.id %}">delete</a>)
+                    </td>
+                {% endif %}     
             </tr>
-        </thead>
-        <tbody>
-            {% for review in reviewer.reviews_by_comic %}
-                <tr>
-                    <td>{{ review.pub_date }}</td>
-                    <td>{{ review.pub_date|naturaltime }}</td>
-                    <td class="starrating">
-                        <span class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true">
-                        </span>
-                        ({{ review.stars }})
-                    </td>
-                    <td>
-                        <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
-                    </td>       
-                    <td>
-                        {{ review.summary }}
-                        {% if review.review_text != review.summary %}
-                            <a href="{% url 'detail' review.id %}">(Full Review)</a>
-                        {% endif %}
-                    </td>
-                    {% if user and user.is_active and user.id == reviewer.user.id %}
-                        <td>
-                            (<a href="{% url 'editreview' review.id %}">edit</a>)
-                            (<a href="{% url 'deletereview' review.id %}">delete</a>)
-                        </td>
-                    {% endif %}     
-                </tr>
-            {% endfor %}
-        </tbody>
+        {% endfor %}
     </table>
 
     <script type="text/javascript">
@@ -62,14 +49,13 @@
                 "aaSorting"       : [[3, 'asc']],
                 "fnDrawCallback"  : pagination_hider,
                 "aoColumns": [
-                    {'bSearchable' : false,            /* Date   */
-                     'bVisible'    : false},
-                    {"iDataSort"   : 0},               /* When   */
-                    {"asSorting"   : ["desc", "asc"]}, /* Rating */
-                    null,                              /* Comic  */
-                    {"asSorting"   : []},              /* Review */
+                    {'sTitle' : 'Date',         'bSearchable' : false, 'bVisible' : false},
+                    {'sTitle' : 'When',           "iDataSort" : 0},    
+                    {'sTitle' : 'Rating',         "asSorting" : ["desc", "asc"]},
+                    {'sTitle' : 'Comic (and all reviews for it)',},
+                    {'sTitle' : 'Review Summary', "asSorting" : []}, 
                     {% if user and user.is_active and user.id == reviewer.user.id %}
-                        {"asSorting" : []},            /* Tasks  */
+                        {'sTitle' : 'Tasks',      "asSorting" : []}, 
                     {% endif %}           
                 ],            
             });

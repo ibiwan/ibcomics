@@ -15,16 +15,19 @@
             tableid = "comicstags";
             $(document).ready(function() {
                 comicTagTable = $('#'+tableid).dataTable({
-                    "bPaginate"   : false,
-                    "sScrollY": "30em",
-                    "bDeferRender"    : true,
+                    "bPaginate"    : false,
+                    "sScrollY"     : "30em",
+                    "bDeferRender" : true,
+                    "aaSorting"    : [[2, 'desc']],
+                    "fnDrawCallback" : function(){
+                        $(".dataTable .rateit").rateit(); /* redraw visible rating widgets */
+                    },
                     "aoColumns" : [
                         {'sTitle' : 'Avg. Stars', 'sWidth' : '7em', "asSorting" : ["desc", "asc"], "bSearchable" : false},
                         {'sTitle' : 'Comic', 'sWidth' : '8em', "bSearchable" : false},
                         {'sTitle' : 'Tags', 'iDataSort' : 3},
                         {'sTitle' : 'numTags', "asSorting" : ['desc', 'asc'], 'bSearchable':false, 'bVisible':false},
                     ],
-                    "aaSorting"       : [[2, 'desc']],
                     "aaData" : [
                         {% for comic in comic_list %}
                             [
@@ -42,9 +45,6 @@
                             ],
                         {% endfor %}
                     ],
-                    "fnDrawCallback" : function(){
-                        $(".dataTable .rateit").rateit(); /* redraw visible rating widgets */
-                    },
                 });
                 $( ".tagbtn" ).button().removeClass('ui-corner-all');
                 $( ".dataTables_filter input" ).after("<button class='clearbtn' onclick=\"comicTagTable.fnFilter('');\">clear</button>");
@@ -56,4 +56,3 @@
         <p>No comics are available.</p>
     {% endif %}
 {% endblock %}
-

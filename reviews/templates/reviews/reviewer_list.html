@@ -11,30 +11,19 @@
 {% block content %}
     {% if reviewer_list %}
         <table class="reviewerstable" id="reviewerstable">
-            <thead>
+            {% for reviewer in reviewer_list %}
                 <tr>
-                    <th>Name</th>
-                    <th>Reviews</th>
+                    <td><a href="{% url 'reviewerdetail' reviewer.id %}">{{ reviewer.name }}</a></td>
+                    <td>({{ reviewer.review_set.count }} reviews)</td>
                     {% if user and user.is_active %}
-                        <th>Message</th>
+                        <td>
+                            {% if user.id == reviewer.user.id %}
+                                (Welcome; we appreciate ALL your effort! Go review something!)
+                            {% endif %}
+                        </td>
                     {% endif %}
                 </tr>
-            </thead>
-            <tbody>
-                {% for reviewer in reviewer_list %}
-                    <tr>
-                        <td><a href="{% url 'reviewerdetail' reviewer.id %}">{{ reviewer.name }}</a></td>
-                        <td>({{ reviewer.review_set.count }} reviews)</td>
-                        {% if user and user.is_active %}
-                            <td>
-                                {% if user.id == reviewer.user.id %}
-                                    (Welcome; we appreciate ALL your effort! Go review something!)
-                                {% endif %}
-                            </td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-            </tbody>
+            {% endfor %}
         </table>
 
         <script type="text/javascript">
@@ -47,10 +36,10 @@
                     "fnDrawCallback"  : pagination_hider,
                     "aaSorting": [[0, 'asc']],
                     "aoColumns": [
-                        null,
-                        {"asSorting": ["desc", "asc"]},
+                        {"sTitle" : "Name"},
+                        {"sTitle" : "Reviews", "asSorting" : ["desc", "asc"]},
                         {% if user and user.is_active %}
-                            {"asSorting": []},
+                            {"sTitle" : "Message", "asSorting" : []},
                         {% endif %}
                     ]
                 });

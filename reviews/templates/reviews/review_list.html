@@ -13,42 +13,32 @@
 {% block content %}
     {% if review_list %}
         <table class="latestreviews" id="latestreviews">
-            <thead>
+            {% for review in review_list %}
                 <tr>
-                    <th>Date</th>
-                    <th>When</th>
-                    <th>Reviewer</th>
-                    <th>Rating</th>
-                    <th>Review Summary</th>
-                    <th>Comic<br />(and all reviews for it)</th>
+                    <td>{{ review.pub_date }}</td>
+                    <td>{{ review.pub_date|naturaltime }}</td>
+                    <td><a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a></td>
+                    <td>
+                        <div class="rateit" data-rateit-value="{{ review.stars }}" 
+                             data-rateit-ispreset="true" data-rateit-readonly="true">
+                        </div>({{ review.stars }})
+                    </td>
+                    <td>
+                        {{ review.summary }}
+                        {% if review.review_text != review.summary %}
+                            <a href="{% url 'detail' review.id %}">(Full Review)</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for review in review_list %}
-                    <tr>
-                        <td>{{ review.pub_date }}</td>
-                        <td>{{ review.pub_date|naturaltime }}</td>
-                        <td><a href="{% url 'reviewerdetail' review.reviewer.id %}">{{ review.reviewer.name }}</a></td>
-                        <td>
-                            <div class="rateit" data-rateit-value="{{ review.stars }}" data-rateit-ispreset="true" data-rateit-readonly="true">
-                            </div>({{ review.stars }})
-                        </td>
-                        <td>
-                            {{ review.summary }}
-                            {% if review.review_text != review.summary %}
-                                <a href="{% url 'detail' review.id %}">(Full Review)</a>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <a href="{% url 'comicdetail' review.comic.id %}">{{ review.comic }}</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
+            {% endfor %}
         </table>
 
         <script type="text/javascript">
             tableid = "latestreviews";
+            comiccol = "Comic<br />(and all reviews for it)";
             $(document).ready(function() {
                 $('#'+tableid).dataTable({
                     "sPaginationType" : "full_numbers",
@@ -57,16 +47,12 @@
                     "aaSorting"       : [[1, 'desc']],
                     "fnDrawCallback"  : pagination_hider,
                     "aoColumns": [
-                        {"bSearchable" : false,            /* Date     */
-                         "bVisible"    : false,},
-                        {"iDataSort"   : 0,                /* When     */
-                         "sWidth"      : "7em",},
-                        {"sWidth"      : "5em",},          /* Reviewer */
-                        {"asSorting"   : ["desc", "asc"],  /* Rating   */
-                         "sWidth"      : "5em",},
-                        {"asSorting"   : [],
-                         "sWidth"      : "20em",},         /* Review   */
-                        {"sWidth"      : "10em",},         /* Comic    */
+                        {"sTitle" : "Date",      "bSearchable" : false,  "bVisible" : false,},
+                        {"sTitle" : "When",           "sWidth" : "7em", "iDataSort" : 0,},
+                        {"sTitle" : "Reviewer",       "sWidth" : "5em",},   
+                        {"sTitle" : "Rating",         "sWidth" : "5em", "asSorting" : ["desc", "asc"],},
+                        {"sTitle" : "Review Summary", "sWidth" : "20em","asSorting" : [],}, 
+                        {"sTitle" : comiccol,         "sWidth" : "10em",}, 
                     ],
                 });
             } );

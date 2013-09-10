@@ -19,7 +19,8 @@
             <td>Average Stars:</td>
             <td>
                 {% with avg=comic.average_rating count=comic.review_set.count %}
-                    <span class="rateit" data-rateit-value="{{ avg }}" data-rateit-ispreset="true" data-rateit-readonly="true">
+                    <span class="rateit" data-rateit-value="{{ avg }}" 
+                          data-rateit-ispreset="true" data-rateit-readonly="true">
                     </span>
                     {{ avg }}
                 {% endwith %}
