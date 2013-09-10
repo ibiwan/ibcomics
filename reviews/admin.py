@@ -1,5 +1,5 @@
 from django.contrib import admin
-from reviews.models import Comic, Reviewer, Review, ComicTag
+from reviews.models import Comic, Reviewer, Review, ComicTag, AlternateUrl
 
 class ReviewInline(admin.TabularInline):
     model = Review
@@ -7,6 +7,10 @@ class ReviewInline(admin.TabularInline):
 
 class TagInline(admin.TabularInline):
     model = ComicTag
+    extra = 3
+
+class AlternateUrlInline(admin.TabularInline):
+    model = AlternateUrl
     extra = 3
 
 class ReviewAdmin(admin.ModelAdmin):
@@ -20,7 +24,7 @@ class ReviewAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
 
 class ComicAdmin(admin.ModelAdmin):
-    inlines = [TagInline, ReviewInline]
+    inlines = [AlternateUrlInline, ReviewInline, TagInline]
     list_display = ('name', 'url')
 
 class ReviewerAdmin(admin.ModelAdmin):

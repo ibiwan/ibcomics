@@ -77,3 +77,8 @@ class ReviewFlag(models.Model):
     ip_addr = models.IPAddressField()
     def __unicode__(self):
         return str(self.ip_addr)
+
+class AlternateUrl(models.Model):
+    comic = models.ForeignKey(Comic)
+    description = models.CharField(max_length=50)
+    url = models.CharField(max_length=200)
