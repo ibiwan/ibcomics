@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.views import generic
 import re
 
-from reviews.models import Comic, Reviewer, Review, ComicTag
+from reviews.models import Comic, Reviewer, Review, ComicTag, AlternateUrl
 
 #################################  LIST VIEWS  #############################################
 
@@ -79,13 +79,15 @@ def confirmdeletereview(request, review_id):
 #################################  COMIC MANIP (ALL REQUIRE AUTH)  #############################################
 
 def addcomic(request, comic_id=0, 
-             comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", 
+             comic_name="Comic Name", comic_url="URL to FIRST STRIP of Comic", alt_urls=[],
              comic_mpaa_rating=Comic.RATING_UNRATED, comic_tag_string="",
              add_edit="Add New", error_message=None):
     return render(request, 'reviews/addcomic.html', {'add_edit'            : add_edit,
                                                      'comic_id'            : comic_id,
                                                      'comic_name'          : comic_name,
                                                      'comic_url'           : comic_url,
+                                                     'alternate_urls'      : alt_urls,
+                                                     'spares'              : range(3),
                                                      'comic_mpaa_rating'   : comic_mpaa_rating,
                                                      'comic_tag_string'    : comic_tag_string,
                                                      'mpaa_rating_choices' : Comic.mpaa_choices(),
@@ -93,7 +95,7 @@ def addcomic(request, comic_id=0,
 
 def editcomic(request, comic_id):
     comic = get_object_or_404(Comic, pk=comic_id)
-    return addcomic(request, comic_id, comic.name, comic.url, comic.mpaa_rating, comic.tag_string(), add_edit="Edit")
+    return addcomic(request, comic_id, comic.name, comic.url, comic.alternateurl_set.all(), comic.mpaa_rating, comic.tag_string(), add_edit="Edit")
 
 def tagsfromstring(tag_string):
     tag_string = tag_string.lower()
@@ -111,6 +113,18 @@ def savecomic(request, comic_id, add_edit):
         comic = Comic() if int(comic_id)==0 else get_object_or_404(Comic, pk=comic_id)
         (comic.name, comic.url, comic.mpaa_rating) = [request.POST[i] for i in ('comic_name', 'comic_url', 'mpaa_rating')]
         comic.save()
+
+        alts = []
+        for i in range(len(comic.alternateurl_set.all())):
+            desc = request.POST['alt_desc'+str(i)]; url = request.POST['alt_url'+str(i)]
+            if desc and url: alts.append((desc, url))
+        for i in range(3):
+            desc = request.POST['new_alt_desc'+str(i)]; url = request.POST['new_alt_url'+str(i)]
+            if desc and url: alts.append((desc, url))
+        
+        comic.alternateurl_set.all().delete()
+        for alt in alts:
+            AlternateUrl(comic=comic, description=alt[0], url=alt[1]).save()
 
         comic.comictag_set.all().delete()
         for tag in tagsfromstring(request.POST['tag_string']):

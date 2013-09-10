@@ -49,6 +49,16 @@
         {% endif %}
     </div>
 
+    <h2>Alternate URLs</h2>
+    <div id="urldisplay">
+        {% if comic.alternateurl_set.all %}
+            {% for url in comic.alternateurl_set.all %}
+                <a href="{{ url.url }}" class="alturl">{{ url.description }}</a>
+            {% endfor %}
+        {% endif %}
+        <script>$(".alturl").button()</script>
+    </div>
+
     <h2>Reviews</h2>
     <div id="reviews">
         {% if comic.review_set.all %}
