@@ -19,7 +19,7 @@
             {% block title %}ibComics Reviews{% endblock %}
         </title>
         <!-- common scripts -->
-        <script>
+        <script type="text/javascript">
             pagination_hider = function(){if ( $('#'+tableid+'_paginate span a.paginate_button').size() )
                                               $('#'+tableid+'_paginate')[0].style.display = "block";
                                           else
@@ -46,7 +46,7 @@
                         <a class="menubtn menubtn_right" id="menubtn_loginout" href='{% url "loginreviewerindex" %}'>
                             Log In</a>
                     {% endif %}
-                    <script>$( ".menubtn" ).button();</script>
+                    <script type="text/javascript">$( ".menubtn" ).button();</script>
                     {% block editmenu %}{% endblock %}
                 </div>
                 <br />

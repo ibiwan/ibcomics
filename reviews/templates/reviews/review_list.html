@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block editmenu %}
-    <script>$( "#menubtn_latestreviews" ).button({ disabled: true });</script>
+    <script type="text/javascript">$( "#menubtn_latestreviews" ).button({ disabled: true });</script>
 {% endblock %}
 
 {% block content %}
@@ -47,7 +47,7 @@
             </tbody>
         </table>
 
-        <script>
+        <script type="text/javascript">
             tableid = "latestreviews";
             $(document).ready(function() {
                 $('#'+tableid).dataTable({

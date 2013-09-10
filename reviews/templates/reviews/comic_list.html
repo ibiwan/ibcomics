@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block editmenu %}
-    <script>$( "#menubtn_allcomics" ).button({  disabled: true });</script>
+    <script type="text/javascript">$( "#menubtn_allcomics" ).button({  disabled: true });</script>
 {% endblock %}
 
 {% block content %}
@@ -14,7 +14,7 @@
     {% endif %}
     {% if comic_list %}
         <table class="comicslist" id="comicslist"></table>
-        <script>
+        <script type="text/javascript">
             tableid = "comicslist";
             $(document).ready(function() {
                 $('#'+tableid).dataTable({

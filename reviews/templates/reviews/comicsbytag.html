@@ -1,7 +1,7 @@
 {% extends 'reviews/base.html' %}
 
 {% block editmenu %}
-    <script>$( "#menubtn_comicswithtags" ).button({  disabled: true });</script>
+    <script type="text/javascript">$( "#menubtn_comicswithtags" ).button({  disabled: true });</script>
 {% endblock %}
 
 {% block title %}
@@ -11,7 +11,7 @@
 {% block content %}
     {% if comic_list %}
         <table class="comicstags" id="comicstags"></table>
-        <script>
+        <script type="text/javascript">
             tableid = "comicstags";
             $(document).ready(function() {
                 comicTagTable = $('#'+tableid).dataTable({

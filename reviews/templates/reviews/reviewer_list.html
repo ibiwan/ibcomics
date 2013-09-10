@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block editmenu %}
-    <script>$( "#menubtn_allreviewers" ).button({ disabled: true });</script>
+    <script type="text/javascript">$( "#menubtn_allreviewers" ).button({ disabled: true });</script>
 {% endblock %}
 
 {% block content %}
@@ -37,7 +37,7 @@
             </tbody>
         </table>
 
-        <script>
+        <script type="text/javascript">
             tableid = "reviewerstable";
             $(document).ready(function() {
                 $('#'+tableid).dataTable({
